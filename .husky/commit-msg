@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+/**
+ *
+ * This code will ensure that before every commit in your client repository, commit message adheres to a certain contract.
+ * In this example, branch names must be like 'feature(subject): small descripttion'.
+ *
+ * You need an await/async compliant version of node installed in your machine.
+ */
+
+const fs = require('fs');
+const childProcessExec = require('child_process').exec;
+const util = require('util');
+const verbs = /(^feat|^refactor|^chore|^style|^fix|)/g;
+const regex = /(\w+\({1}\w+\){1}\:{1})/g;
+const TIMEOUT_THRESHOLD = 3000;
+
+const exec = util.promisify(childProcessExec);
+
+const checkCommitMessage = () => {
+
+  const message = fs.readFileSync(process.argv[2], 'utf8').trim();
+
+  if(!message.match(regex)) {
+    handleBadFormat();
+  }
+  if(!message.match(verbs)) {
+    handleBadVerb();
+  }
+  process.exit(0);
+}
+
+const handleBadFormat = () => {
+
+  console.log('There is something wrong with your commit message format:');
+  console.log('it should start with a valid verb followed by your subject in paranthesis, followed by a colon that leads to a small description. ex: feat(login):first and second name input added. ');
+  console.log('Your commit will be rejected. Please re-commit your work again with a proper commit message format.');
+  process.exit(1);
+}
+
+const handleBadVerb = () => {
+
+  console.log('Your commit verb is incorrect: ');
+  console.log('your commit verb should be from the following list: feat, refactor, chore, fix, or style.');
+  console.log('Your commit will be rejected. Please re-commit your work again with a proper commit message verb.');
+
+}
+
+const hookCleanup = () => {
+
+  setTimeout(() => {
+    console.log('This is a timeout message from your commit-msg git hook. If you see this, something bad happened in your pre-commit hook, and it absolutely did not work as expected.');
+    console.log(' Your commit will be rejected. Please read any previous error message related to your commit message, and/or check the commit-msg git hook script.');
+    console.log(' You can find more info in this link: https://git-scm.com/book/uz/v2/Customizing-Git-An-Example-Git-Enforced-Policy');
+    process.exit(1);
+  },TIMEOUT_THRESHOLD);
+
+}
+checkCommitMessage();
+hookCleanup();
+undefined
