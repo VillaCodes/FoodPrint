@@ -8,7 +8,7 @@ function App() {
         <p>Hello World</p>
       </header>
     </div>
-  )
+  ) 
 }
 
 export default App
