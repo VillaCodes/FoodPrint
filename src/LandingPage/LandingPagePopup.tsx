@@ -1,23 +1,21 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import { IngredientContext } from "../store/ingredient-context";
 import "./Popup.css"
 
 const LandingPagePopup: React.FC<{toggle: () => void}> = ({toggle}) => {
 const [suggestedIngredients, setSuggestedIngredients] = useState<string[]>(["eggs", "butter", "milk"]);
-const [totalIngredients, setTotalIngredients] = useState<string[]>([]);
+const { addIngredient, items } = useContext(IngredientContext)
 
 function clickHandler (ingredient: string) {
-    if (!totalIngredients.includes(ingredient)) {
-    setTotalIngredients([...totalIngredients, ingredient]);
-    }
+    if (!items.map(e => e.text).includes(ingredient)) addIngredient(ingredient);
+    
 
-    setSuggestedIngredients([...suggestedIngredients])
+    setSuggestedIngredients(suggestedIngredients)
 }
 
 const suggestedIngredientTags = suggestedIngredients.map((ingredient) => (
-    <button className="ingredient-button button-hover" onClick={() => clickHandler(ingredient)}>{ingredient}</button>
+    <button className="ingredient-button" onClick={() => clickHandler(ingredient)}>{ingredient}</button>
 ));
-
-console.log(totalIngredients);
 
 return (
     <div className="popup-box">

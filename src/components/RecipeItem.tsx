@@ -1,4 +1,4 @@
-
+import "./Recipes.css"
 
 const RecipeItem: React.FC<{text: string}> = (props) => {
   return (
