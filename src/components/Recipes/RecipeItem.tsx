@@ -4,7 +4,7 @@ import Card from '../UI/Card';
 const RecipeItem: React.FC<{text: string}> = (props) => {
   return (
     <li>
-      <Card>
+      <Card class='recipeCard'>
         {props.text}
       </Card>
     </li>
