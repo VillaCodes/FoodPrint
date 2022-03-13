@@ -1,4 +1,4 @@
-//make sure to chnage how id is determined.
+//make sure to change how id is determined.
 
 class Ingredients {
   id: string;
