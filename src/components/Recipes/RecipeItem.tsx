@@ -3,7 +3,7 @@ import "./Recipes.css"
 const RecipeItem: React.FC<{text: string}> = (props) => {
   return (
     <li>
-      {props.text}
+      {props.children}
     </li>
   );
 }

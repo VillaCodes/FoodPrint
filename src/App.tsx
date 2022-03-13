@@ -1,9 +1,9 @@
 import './App.css'
-import React, {useState} from 'react'
-import LandingPagePopup from './LandingPage/LandingPagePopup'
+import {useState} from 'react'
+import LandingPagePopup from './components/LandingPage/LandingPagePopup'
 
-import Recipes from  './components/Recipes';
-import IngredientContextProvider from './store/ingredient-context';
+import Recipes from  './components/Recipes/Recipes';
+import FoodprintContextProvider from './store/ingredient-context';
 
 function App() {
   const [openPopup, setOpenPopup] = useState<boolean>(true);
@@ -13,13 +13,13 @@ function App() {
   }
 
   return (
-    <IngredientContextProvider>
+    <FoodprintContextProvider>
       <div className="App">
         <Recipes />
-      <header>It is time to scream, my dudes</header>
-      {openPopup && <LandingPagePopup toggle={handleClose}/>}
+        <header>It is time to scream, my dudes</header>
+        {openPopup && <LandingPagePopup toggle={handleClose}/>}
       </div>
-    </IngredientContextProvider>
+    </FoodprintContextProvider>
   )
 }
 
