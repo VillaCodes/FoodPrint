@@ -1,0 +1,11 @@
+.Ingredients-Container {
+    position:fixed;
+    border: 1px solid #999;
+    overflow: auto;
+    background: white;
+    border-radius: 10px;
+    height: auto;
+    padding: 10px;
+    width: 15%;
+    justify-content: left;
+}
