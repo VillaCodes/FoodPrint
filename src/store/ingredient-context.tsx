@@ -42,9 +42,9 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
-  const removeIngredientHandler = (ingredientId: string) => {
+  const removeIngredientHandler = (ingredient: string) => {
     setIngredients((prevIngredients) => {
-      return prevIngredients.filter(ingredient => ingredient.id !== ingredientId);
+      return prevIngredients.filter(item => item.text !== ingredient);
     });
   };
 
