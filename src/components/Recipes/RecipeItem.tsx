@@ -1,9 +1,12 @@
 import "./Recipes.css"
+import Card from '../UI/Card';
 
 const RecipeItem: React.FC<{text: string}> = (props) => {
   return (
     <li>
-      {props.children}
+      <Card>
+        {props.text}
+      </Card>
     </li>
   );
 }
