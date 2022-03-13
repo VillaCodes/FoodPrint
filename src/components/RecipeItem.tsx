@@ -2,9 +2,9 @@ import "./Recipes.css"
 
 const RecipeItem: React.FC<{text: string}> = (props) => {
   return (
-    <ul>
+    <li>
       {props.text}
-    </ul>
+    </li>
   );
 }
 export default RecipeItem;

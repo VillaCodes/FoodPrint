@@ -19,12 +19,12 @@ const Recipes: React.FC = () => {
 
   return (
     <>
-      <button className="ingredient-button" onClick={() => addIngredient('milk')} >Milk</button>
-      <div>
+      <button className="ingredient-button" onClick={() => addIngredient('milk')}>Milk</button>
+      <ul>
         {items.map((item) => (
           <RecipeItem key={item.id} text={item.text} />
         ))}
-      </div>
+      </ul>
     </>
   )
 }
