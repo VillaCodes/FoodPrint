@@ -1,2 +1,3 @@
 vite.config.ts
 src/__tests__
+*.css

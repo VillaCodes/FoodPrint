@@ -1,14 +1,19 @@
 import './App.css'
 
+import Recipes from  './components/Recipes';
+import IngredientContextProvider from './store/ingredient-context';
+
 function App() {
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello World</p>
-      </header>
-    </div>
-  ) 
+    <IngredientContextProvider>
+      <div className="App">
+        <Recipes />
+        <header className="App-header">
+        </header>
+      </div>
+    </IngredientContextProvider>
+  )
 }
 
 export default App
