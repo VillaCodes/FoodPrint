@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "eslint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
   "dependencies": {
