@@ -19,6 +19,7 @@
   padding: 20px;
   border: 1px solid #999;
   overflow: auto;
+  border-radius: 25px;
 }
 
 .close-icon {
@@ -47,8 +48,15 @@
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
+  border-radius: 25px;
 }
 
 .ingredient-button:hover {
   background-color: #A6E0E7;
+}
+
+.ingredient-button:active {
+  background-color: #A6E0E7;
+  box-shadow: 0 2px gray;
+  transform: translateY(2px)
 }
