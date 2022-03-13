@@ -2,6 +2,16 @@
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   border-radius: 14px;
-  background-color: white;
-  margin-top: 1%
+  background-color: #a30000;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.recipeCard {
+  padding: 5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  background-color: White;
+  margin-top: 2.5%
 }

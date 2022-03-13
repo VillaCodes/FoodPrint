@@ -22,10 +22,10 @@
   }
 
   body {
-    background-color: maroon;
+    background-color: #750000;
   }
 
   ul {
     list-style: none;
-    margin-right: 7%;
+    margin-right: 3rem;
   }
