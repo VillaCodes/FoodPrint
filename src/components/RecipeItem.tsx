@@ -1,10 +1,10 @@
-
+import "./Recipes.css"
 
 const RecipeItem: React.FC<{text: string}> = (props) => {
   return (
-    <li>
+    <ul>
       {props.text}
-    </li>
+    </ul>
   );
 }
 export default RecipeItem;

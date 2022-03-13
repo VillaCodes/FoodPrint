@@ -1,0 +1,35 @@
+.ingredient-button {
+    display: inline-block;
+    background-color: #EBECB8;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    width: 100px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 25px;
+  }
+  
+  .ingredient-button:hover {
+    background-color: #A6E0E7;
+  }
+  
+  .ingredient-button:active {
+    background-color: #A6E0E7;
+    box-shadow: 0 2px gray;
+    transform: translateY(2px)
+  }
+
+  .ingredient-list {
+    position: absolute;
+    width: 20%;
+    margin: 0 auto;
+    height: auto;
+    background: #EBECB8;
+    border-radius: 4px;
+    padding: 20px;
+    border: 1px solid #999;
+    overflow: auto;
+    border-radius: 25px;
+}

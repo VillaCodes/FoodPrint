@@ -28,21 +28,23 @@ const IngredientContextProvider: React.FC = (props) => {
   const addIngredientHandler = (ingredientText: string) => {
     const newIngredient = new Ingredients(ingredientText);
 
+    if (!ingredients.map(e => e.text).includes(ingredientText)) {
     setIngredients((prevIngredients) => {
       return prevIngredients.concat(newIngredient);
     });
+  }
   };
 
-  const removeIngredientHandler = (ingredientId: string) => {
+  const removeIngredientHandler = (ingredientText: string) => {
     setIngredients((prevIngredients) => {
-      return prevIngredients.filter(ingredient => ingredient.id !== ingredientId);
+      return prevIngredients.filter(ingredient => !ingredientText);
     });
   };
 
   const contextValue: IngredientsContextObj = {
     items: ingredients,
     addIngredient: addIngredientHandler,
-    removeIngredient: addIngredientHandler
+    removeIngredient: removeIngredientHandler
   };
 
   return (
