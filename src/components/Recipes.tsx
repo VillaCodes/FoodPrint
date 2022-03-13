@@ -3,12 +3,13 @@ import React, { useContext } from 'react';
 import RecipeItem from './RecipeItem';
 import { IngredientContext } from '../store/ingredient-context';
 import Ingredients from '../models/ingredients';
+import "./Recipes.css"
 
 const tempIngredients = [
   (new Ingredients('bread')),
   (new Ingredients('milk')),
   (new Ingredients('eggs')),
-  (new Ingredients('tomatos'))
+  (new Ingredients('tomatoes'))
 ]
 
 const Recipes: React.FC = () => {
@@ -18,7 +19,7 @@ const Recipes: React.FC = () => {
 
   return (
     <>
-      <button onClick={() => addIngredient('milk')} >Add milk</button>
+      <button className="ingredient-button" onClick={() => addIngredient('milk')}>Milk</button>
       <ul>
         {items.map((item) => (
           <RecipeItem key={item.id} text={item.text} />

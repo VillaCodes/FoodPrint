@@ -1,0 +1,22 @@
+.ingredient-button {
+    display: inline-block;
+    background-color: #EBECB8;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    width: 100px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 25px;
+  }
+  
+  .ingredient-button:hover {
+    background-color: #A6E0E7;
+  }
+  
+  .ingredient-button:active {
+    background-color: #A6E0E7;
+    box-shadow: 0 2px gray;
+    transform: translateY(2px)
+  }
