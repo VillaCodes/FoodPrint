@@ -14,19 +14,20 @@ function clickHandler (ingredient: string) {
 }
 
 const suggestedIngredientTags = suggestedIngredients.map((ingredient) => (
-    <button className="ingredient-button" onClick={() => clickHandler(ingredient)}>{ingredient}</button>
+    <button className={items.map(e => e.text).includes(ingredient) ? "greenCheck" : "ingredient-button"} onClick={() => clickHandler(ingredient)}>{ingredient}</button>
 ));
 
 return (
     <div className="popup-box">
         <div className="box">
-            <span className="close-icon" onClick={toggle}>x</span>
-            <h2>Welcome to FoodPrint!</h2>
-            <p>Start building your recipe's blueprint with some common ingredients below:</p>
-            {suggestedIngredientTags}
+        <span className="close-icon" onClick={toggle}>x</span>
+        <h2>Welcome to FoodPrint!</h2>
+        <p>Start building your recipe's blueprint with some common ingredients below:</p>
+        {suggestedIngredientTags}
         </div>
     </div>
-  )
+)
+
 }
 
 export default LandingPagePopup
