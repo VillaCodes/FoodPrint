@@ -4,13 +4,22 @@ import Ingredients from '../models/ingredients';
 type IngredientsContextObj = {
   items: Ingredients[];
   addIngredient: (text: string) => void;
-  removeIngredient: (id: string) => void;
+  removeIngredient: () => void;
+}
+
+function addIngredientDefault(text: string){
+  //log
+}
+
+
+function removeIngredientDefault(){
+  //log
 }
 
 export const IngredientContext = React.createContext<IngredientsContextObj>({
   items: [],
-  addIngredient: () => {},
-  removeIngredient: (id: string) => {}
+  addIngredient: addIngredientDefault,
+  removeIngredient: removeIngredientDefault
 });
 
 const IngredientContextProvider: React.FC = (props) => {
