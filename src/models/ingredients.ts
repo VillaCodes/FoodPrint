@@ -6,7 +6,7 @@ class Ingredients {
 
   constructor(ingredientText: string) {
     this.text = ingredientText;
-    this.id = new Date().toISOString();
+    this.id = Math.floor(Math.random()).toString();
   }
 }
 
