@@ -31,7 +31,7 @@ const FoodprintContextProvider: React.FC = (props) => {
   const [recipes, setRecipes] = useState<Recipe[]> ([]);
 
   const addRecipeHandler = (recipeText: string) => {
-    const newRecipe = new Recipe(recipeText);
+    const newRecipe = new Recipe(recipeText, 1000, 'hi');
     setRecipes((prevRecipe) => {
       return prevRecipe.concat(newRecipe);
     })
