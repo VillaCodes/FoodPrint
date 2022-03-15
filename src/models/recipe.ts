@@ -1,12 +1,15 @@
 //make sure to change how id is determined.
 
 class Recipe {
-  id: string;
-  text: string;
+  id: number;
+  title: string;
+  image: string;
 
-  constructor(recipeText: string) {
-    this.text = recipeText;
-    this.id = Math.floor((Math.random() * 10000000000) + 1).toString();
+
+  constructor(recipeText: string, recipeID: number, recipeImage: string,) {
+    this.title = recipeText;
+    this.id = recipeID;
+    this.image = recipeImage
   }
 }
 
