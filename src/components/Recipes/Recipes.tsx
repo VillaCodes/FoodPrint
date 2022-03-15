@@ -1,12 +1,9 @@
-import React from 'react';
-
 import RecipeItem from './RecipeItem';
-// import { FoodprintContext } from '../../store/ingredient-context';
 import Card from '../UI/Card';
+import {fetchData} from '../../utils/SpoonacularRequests';
 import "./Recipes.css";
 
 const tempRecipes = ['Lasagna', 'Bakers Bread', 'Pizza']
-
 const Recipes: React.FC = () => {
   return (
     <>
