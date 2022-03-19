@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import { FoodprintContext } from '../store/ingredient-context';
+import { onCallHandler } from './AddOnCall';
+import './SpoonacularRequests.css';
 
-export const fetchData = async() => {
-  const ingredients = useContext(FoodprintContext).ingredients.items;
+export const fetchData = async(addRecipe: (title:string, id:number, image: string)=> void, ingredientList: any) => {
   const ingredientSearch = (ingredients: any) => {
 
     let searchString = '';
@@ -16,6 +15,10 @@ export const fetchData = async() => {
     }
     return searchString;
   }
-  
+  const call: any = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=ec8da5b51af4425698dd91381535afff&ingredients=${ingredientSearch(ingredientList)}`);
+
+  const response = await call.json();
+
+  onCallHandler(response, addRecipe, 9);
 
 }
