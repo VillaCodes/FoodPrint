@@ -6,10 +6,10 @@ class Recipe {
   image: string;
 
 
-  constructor(recipeText: string, recipeID: number, recipeImage: string,) {
+  constructor(recipeText: string, recipeID: number, recipeImage: string) {
     this.title = recipeText;
     this.id = recipeID;
-    this.image = recipeImage
+    this.image = recipeImage;
   }
 }
 

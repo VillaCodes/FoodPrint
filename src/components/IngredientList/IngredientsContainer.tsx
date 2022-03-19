@@ -13,7 +13,7 @@ export default function IngredientsContainer () {
        items.map(e => e.text).includes(formattedIngredient) ? null : addIngredient(formattedIngredient);
        setUserIngredient("")
    }
-    
+
     return (
         <ul className="Ingredients-Container">
             <header>Current Ingredients</header>
