@@ -11,6 +11,7 @@ type FoodprintContextObj = {
   recipes: {
     items: Recipe[];
     addRecipe: (title: string, id: number, image: string) => void;
+    itemsReset: () => void;
   }
 }
 
@@ -22,7 +23,8 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   },
   recipes: {
     items: [],
-    addRecipe: (text: string) => undefined
+    addRecipe: (text: string) => undefined,
+    itemsReset: () => undefined
   }
 });
 
@@ -35,6 +37,9 @@ const FoodprintContextProvider: React.FC = (props) => {
     setRecipes((prevRecipe) => {
       return prevRecipe.concat(newRecipe);
     });
+  }
+  const itemsResetHandler = () => {
+    return setRecipes([]);
   }
 
   const addIngredientHandler = (ingredientText: string) => {
@@ -59,7 +64,8 @@ const FoodprintContextProvider: React.FC = (props) => {
     },
     recipes: {
       items: recipes,
-      addRecipe: addRecipeHandler
+      addRecipe: addRecipeHandler,
+      itemsReset: itemsResetHandler
     }
   };
 
