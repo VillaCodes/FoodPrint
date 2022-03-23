@@ -19,6 +19,6 @@ export const fetchData = async(addRecipe: (title:string, id:number, image: strin
 
   const response = await call.json();
 
-  onCallHandler(response, addRecipe, 9);
+  onCallHandler(response, addRecipe, 5);
 
 }
