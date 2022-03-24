@@ -1,25 +1,28 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import RecipeItem from './RecipeItem';
 import Card from '../UI/Card';
 import { FoodprintContext } from '../../store/ingredient-context';
 import { fetchData } from '../../utils/SpoonacularRequests';
+import { debounce } from '../../utils/Debounce';
 
 import "./Recipes.css";
 
 const Recipes: React.FC = () => {
-  const [ isFirstRender, setIsFirstRender ] = useState(true);
 
   const foodprintCtx = useContext(FoodprintContext);
   const addRecipe: (title: string, id: number, image: string) => void = foodprintCtx.recipes.addRecipe;
   const itemsReset = foodprintCtx.recipes.itemsReset;
   const ingredientList = foodprintCtx.ingredients.items;
+
+
   useEffect(() => {
-    if(!isFirstRender) {
-      itemsReset()
-      fetchData(addRecipe, ingredientList);
+    if(ingredientList.length !== 0) {
+      
+      debounce(fetchData, 3000, itemsReset(), addRecipe, ingredientList)
+
     } else {
-      setIsFirstRender(false);
+      return;
     }
   }, [foodprintCtx.ingredients.items]);
 
