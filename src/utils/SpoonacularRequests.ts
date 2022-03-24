@@ -15,10 +15,9 @@ export const fetchData = async(addRecipe: (title:string, id:number, image: strin
     }
     return searchString;
   }
-  const call: any = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=ec8da5b51af4425698dd91381535afff&ingredients=${ingredientSearch(ingredientList)}`);
+  const call = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=e0b11b97f0b64f5982330cabe8d0ec9b&ingredients=${ingredientSearch(ingredientList)}`);
 
   const response = await call.json();
 
   onCallHandler(response, addRecipe, 5);
-
 }
