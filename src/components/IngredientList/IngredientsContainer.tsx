@@ -7,7 +7,7 @@ export default function IngredientsContainer () {
    const [userIngredient, setUserIngredient] = useState<string>("");
    const {addIngredient, items} = useContext(FoodprintContext).ingredients;
 
-   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
+   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
        event.preventDefault();
        const formattedIngredient = userIngredient.toLowerCase();
        items.map(e => e.text).includes(formattedIngredient) ? null : addIngredient(formattedIngredient);
