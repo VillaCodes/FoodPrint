@@ -1,7 +1,7 @@
 import React, {useState, useContext} from "react";
 import Ingredients from "./Ingredients";
 import "./IngredientList.css"
-import { FoodprintContext } from "../../store/ingredient-context";
+import { FoodprintContext } from "../../store/foodprint-context";
 
 export default function IngredientsContainer () {
    const [userIngredient, setUserIngredient] = useState<string>("");
