@@ -8,7 +8,7 @@ const RecipeItem: React.FC<{text: string, image: string}> = (props) => {
       <Card class='recipeCard'>
         <img className="card-header" src={props.image} />
         <h2>{props.text}</h2>
-        <button className="button-primary">
+        <button className="button">
           <i className="fa-fa-chevron-right"></i>Recipe
         </button>
       </Card>
