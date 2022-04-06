@@ -31,8 +31,8 @@ export const fetchData = async(addRecipe: (title:string, id:number, image: strin
   onCallHandler(response, addRecipe, 5);
 }
 
-export const readRecipe = async(recipeId: number) => {
-  const url = `https://api.spoonacular.com/recipes/${recipeId.toString()}/information?apiKey=73a82c046a6043fd8fd23732ec9380c7&includeNutrition=false`
+export const readRecipe = async(recipeId: string) => {
+  const url = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=73a82c046a6043fd8fd23732ec9380c7&includeNutrition=false`
   const options = {
     headers
   };
