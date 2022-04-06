@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import { FoodprintContext } from "../../store/ingredient-context";
+import {useContext} from "react";
+import { FoodprintContext } from "../../store/foodprint-context";
 import "./IngredientList.css"
 
 export default function Ingredients () {

@@ -30,7 +30,8 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
 
 const FoodprintContextProvider: React.FC = (props) => {
   const [ingredients, setIngredients] = useState<Ingredients[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]> ([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+
 
   const addRecipeHandler = (recipeText: string, recipeID: number, recipeImage: string) => {
     const newRecipe = new Recipe(recipeText, recipeID, recipeImage);
@@ -38,9 +39,12 @@ const FoodprintContextProvider: React.FC = (props) => {
       return prevRecipe.concat(newRecipe);
     });
   }
+
+
   const itemsResetHandler = () => {
     return setRecipes([]);
   }
+
 
   const addIngredientHandler = (ingredientText: string) => {
     const newIngredient = new Ingredients(ingredientText);
@@ -50,11 +54,13 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
+
   const removeIngredientHandler = (ingredient: string) => {
     setIngredients((prevIngredients) => {
       return prevIngredients.filter(item => item.text !== ingredient);
     });
   };
+
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -68,6 +74,7 @@ const FoodprintContextProvider: React.FC = (props) => {
       itemsReset: itemsResetHandler
     }
   };
+
 
   return (
     <FoodprintContext.Provider value={foodprintContextValue}>
