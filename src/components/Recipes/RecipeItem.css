@@ -39,7 +39,7 @@ body {
   line-height: 1.8;
 }
 
-.button-primary {
+.button {
   border: none;
   box-shadow: none;
   font-family: inherit;
@@ -50,6 +50,6 @@ body {
   cursor: pointer;
 }
 
-.button-primary:hover {
+.button:hover {
   transform: translate(10px, 0);
 }

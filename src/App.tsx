@@ -1,9 +1,6 @@
 import './App.css'
-import {useState} from 'react'
 import {Route, Routes} from 'react-router-dom'
-import LandingPagePopup from './components/LandingPage/LandingPagePopup'
-import IngredientsContainer from './components/IngredientList/IngredientsContainer';
-import Recipes from  './components/Recipes/Recipes';
+import Layout from './Layout/Routes'
 import FoodprintContextProvider from './store/ingredient-context';
 
 /*
@@ -13,24 +10,12 @@ import FoodprintContextProvider from './store/ingredient-context';
 */
 
 function App() {
-  const [openPopup, setOpenPopup] = useState<boolean>(true);
-
-  function handleClose () {
-    setOpenPopup(!openPopup)
-  }
 
   return (
     <FoodprintContextProvider>
       <div className="App">
         <Routes>
-          <Route path="/" element = {(
-          <>
-            <IngredientsContainer />
-            <Recipes />
-            <header>It is time to scream, my dudes</header>
-            {openPopup && <LandingPagePopup toggle={handleClose}/>}
-          </>
-          )}/>
+          <Route path="*" element = {<Layout />}/>
         </Routes>
       </div>
     </FoodprintContextProvider>
