@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react";
-import { FoodprintContext } from "../../store/ingredient-context";
+import { FoodprintContext } from "../../store/foodprint-context";
 import "./Popup.css"
 
 const LandingPagePopup: React.FC<{toggle: () => void}> = ({toggle}) => {
