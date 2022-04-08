@@ -6,8 +6,11 @@ const RecipeItem: React.FC<{text: string, image: string}> = (props) => {
   return (
     <li>
       <Card class='recipeCard'>
-        <h4>{props.text}</h4>
-        <img src={props.image} />
+        <img className="card-header" src={props.image} />
+        <h2>{props.text}</h2>
+        <button className="button">
+          <i className="fa-fa-chevron-right"></i>Recipe
+        </button>
       </Card>
     </li>
   );

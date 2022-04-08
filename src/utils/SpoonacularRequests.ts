@@ -1,6 +1,14 @@
 import { onCallHandler } from './AddOnCall';
 import './SpoonacularRequests.css';
 
+/**
+ * Defines the default headers for these functions to work with `json-server`
+ */
+const headers = new Headers();
+headers.append("Content-Type", "application/json");
+
+
+
 export const fetchData = async(addRecipe: (title:string, id:number, image: string)=> void, ingredientList: any) => {
   const ingredientSearch = (ingredients: any) => {
 
@@ -21,3 +29,16 @@ export const fetchData = async(addRecipe: (title:string, id:number, image: strin
 
   onCallHandler(response, addRecipe, 5);
 }
+
+export const readRecipe = async(recipeId: string) => {
+  const url = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=73a82c046a6043fd8fd23732ec9380c7&includeNutrition=false`
+  const options = {
+    headers
+  };
+  
+  const recipeCall = await fetch(url, options);
+
+  const recipeResponse = await recipeCall.json();
+
+  return recipeResponse
+};
