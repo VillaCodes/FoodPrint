@@ -1,8 +1,55 @@
-img {
-  margin-left: 10em;
-  margin-bottom: 5em
+body {
+  font-family: 'Montserrat', sans-serif;
 }
 
-h4 {
-  margin-right: em
+.recipeCard {
+  width:280px;
+  display: block;
+  margin: 60px auto;
+  box-shadow: 10px 5px 40px 20px darken(gray, 5%);
+  transition: .25s;
+}
+.recipeCard:hover {
+  box-shadow: 10px 5px 40px 20px darken(#341cac, 10%);
+}
+
+.card-header {
+  height: 150px;
+  width: 100%;
+  padding: 15px;
+  width:100%;
+  background-size:cover;
+  color:#fff;
+}
+
+.card-header--title {
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.card-body {
+  padding: 15px;
+  background-color:#fff;
+  width:100%;
+}
+
+.body-content {
+  padding-bottom: 40px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.button {
+  border: none;
+  box-shadow: none;
+  font-family: inherit;
+  background-color:lightblue;
+  color: blue;
+  font-size: 15px;
+  transition:.25s;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: translate(10px, 0);
 }
