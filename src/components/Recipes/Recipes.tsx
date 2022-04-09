@@ -18,7 +18,7 @@ const Recipes: React.FC = () => {
 
   useEffect(() => {
     if(ingredientList.length !== 0) {
-      
+
       debounce(fetchData, 3000, itemsReset(), addRecipe, ingredientList)
 
     } else {

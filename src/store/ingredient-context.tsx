@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
 import Recipe from '../models/recipe';
 
@@ -12,6 +12,11 @@ type FoodprintContextObj = {
     items: Recipe[];
     addRecipe: (title: string, id: number, image: string) => void;
     itemsReset: () => void;
+  },
+  login: {
+    isLoggedIn: boolean,
+    onLogout: () => void;
+    onLogin: (email: string, password: string) => void
   }
 }
 
@@ -25,12 +30,26 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     items: [],
     addRecipe: (text: string) => undefined,
     itemsReset: () => undefined
+  },
+  login: {
+    isLoggedIn: false,
+    onLogout: () => undefined,
+    onLogin: (email: string, password: string) => undefined
   }
 });
 
 const FoodprintContextProvider: React.FC = (props) => {
   const [ingredients, setIngredients] = useState<Ingredients[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]> ([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedUserLogggedInInformation = localStorage.getItem('isLoggedIn');
+
+    if(storedUserLogggedInInformation === '1') {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const addRecipeHandler = (recipeText: string, recipeID: number, recipeImage: string) => {
     const newRecipe = new Recipe(recipeText, recipeID, recipeImage);
@@ -56,6 +75,16 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
+  const logoutHandler = () => {
+    localStorage.removeItem('isLoggedIn');
+    setIsLoggedIn(false);
+  }
+
+  const loginHandler = () => {
+    localStorage.setItem('isLoggedIn', '1')
+    setIsLoggedIn(true)
+  }
+
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
       items: ingredients,
@@ -66,6 +95,11 @@ const FoodprintContextProvider: React.FC = (props) => {
       items: recipes,
       addRecipe: addRecipeHandler,
       itemsReset: itemsResetHandler
+    },
+    login: {
+      isLoggedIn: isLoggedIn,
+      onLogout: logoutHandler,
+      onLogin: loginHandler
     }
   };
 
