@@ -2,6 +2,8 @@ import './App.css'
 import {Route, Routes} from 'react-router-dom'
 import Layout from './Layout/Routes'
 import FoodprintContextProvider from './store/ingredient-context';
+import Login from './components/Login/Login';
+import MainHeader from './components/Header/MainHeader';
 
 /*
 *React Router V6 has changed a few things about how the routing works.
@@ -13,6 +15,7 @@ function App() {
 
   return (
     <FoodprintContextProvider>
+    <MainHeader />
       <div className="App">
         <Routes>
           <Route path="*" element = {<Layout />}/>
