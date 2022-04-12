@@ -2,6 +2,16 @@ import React, { useReducer, useEffect } from 'react'
 import Card from '../UI/Card';
 import reducer, { initialState } from './LoginReducer';
 
+import constants from '../../utils/Constants';
+
+const {
+  user,
+  pass,
+  success,
+  fail
+} = constants;
+
+
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -22,12 +32,12 @@ const Login = () => {
   const loginHandler = () => {
     if (state.username === 'abc@email.com' && state.password === 'password') {
       dispatch({
-        type: 'loginSuccess',
+        type: success,
         payload: 'Login Successfully'
       });
     } else {
       dispatch({
-        type: 'loginFailed',
+        type: fail,
         payload: 'Incorrect username or password'
       });
     }
@@ -42,7 +52,7 @@ const Login = () => {
   const usernameChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
     (event) => {
       dispatch({
-        type: 'setUsername',
+        type: user,
         payload: event.target.value
       });
     };
@@ -51,7 +61,7 @@ const Login = () => {
     const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
       (event) => {
         dispatch({
-          type: 'setPassword',
+          type: pass,
           payload: event.target.value
         });
       }
