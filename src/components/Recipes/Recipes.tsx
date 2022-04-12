@@ -31,7 +31,7 @@ const Recipes: React.FC = () => {
       <Card class='card'>
         <ul>
           {foodprintCtx.recipes.items.length === 5 && foodprintCtx.recipes.items.map((item) => (
-            <RecipeItem key={item.id} text={item.title} image={item.image} />
+            <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} />
           ))}
         </ul>
       </Card>

@@ -1,7 +1,7 @@
 import './App.css'
 import {Route, Routes} from 'react-router-dom'
 import Layout from './Layout/Routes'
-import FoodprintContextProvider from './store/ingredient-context';
+import FoodprintContextProvider from './store/foodprint-context';
 
 /*
 *React Router V6 has changed a few things about how the routing works.

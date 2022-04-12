@@ -1,9 +1,18 @@
+interface Units {
+amount: number;
+unitLong: string;
+unitShort: string;
+}
+interface Measures {
+metric: Units;
+us: Units;
+}
+
 interface ExtendedIngredients {
   id: number;
   image: string;
   name: string;
-  amount: number;
-  unit: string;
+  measures: Measures;
 }
 
 interface RecipeInfo {
