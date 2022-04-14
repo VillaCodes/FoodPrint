@@ -1,24 +1,32 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import './MainHeader.css';
 import HeaderButton from './HeaderButton';
-import { FoodprintContext } from '../../store/ingredient-context';
+import { FoodprintContext } from '../../store/foodprint-context';
 
 const MainHeader = () => {
   const foodprintCtx = useContext(FoodprintContext);
-  const { isLoggedIn, onLogout, onLogin } = foodprintCtx.login
-  const loginHandler = () => {
-    if (isLoggedIn) {
-      return onLogout()
-    } else {
-      return onLogin('asd', 'asd')
-    }
-  }
+  const { isLoggedIn, onLogout } = foodprintCtx.login
   return (
     <header className='main-header'>
-      <h1 onClick={loginHandler}>FoodPrint</h1>
-      {!isLoggedIn && <HeaderButton>Login</HeaderButton>}
-      {isLoggedIn && <HeaderButton>Pantry</HeaderButton>}
-      {isLoggedIn && <HeaderButton>Logout</HeaderButton>}
+
+      <Link className='link' to='/'>
+        <h1>FoodPrint</h1>
+      </Link>
+
+      {!isLoggedIn && (
+        <Link className='link' to='/Login'>
+          <HeaderButton>Login</HeaderButton>
+        </Link>
+      )}
+
+      {isLoggedIn && (
+        <>
+          <HeaderButton>Pantry</HeaderButton>
+          <HeaderButton onClick={onLogout}>Logout</HeaderButton>
+        </>
+      )}
+
     </header>
   )
 }
