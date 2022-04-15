@@ -1,8 +1,7 @@
 import './App.css'
-import {Route, Routes} from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Layout from './Layout/Routes'
-import FoodprintContextProvider from './store/ingredient-context';
-import Login from './components/Login/Login';
+import FoodprintContextProvider from './store/foodprint-context';
 import MainHeader from './components/Header/MainHeader';
 
 /*
