@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
 import Recipe from '../models/recipe';
 import {RecipeInfo, RecipeInfoDefault} from '../models/recipeInfo';
@@ -18,6 +18,11 @@ type FoodprintContextObj = {
     items: RecipeInfo;
     recipeInfoReset: () => void;
     setRecipeInfo: React.Dispatch<SetStateAction<RecipeInfo>>
+  },
+  login: {
+    isLoggedIn: boolean,
+    onLogout: () => void;
+    onLogin: (email: string, password: string) => void
   }
 }
 
@@ -36,6 +41,11 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     items: RecipeInfoDefault,
     recipeInfoReset: () => undefined,
     setRecipeInfo: () => undefined
+  },
+  login: {
+    isLoggedIn: false,
+    onLogout: () => undefined,
+    onLogin: (email: string, password: string) => undefined
   }
 });
 
@@ -43,6 +53,15 @@ const FoodprintContextProvider: React.FC = (props) => {
   const [ingredients, setIngredients] = useState<Ingredients[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [recipeInfo, setRecipeInfo] = useState<RecipeInfo>(RecipeInfoDefault);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedUserLogggedInInformation = localStorage.getItem('isLoggedIn');
+
+    if(storedUserLogggedInInformation === '1') {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const addRecipeHandler = (recipeText: string, recipeID: number, recipeImage: string) => {
     const newRecipe = new Recipe(recipeText, recipeID, recipeImage);
@@ -76,6 +95,15 @@ const FoodprintContextProvider: React.FC = (props) => {
     return setRecipeInfo(RecipeInfoDefault);
   }
 
+  const logoutHandler = () => {
+    localStorage.removeItem('isLoggedIn');
+    setIsLoggedIn(false);
+  }
+
+  const loginHandler = () => {
+    localStorage.setItem('isLoggedIn', '1')
+    setIsLoggedIn(true)
+  }
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -92,6 +120,11 @@ const FoodprintContextProvider: React.FC = (props) => {
       items: recipeInfo,
       recipeInfoReset: recipeInfoResetHandler,
       setRecipeInfo: setRecipeInfo
+    },
+    login: {
+      isLoggedIn: isLoggedIn,
+      onLogout: logoutHandler,
+      onLogin: loginHandler
     }
   };
 
