@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import Ingredients from '../models/ingredients';
 import Recipe from '../models/recipe';
+import {RecipeInfo, RecipeInfoDefault} from '../models/recipeInfo';
 
 type FoodprintContextObj = {
   ingredients: {
@@ -12,6 +13,11 @@ type FoodprintContextObj = {
     items: Recipe[];
     addRecipe: (title: string, id: number, image: string) => void;
     itemsReset: () => void;
+  },
+  recipeInfo: {
+    items: RecipeInfo;
+    recipeInfoReset: () => void;
+    setRecipeInfo: React.Dispatch<SetStateAction<RecipeInfo>>
   }
 }
 
@@ -25,13 +31,18 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     items: [],
     addRecipe: (text: string) => undefined,
     itemsReset: () => undefined
+  },
+  recipeInfo: {
+    items: RecipeInfoDefault,
+    recipeInfoReset: () => undefined,
+    setRecipeInfo: () => undefined
   }
 });
 
 const FoodprintContextProvider: React.FC = (props) => {
   const [ingredients, setIngredients] = useState<Ingredients[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-
+  const [recipeInfo, setRecipeInfo] = useState<RecipeInfo>(RecipeInfoDefault);
 
   const addRecipeHandler = (recipeText: string, recipeID: number, recipeImage: string) => {
     const newRecipe = new Recipe(recipeText, recipeID, recipeImage);
@@ -61,6 +72,10 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
+  const recipeInfoResetHandler = () => {
+    return setRecipeInfo(RecipeInfoDefault);
+  }
+
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -72,6 +87,11 @@ const FoodprintContextProvider: React.FC = (props) => {
       items: recipes,
       addRecipe: addRecipeHandler,
       itemsReset: itemsResetHandler
+    },
+    recipeInfo: {
+      items: recipeInfo,
+      recipeInfoReset: recipeInfoResetHandler,
+      setRecipeInfo: setRecipeInfo
     }
   };
 

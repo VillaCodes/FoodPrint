@@ -1,35 +1,34 @@
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
 import "./RecipePage.css"
-import { readRecipe } from "../../utils/SpoonacularRequests"
-import RecipeInfo from "../../models/recipeInfo";
+import { FoodprintContext } from "../../store/foodprint-context";
+import { readRecipe } from "../../utils/SpoonacularRequests";
 
 const RecipePage: React.FC = () => {
-    const {recipeID} = useParams();
-    const [recipeData, setRecipeData] = useState<RecipeInfo | null>(null);
+  const foodprintCtx = useContext(FoodprintContext);
+  const recipeInfo = foodprintCtx.recipeInfo.items;
+  const setRecipeInfo = foodprintCtx.recipeInfo.setRecipeInfo;
 
-    useEffect(() => {
-        if (recipeID) {
-        readRecipe(recipeID).then((response) => setRecipeData(response))
-        }
-    }, [recipeID]);
+  const {recipeID} = useParams();
+
+  useEffect(() => {
+    if (recipeID) {
+    readRecipe(recipeID).then((response) => setRecipeInfo(response))
+    }
+}, [recipeID]);
 
     
-    if (recipeData) {
-    return (
-        <main>
-            <figure>
-        <img src={recipeData.image} alt={recipeData.title}/>
-            </figure>
-        <h1>{recipeData.title}</h1>
-        <p>{recipeData.instructions}</p>
-        </main>
-    )
-    } else {
-        return (
-            <h1>Retrieving Data</h1>
-        )
-    }
+    
+  return (
+    {recipeInfo} &&
+    <>
+      <figure>
+        <img src={recipeInfo.image} alt={recipeInfo.title}/>
+      </figure>
+      <h1>{recipeInfo.title}</h1>
+      <p>{recipeInfo.instructions}</p>
+    </>
+  )
 };
 
 export default RecipePage;

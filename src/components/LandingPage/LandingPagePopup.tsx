@@ -14,7 +14,7 @@ function clickHandler (ingredient: string) {
 }
 
 const suggestedIngredientTags = suggestedIngredients.map((ingredient) => (
-    <button className={items.map(e => e.text).includes(ingredient) ? "greenCheck" : "ingredient-button"} onClick={() => clickHandler(ingredient)}>{ingredient}</button>
+    <button key={suggestedIngredients.indexOf(ingredient)} className={items.map(e => e.text).includes(ingredient) ? "greenCheck" : "ingredient-button"} onClick={() => clickHandler(ingredient)}>{ingredient}</button>
 ));
 
 return (
