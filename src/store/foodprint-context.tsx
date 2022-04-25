@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { SetStateAction, useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
 import Recipe from '../models/recipe';
+import {RecipeInfo, RecipeInfoDefault} from '../models/recipeInfo';
 
 type FoodprintContextObj = {
   ingredients: {
@@ -12,6 +13,11 @@ type FoodprintContextObj = {
     items: Recipe[];
     addRecipe: (title: string, id: number, image: string) => void;
     itemsReset: () => void;
+  },
+  recipeInfo: {
+    items: RecipeInfo;
+    recipeInfoReset: () => void;
+    setRecipeInfo: React.Dispatch<SetStateAction<RecipeInfo>>
   },
   login: {
     isLoggedIn: boolean,
@@ -31,6 +37,11 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     addRecipe: (text: string) => undefined,
     itemsReset: () => undefined
   },
+  recipeInfo: {
+    items: RecipeInfoDefault,
+    recipeInfoReset: () => undefined,
+    setRecipeInfo: () => undefined
+  },
   login: {
     isLoggedIn: false,
     onLogout: () => undefined,
@@ -40,7 +51,8 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
 
 const FoodprintContextProvider: React.FC = (props) => {
   const [ingredients, setIngredients] = useState<Ingredients[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]> ([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipeInfo, setRecipeInfo] = useState<RecipeInfo>(RecipeInfoDefault);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -79,6 +91,10 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
+  const recipeInfoResetHandler = () => {
+    return setRecipeInfo(RecipeInfoDefault);
+  }
+
   const logoutHandler = () => {
     localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
@@ -99,6 +115,11 @@ const FoodprintContextProvider: React.FC = (props) => {
       items: recipes,
       addRecipe: addRecipeHandler,
       itemsReset: itemsResetHandler
+    },
+    recipeInfo: {
+      items: recipeInfo,
+      recipeInfoReset: recipeInfoResetHandler,
+      setRecipeInfo: setRecipeInfo
     },
     login: {
       isLoggedIn: isLoggedIn,

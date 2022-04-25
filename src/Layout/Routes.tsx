@@ -4,6 +4,7 @@ import IngredientsContainer from "../components/IngredientList/IngredientsContai
 import Recipes from "../components/Recipes/Recipes"
 import LandingPagePopup from "../components/LandingPage/LandingPagePopup"
 import NotFound from "./NotFound"
+import RecipePage from "../components/Recipes/RecipePage"
 import Login from '../components/Login/Login';
 
 function Layout () {
@@ -16,18 +17,18 @@ function Layout () {
 
   return (
     <>
-      <Routes>
-          <Route path="/" element = {(
-            <>
-              <IngredientsContainer />
-              <Recipes />
-              <header>It is time to scream, my dudes</header>
-              {openPopup && <LandingPagePopup toggle={handleClose}/>}
-            </>
+    <Routes>
+        <Route path="/" element = {(
+          <>
+            <IngredientsContainer />
+            <Recipes />
+            {openPopup && <LandingPagePopup toggle={handleClose}/>}
+          </>
           )}/>
-          <Route path='/Login' element= {<Login />}/>
-          <Route path="*" element={<NotFound />} />
-      </Routes>
+        <Route path="/RecipePage/:recipeID" element={<RecipePage />} />
+        <Route path='/Login' element= {<Login />}/>
+        <Route path="*" element={<NotFound />} />
+    </Routes>
     </>
   )
 }
