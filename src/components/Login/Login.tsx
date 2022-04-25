@@ -1,6 +1,18 @@
 import React, { useReducer, useEffect } from 'react'
 import Card from '../UI/Card';
+import { Link } from 'react-router-dom';
+import './Login.css'
 import reducer, { initialState } from './LoginReducer';
+
+import constants from '../../utils/Constants';
+
+const {
+  SET_USERNAME,
+  SET_PASSWORD,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED
+} = constants;
+
 
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -22,12 +34,12 @@ const Login = () => {
   const loginHandler = () => {
     if (state.username === 'abc@email.com' && state.password === 'password') {
       dispatch({
-        type: 'loginSuccess',
+        type: LOGIN_SUCCESS,
         payload: 'Login Successfully'
       });
     } else {
       dispatch({
-        type: 'loginFailed',
+        type: LOGIN_FAILED,
         payload: 'Incorrect username or password'
       });
     }
@@ -42,7 +54,7 @@ const Login = () => {
   const usernameChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
     (event) => {
       dispatch({
-        type: 'setUsername',
+        type: SET_USERNAME,
         payload: event.target.value
       });
     };
@@ -51,7 +63,7 @@ const Login = () => {
     const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
       (event) => {
         dispatch({
-          type: 'setPassword',
+          type: SET_PASSWORD,
           payload: event.target.value
         });
       }
@@ -69,6 +81,7 @@ const Login = () => {
           <input id='password' type='password' placeholder='Password' onChange={passwordChangeHandler} onKeyPress={keyPressHandler}/>
         </div>
         <button onClick={loginHandler} disabled={state.isButtonDisabled}>Login</button>
+        <Link className='signUp' to='/register'>New User?</Link>
       </Card>
     </form>
   );
