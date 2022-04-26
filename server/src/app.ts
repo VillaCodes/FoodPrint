@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/");
 
-mongoose.connect(`${process.env.MONGO_URI}`);
+mongoose.connect(`mongodb+srv://<cguizar525>:<Pokemon10>@cluster0.arsar.mongodb.net/FoodPrint?retryWrites=true&w=majority`);
 
 const db = mongoose.connection;
 db.once("open", () => console.log("Connected to database"));
