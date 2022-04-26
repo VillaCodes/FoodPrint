@@ -3,6 +3,7 @@ import Card from '../UI/Card';
 import { Link } from 'react-router-dom';
 import './Login.css'
 import reducer, { initialState } from './LoginReducer';
+import GoogleAuth from './GoogleAuth';
 
 import constants from '../../utils/Constants';
 
@@ -75,6 +76,7 @@ const Login = () => {
 
   return (
     <form noValidate autoComplete="off" onSubmit={submitFormHandler}>
+      <GoogleAuth />
       <Card class='card'>
         <div>
           <input id='username' type='email' placeholder='Username' onChange={usernameChangeHandler} onKeyPress={keyPressHandler}/>

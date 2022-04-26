@@ -3,8 +3,8 @@ import { OAuth2Client } from "google-auth-library";
 import User from "../models/user";
 
 const googleClient = new OAuth2Client({
-  clientId: `874175832974-9rp5qutlghm7hc0squk4imihjpj16s1g.apps.googleusercontent.com`,
-  clientSecret: `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`
+  clientId: `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`,
+  clientSecret: `${import.meta.env.VITE_GOOGLE_CLIENT_SECRET}`
 });
 
 export const authenticateUser = async (req: Request, res: Response) => {
@@ -12,7 +12,7 @@ export const authenticateUser = async (req: Request, res: Response) => {
 
   const ticket = await googleClient.verifyIdToken({
     idToken: token,
-    audience: `$874175832974-9rp5qutlghm7hc0squk4imihjpj16s1g.apps.googleusercontent.com`,
+    audience: `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`,
   });
 
   const payload = ticket.getPayload();
