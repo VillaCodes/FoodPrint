@@ -1,6 +1,8 @@
+const express = require("express");
+
 const PORT = process.env.PORT || 3001;
 
-import app = require("./app")
+const app = require("./app.ts")
 
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));

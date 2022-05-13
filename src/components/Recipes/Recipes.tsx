@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 import RecipeItem from './RecipeItem';
 import Card from '../UI/Card';
@@ -14,23 +14,23 @@ const Recipes: React.FC = () => {
   const addRecipe: (title: string, id: number, image: string) => void = foodprintCtx.recipes.addRecipe;
   const itemsReset = foodprintCtx.recipes.itemsReset;
   const ingredientList = foodprintCtx.ingredients.items;
-
+  const timeout = useRef();
 
   useEffect(() => {
     if(ingredientList.length !== 0) {
 
-      debounce(fetchData, 3000, itemsReset(), addRecipe, ingredientList)
+      debounce(fetchData, 3000, itemsReset(), addRecipe, ingredientList, timeout)
 
     } else {
       return;
     }
-  }, [foodprintCtx.ingredients.items]);
+  }, [ingredientList]);
 
   return (
     <>
       <Card class='card'>
         <ul>
-          {foodprintCtx.recipes.items.length === 5 && foodprintCtx.recipes.items.map((item) => (
+          {ingredientList.length !== 0 && foodprintCtx.recipes.items.map((item) => (
             <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} />
           ))}
         </ul>
