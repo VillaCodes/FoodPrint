@@ -1,5 +1,6 @@
-import app from "./app"
+const PORT = process.env.PORT || 3001;
 
-const port = process.env.PORT || 3000;
+import app = require("./app")
 
-app.listen(port, () => console.log(`App listening on PORT ${port}`));
+
+app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
