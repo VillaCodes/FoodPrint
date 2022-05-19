@@ -9,8 +9,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-mongoose.connect(`${process.env.MONGO_URI}`);
+// process.env.MONGO_URI
+mongoose.connect(`mongodb+srv://cGuizar:Pokemon10@cluster0.qisaq.mongodb.net/?retryWrites=true&w=majority`);
 
 const db = mongoose.connection;
 db.once("open", () => console.log("Connected to database"));

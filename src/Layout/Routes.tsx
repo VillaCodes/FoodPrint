@@ -6,6 +6,7 @@ import LandingPagePopup from "../components/LandingPage/LandingPagePopup"
 import NotFound from "./NotFound"
 import RecipePage from "../components/Recipes/RecipePage"
 import Login from '../components/Login/Login';
+import Register from '../components/Login/Register';
 
 function Layout () {
 
@@ -26,7 +27,8 @@ function Layout () {
           </>
           )}/>
         <Route path="/RecipePage/:recipeID" element={<RecipePage />} />
-        <Route path='/Login' element= {<Login />}/>
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
     </Routes>
     </>
