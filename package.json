@@ -9,11 +9,14 @@
     "prepare": "husky install",
     "eslint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "server:dev": "node server/src/server.ts"
   },
   "dependencies": {
     "@types/jest": "^27.4.1",
+    "axios": "^0.27.0",
     "dotenv": "^16.0.0",
+    "express": "^4.18.0",
     "google-auth-library": "^8.0.1",
     "lint-staged": "^12.3.5",
     "mongoose": "^6.3.1",
