@@ -1,5 +1,4 @@
 import React, { useReducer, useEffect } from 'react'
-import Card from '../UI/Card';
 import { Link } from 'react-router-dom';
 import './Login.css'
 import reducer, { initialState } from './LoginReducer';
@@ -76,15 +75,32 @@ const Login = () => {
 
   return (
     <form noValidate autoComplete="off" onSubmit={submitFormHandler}>
-      <GoogleAuth />
-      <Card class='card'>
-        <div>
-          <input id='username' type='email' placeholder='Username' onChange={usernameChangeHandler} onKeyPress={keyPressHandler}/>
-          <input id='password' type='password' placeholder='Password' onChange={passwordChangeHandler} onKeyPress={keyPressHandler}/>
+      <div className="wrapper">
+        <div className='form-wrapper'>
+          <h2>Log In</h2>
+          <div>
+            <div className='email'>
+              <input name='username' type='email' placeholder='Username' onChange={usernameChangeHandler} onKeyPress={keyPressHandler}/>
+            </div>
+
+            <div className='password'>
+              <input name='password' type='password' placeholder='Password' onChange={passwordChangeHandler} onKeyPress={keyPressHandler}/>
+            </div>
+          </div>
+
+          <GoogleAuth />
+
+          <button onClick={loginHandler} disabled={state.isButtonDisabled}>Login</button>
+
+          <div className="submit">
+            <button>
+              <Link to='/register'>
+                Register
+              </Link>
+            </button>
+          </div>
         </div>
-        <button onClick={loginHandler} disabled={state.isButtonDisabled}>Login</button>
-        <Link className='signUp' to='/register'>New User?</Link>
-      </Card>
+      </div>
     </form>
   );
 }

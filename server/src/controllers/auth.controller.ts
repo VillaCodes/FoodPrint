@@ -1,4 +1,4 @@
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
 import User from '../../../src/models/user';
 
@@ -9,7 +9,7 @@ const googleClient = new OAuth2Client({
 
 export const authenticateUser = async (req: Request, res:Response) => {
     const {token} = req.body;
-
+    console.log('check', req.body);
     const ticket = await googleClient.verifyIdToken({
         idToken: token,
         audience: `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`
