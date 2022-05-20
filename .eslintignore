@@ -3,3 +3,4 @@ src/__tests__
 *.css
 server/src/server.ts
 server/src/app.ts
+server/src/routes/auth.ts
