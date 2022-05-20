@@ -10,7 +10,7 @@
     "eslint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "server:dev": "node server/src/server.ts"
+    "server:dev": "node server/src/app.ts"
   },
   "dependencies": {
     "@types/jest": "^27.4.1",
