@@ -10,12 +10,12 @@ const MainHeader = () => {
   return (
     <header className='main-header'>
 
-      <Link className='link' to='/'>
+      <Link className='headerLink' to='/'>
         <h1>FoodPrint</h1>
       </Link>
 
       {!isLoggedIn && (
-        <Link className='link' to='/Login'>
+        <Link className='headerLink' to='/Login'>
           <HeaderButton>Login</HeaderButton>
         </Link>
       )}
