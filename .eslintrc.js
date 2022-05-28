@@ -1,6 +1,10 @@
 module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
+    parserOptions: {
+      ecma: 13,
+      sourceType: 'module',
+    },
     plugins: [
       '@typescript-eslint',
     ],
@@ -9,6 +13,7 @@ module.exports = {
       'plugin:@typescript-eslint/recommended',
     ],
     env: {
-      node:true
+      node:true,
+      es2021: true,
     },
   };
