@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
-import User from '../../../src/models/user';
+import User from "../../../src/models/user";
+import dotenv from "dotenv";
 
-const dotenv = require("dotenv");
 dotenv.config();
 
 const googleClient = new OAuth2Client({
@@ -33,3 +33,14 @@ export const authenticateUser = async (req: Request, res: Response) => {
 
   res.json({ user, token });
 };
+
+export const registerUser = async (req: Request, res: Response) => {
+  const user = new User(req.body);
+  await user.save();
+  res.send({ data: user });
+};
+
+export const practice = async (req: Request, res: Response) => {
+  const user = new User();
+  res.send({ data: user });
+}
