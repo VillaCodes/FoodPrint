@@ -9,7 +9,6 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "es2022",
     "rootDir": "./src",
     "outDir": "./build",
     "moduleResolution": "Node",
