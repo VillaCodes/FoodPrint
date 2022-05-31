@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import RecipeItem from './RecipeItem';
 import Card from '../UI/Card';

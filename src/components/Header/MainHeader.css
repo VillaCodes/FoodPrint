@@ -6,7 +6,7 @@
   height: 5rem;
   display: flex;
   justify-content: space-between;
-  background: pink;
+  background: #191F2B;
   padding: 0 2rem;
   align-items: center;
 }
@@ -23,5 +23,5 @@
 }
 
 .link {
-  color: pink
+  color: #CED8F7
 }

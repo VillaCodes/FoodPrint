@@ -56,9 +56,9 @@ const FoodprintContextProvider: React.FC = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const storedUserLogggedInInformation = localStorage.getItem('isLoggedIn');
+    const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
 
-    if(storedUserLogggedInInformation === '1') {
+    if(storedUserLoggedInInformation === '1') {
       setIsLoggedIn(true);
     }
   }, []);
