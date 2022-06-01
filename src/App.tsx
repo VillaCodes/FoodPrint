@@ -8,7 +8,7 @@ function App() {
   return (
     <FoodprintContextProvider>
     <MainHeader />
-      <div className="App">
+      <div className="App ">
         <Routes>
           <Route path="*" element = {<Layout />}/>
         </Routes>
