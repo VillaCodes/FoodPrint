@@ -1,4 +1,3 @@
-# FoodPrint
-Making your recipe blueprint with the ingredients you have on hand.
+#FoodPrint
 
-test commit --
+Making your recipe blueprint with the ingredients you have on hand.
