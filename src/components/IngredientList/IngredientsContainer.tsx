@@ -19,13 +19,13 @@ export default function IngredientsContainer () {
             <header>Current Ingredients</header>
             <Ingredients />
             <form onSubmit={submitHandler}>
-            <input
-            id="userIngredient"
-            placeholder="Add an ingredient"
-            type ="text"
-            onChange={(event) => setUserIngredient(event?.target.value)}
-            value={userIngredient}
-            />
+              <input
+                id="userIngredient"
+                placeholder="Add an ingredient"
+                type ="text"
+                onChange={(event) => setUserIngredient(event?.target.value)}
+                value={userIngredient}
+              />
             </form>
         </ul>
     )

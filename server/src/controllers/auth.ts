@@ -5,6 +5,36 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const findExistingEmail = async (email: string) => {
+  const emailCheck = await User.findOne({email: `${email}`})
+  if (!emailCheck) return false;
+  return true;
+}
+
+export const validateUser = async (req: Request, res: Response, next: any) => {
+  try {
+    const { name, email, password } = req.body
+    let responseStr = ''
+    const Regex = RegExp(/^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i);
+    if (name.length < 5) {
+      responseStr += 'Your username cannot be under 5 characters. ';
+    }
+    if (!Regex.test(email)) {
+      responseStr += 'Your email must be valid. ';
+    }
+    if (password.length < 8) {
+      responseStr += 'Your password cannot be under 8 characters.'
+    }
+    if (responseStr.length > 0) {
+      res.send({errorMessage: `${responseStr}`});
+    } else {
+      next();
+    }
+  } catch (error) {
+    res.send({ error })
+  }
+}
+
 const googleClient = new OAuth2Client({
   clientId: process.env.VITE_GOOGLE_CLIENT_ID,
   clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET
@@ -34,13 +64,43 @@ export const authenticateUser = async (req: Request, res: Response) => {
   res.json({ user, token });
 };
 
-export const registerUser = async (req: Request, res: Response) => {
-  const user = new User(req.body);
-  await user.save();
-  res.send({ data: user });
+export const registerNewUser = async (req: Request, res: Response) => {
+  try {
+    const emailCheck: any = await findExistingEmail(req.body.email)
+    if(!emailCheck) {
+      const user = new User(req.body);
+      await user.save();
+      res.send({ emailExists: false })
+    } else {
+      res.send({ emailExists: true })
+    }
+  } catch (error) {
+    res.send({ error: error });
+  }
 };
 
-export const practice = async (req: Request, res: Response) => {
-  const user = new User();
-  res.send({ data: user });
+export const findUsers = async (req: Request, res: Response) => {
+  const users = await User.find();
+  res.send({data: users});
+}
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.params.id);
+    Object.assign(user, req.body);
+    user?.save();
+    res.send({ data: user });
+  } catch {
+    res.status(404).send({ error: "User Not found" });
+  }
+}
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.params.id);
+    await user?.remove();
+    res.send({ data: true });
+  } catch {
+    res.status(404).send({ error: "user not found" });
+  }
 }

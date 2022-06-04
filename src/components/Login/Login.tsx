@@ -4,7 +4,7 @@ import './Login.css'
 import reducer, { initialState } from './LoginReducer';
 import GoogleAuth from './GoogleAuth';
 
-import constants from '../../utils/Constants';
+import { constants } from '../../utils/Constants';
 
 const {
   SET_USERNAME,
@@ -92,13 +92,9 @@ const Login = () => {
 
           <button onClick={loginHandler} disabled={state.isButtonDisabled}>Login</button>
 
-          <div className="submit">
-            <button>
-              <Link to='/register'>
-                Register
-              </Link>
-            </button>
-          </div>
+          <Link to="/register">
+            <button>Register</button>
+          </Link>
         </div>
       </div>
     </form>
