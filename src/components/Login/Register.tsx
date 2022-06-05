@@ -1,10 +1,13 @@
-import { useState } from 'react'
-
+import { useState, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+import { FoodprintContext } from '../../store/foodprint-context';
 import './Register.css';
-
-const Regex = RegExp(/^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i);
+import { Regex } from '../../utils/Constants';
 
 const Register =  () => {
+  const foodprintCtx = useContext(FoodprintContext);
+  const { onLogin } = foodprintCtx.login
+  const nav = useNavigate();
   const [ form, setForm ] = useState({
     username : '',
     email : '',
@@ -12,10 +15,13 @@ const Register =  () => {
       errors : {
         username : '',
         email : '',
-        password : ''
-      }
+        password : '',
+        present: false,
+      },
+    emailUse: ''
   })
   const errors = form.errors;
+  const emailUse = form.emailUse;
 
   const changeHandler = (event: any) => {
     event.preventDefault();
@@ -29,28 +35,55 @@ const Register =  () => {
     switch (name) {
       case 'username':
         errors.username = value.length < 5 ? 'Username must be 5 characters long!': '';
+        if(errors.username.length > 0) {
+          errors.present = true;
+        }
         break;
       case 'email':
         errors.email = Regex.test(value) ? '': 'Email is not valid!';
+        if(errors.email.length > 0) {
+          errors.present = true;
+        }
         break;
       case 'password':
         errors.password = value.length < 8 ? 'Password must be eight characters long!': '';
+        if(errors.password.length > 0) {
+          errors.present = true;
+        }
         break;
       default:
         break;
     }
   }
 
-
-
-  const submitHandler = (event: any) => {
+  const submitHandler = async (event: any) => {
     event.preventDefault();
-    let valid = true;
-    Object.values(errors).forEach(
-      (val) => val.length > 0 && (valid = false)
-    );
-    if (valid == true){
-      console.log()
+
+    const data = {
+      "name": form.username,
+      "email": form.email,
+      "password": form.password
+    }
+
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+
+    const response = await fetch('http://localhost:4000/register', options);
+    const json = await response.json();
+
+    if( !json.emailExists ) {
+      onLogin(form.email, form.password);
+      nav('/');
+    } else {
+      setForm({
+        ...form,
+        emailUse: 'That email is not available'
+      });
     }
   }
 
@@ -75,8 +108,9 @@ const Register =  () => {
             {errors.password.length > 0 &&  <span style={{color: "red"}}>{errors.password}</span>}
           </div>
 
-          <div className="submit">
-            <button disabled={false}>Register Me</button>
+          <div className="submit inUse">
+            <button disabled={!errors.present}>Register Me</button>
+            <span style={{color: "red"}}>{emailUse}</span>
           </div>
         </form>
       </div>

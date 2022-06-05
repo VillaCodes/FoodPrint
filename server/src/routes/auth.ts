@@ -1,11 +1,13 @@
 import express from "express";
 
-import { authenticateUser, registerUser, practice } from "../controllers/auth";
+import { authenticateUser, registerNewUser, findUsers, updateUser, deleteUser, validateUser } from "../controllers/auth";
 
 const router = express.Router();
 
-router.post("/", authenticateUser);
-router.get("/register", practice);
-router.post("/register", registerUser);
+router.post("/Login", authenticateUser);
+router.get("/register", findUsers);
+router.post("/register", validateUser, registerNewUser);
+router.patch("/register/:id", updateUser);
+router.delete("/register/:id", deleteUser);
 
 export default router;

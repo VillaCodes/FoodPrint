@@ -79,7 +79,8 @@ p, div {
 
   .username,
   .email,
-  .password {
+  .password,
+  .inUse {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;

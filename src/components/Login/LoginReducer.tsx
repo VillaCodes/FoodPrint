@@ -1,4 +1,4 @@
-import constants from '../../utils/Constants';
+import { constants } from '../../utils/Constants';
 
 const {
   SET_USERNAME,
