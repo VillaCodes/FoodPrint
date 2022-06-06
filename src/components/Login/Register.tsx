@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { FoodprintContext } from '../../store/foodprint-context';
+import { validations } from '../../utils/Validation';
 import './Register.css';
-import { Regex } from '../../utils/Constants';
 
 const Register =  () => {
   const foodprintCtx = useContext(FoodprintContext);
@@ -34,19 +34,19 @@ const Register =  () => {
 
     switch (name) {
       case 'username':
-        errors.username = value.length < 5 ? 'Username must be 5 characters long!': '';
+        errors.username = !validations.name(value) ? 'Username must be 5 characters long!': '';
         if(errors.username.length > 0) {
           errors.present = true;
         }
         break;
       case 'email':
-        errors.email = Regex.test(value) ? '': 'Email is not valid!';
+        errors.email = validations.email(value) ? '': 'Email is not valid!';
         if(errors.email.length > 0) {
           errors.present = true;
         }
         break;
       case 'password':
-        errors.password = value.length < 8 ? 'Password must be eight characters long!': '';
+        errors.password = !validations.name(value) ? 'Password must be eight characters long!': '';
         if(errors.password.length > 0) {
           errors.present = true;
         }

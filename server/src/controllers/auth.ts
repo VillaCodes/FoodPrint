@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
 import User from "../../../src/models/user";
+import { validations } from '../../../src/utils/Validation';
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -15,14 +16,13 @@ export const validateUser = async (req: Request, res: Response, next: any) => {
   try {
     const { name, email, password } = req.body
     let responseStr = ''
-    const Regex = RegExp(/^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i);
-    if (name.length < 5) {
+    if (validations.name(name)) {
       responseStr += 'Your username cannot be under 5 characters. ';
     }
-    if (!Regex.test(email)) {
+    if (validations.email(email)) {
       responseStr += 'Your email must be valid. ';
     }
-    if (password.length < 8) {
+    if (validations.password(password)) {
       responseStr += 'Your password cannot be under 8 characters.'
     }
     if (responseStr.length > 0) {
