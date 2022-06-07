@@ -21,13 +21,13 @@ const RecipePage: React.FC = () => {
     
   return (
     {recipeInfo} &&
-    <>
+    <div className="recipePage" data-testid="recipePage">
       <figure>
         <img src={recipeInfo.image} alt={recipeInfo.title}/>
       </figure>
       <h1>{recipeInfo.title}</h1>
       <p>{recipeInfo.instructions}</p>
-    </>
+    </div>
   )
 };
 

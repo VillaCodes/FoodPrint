@@ -11,4 +11,15 @@ module.exports = {
         "@babel/preset-react",
         "@babel/preset-typescript",
     ],
+    plugins: [
+        function () {
+          return {
+            visitor: {
+              MetaProperty(path) {
+                path.replaceWithSourceString('process')
+              },
+            },
+          }
+        },
+      ],
 };

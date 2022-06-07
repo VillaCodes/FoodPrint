@@ -2,7 +2,7 @@ import "./Recipes.css"
 import './RecipeItem.css'
 import Card from '../UI/Card';
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FoodprintContext } from "../../store/foodprint-context";
 import { readRecipe } from "../../utils/SpoonacularRequests";
 
