@@ -18,7 +18,7 @@ export default function IngredientsContainer () {
         <ul className="Ingredients-Container">
             <header>Current Ingredients</header>
             <Ingredients />
-            <form onSubmit={submitHandler}>
+            <form onSubmit={submitHandler} data-testid="form">
               <input
                 id="userIngredient"
                 placeholder="Add an ingredient"
