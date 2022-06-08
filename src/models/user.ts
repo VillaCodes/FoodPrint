@@ -4,6 +4,7 @@ interface UserDocument extends mongoose.Document {
   email: string;
   avatar: string;
   name: string;
+  ingredients: string[];
 }
 
 const UserSchema = new mongoose.Schema({
@@ -21,7 +22,11 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-  }
+  },
+  ingredients: {
+    type: [],
+    required: true,
+  },
 });
 
 export default mongoose.model<UserDocument>("User", UserSchema);
