@@ -1,8 +1,9 @@
 import React, { useReducer, useEffect } from 'react'
-import { Link } from 'react-router-dom';
-import './Login.css'
-import reducer, { initialState } from './LoginReducer';
+import { Link, useNavigate } from 'react-router-dom';
+import { initialState, reducer } from './LoginReducer';
+import { validations } from '../../utils/Validation';
 import GoogleAuth from './GoogleAuth';
+import './Login.css';
 
 import { constants } from '../../utils/Constants';
 
@@ -10,38 +11,75 @@ const {
   SET_USERNAME,
   SET_PASSWORD,
   LOGIN_SUCCESS,
-  LOGIN_FAILED
+  LOGIN_FAILED,
+  SET_BUTTON_DISABLED
 } = constants;
 
 
 const Login = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const nav = useNavigate();
 
   useEffect(() => {
-    if (state.username.trim() && state.password.trim()) {
+    if (validations.email(state.username.trim()) && validations.password(state.password.trim())) {
      dispatch({
-       type: 'setIsButtonDisabled',
+       type: SET_BUTTON_DISABLED,
        payload: false
      });
     } else {
       dispatch({
-        type: 'setIsButtonDisabled',
+        type: SET_BUTTON_DISABLED,
         payload: true
       });
     }
   }, [state.username, state.password]);
 
-  const loginHandler = () => {
-    if (state.username === 'abc@email.com' && state.password === 'password') {
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: 'Login Successfully'
-      });
-    } else {
-      dispatch({
+  const loginHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.type);
+    event.preventDefault();
+
+    const data = {
+      email: state.username,
+      password: state.password
+    }
+
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    };
+
+    const result = await fetch('http://localhost:4000/Login', options);
+
+    const json = await result.json();
+
+    if (json.error) {
+      return dispatch({
         type: LOGIN_FAILED,
-        payload: 'Incorrect username or password'
-      });
+        payload: `Something went wrong, please refresh the page`
+      })
+    }
+
+    if (json.emailCheck) {
+      return dispatch({
+        type: LOGIN_FAILED,
+        payload: `${json.emailCheck}`
+      })
+    }
+
+    if (json.passwordMatch === true) {
+      nav('/');
+      return dispatch({
+        type: LOGIN_SUCCESS,
+        payload: 'Login Successful'
+      })
+    } else {
+      return dispatch({
+        type: LOGIN_FAILED,
+        payload: `${json.passwordMatch}`
+      })
     }
   };
 
@@ -60,8 +98,8 @@ const Login = () => {
     };
 
 
-    const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
-      (event) => {
+  const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
+    (event) => {
         dispatch({
           type: SET_PASSWORD,
           payload: event.target.value
@@ -69,26 +107,36 @@ const Login = () => {
       }
 
 
-      const submitFormHandler = (event: React.FormEvent) => {
-        event.preventDefault;
-      }
-
   return (
-    <form noValidate autoComplete="off" onSubmit={submitFormHandler}>
+    <form noValidate autoComplete="off">
       <div className="wrapper">
         <div className='form-wrapper'>
           <h2>Log In</h2>
-          <div>
+          <>
             <div className='email'>
-              <input name='username' type='email' placeholder='Username' onChange={usernameChangeHandler} onKeyPress={keyPressHandler}/>
+              <input
+                name='email'
+                type='email'
+                placeholder='E-mail'
+                onChange={usernameChangeHandler}
+                onKeyPress={keyPressHandler}
+              />
             </div>
 
             <div className='password'>
-              <input name='password' type='password' placeholder='Password' onChange={passwordChangeHandler} onKeyPress={keyPressHandler}/>
+              <input
+                name='password'
+                type='password'
+                placeholder='Password'
+                onChange={passwordChangeHandler}
+                onKeyPress={keyPressHandler}
+              />
             </div>
-          </div>
+          </>
 
           <GoogleAuth />
+
+          {state.isError && <span style={{color: "red"}}>{state.helperText}</span>}
 
           <button onClick={loginHandler} disabled={state.isButtonDisabled}>Login</button>
 

@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import axios, { AxiosResponse } from "axios";
 import GoogleLogin from "react-google-login";
-
-interface AuthResponse {
-  token: string;
-  user: User;
-}
 
 interface User {
   _id: string;
@@ -18,16 +12,28 @@ const GoogleAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const onSuccess = async (res: any) => {
     try {
-      const result: AxiosResponse<AuthResponse> = await axios.post("/auth/", {
-        token: res?.tokenId,
-      });
 
-      setUser(result.data.user);
-    } catch (err) {
-      console.log(err);
+      const data = {
+        "token": res?.tokenId
+      }
+
+      const options = {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+
+      const result = await fetch('http://localhost:4000/Login', options)
+
+      const json = await result.json();
+
+      setUser(json.user);
+    } catch (error) {
+      return error
     }
   };
-
   return (
     <div>
       {!user && (

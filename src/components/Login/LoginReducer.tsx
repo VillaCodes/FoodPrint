@@ -4,7 +4,9 @@ const {
   SET_USERNAME,
   SET_PASSWORD,
   LOGIN_SUCCESS,
-  LOGIN_FAILED
+  LOGIN_FAILED,
+  SET_BUTTON_DISABLED,
+  SET_ERROR
 } = constants;
 
 type State = {
@@ -23,15 +25,15 @@ export const initialState:State = {
   isError: false
 }
 
-type Action = { type: typeof SET_USERNAME, payload: string  }
-  | { type: typeof SET_PASSWORD, payload: string }
-  | { type: 'setIsButtonDisabled', payload: boolean }
-  | { type: typeof LOGIN_SUCCESS, payload: string }
-  | { type: typeof LOGIN_FAILED, payload: string }
-  | { type: 'setIsError', payload: boolean };
+type Action = { type: SET_USERNAME, payload: string  }
+  | { type: SET_PASSWORD, payload: string }
+  | { type: SET_BUTTON_DISABLED, payload: boolean }
+  | { type: LOGIN_SUCCESS, payload: string }
+  | { type: LOGIN_FAILED, payload: string }
+  | { type: SET_ERROR, payload: boolean };
 
 
-const reducer = (state: State, action: Action): State => {
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case SET_USERNAME:
       return {
@@ -43,7 +45,7 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         password: action.payload
       };
-    case 'setIsButtonDisabled':
+    case SET_BUTTON_DISABLED:
       return {
         ...state,
         isButtonDisabled: action.payload
@@ -60,12 +62,10 @@ const reducer = (state: State, action: Action): State => {
         helperText: action.payload,
         isError: true
       };
-    case 'setIsError':
+    case SET_ERROR:
       return {
         ...state,
         isError: action.payload
     };
   }
 }
-
-export default reducer;
