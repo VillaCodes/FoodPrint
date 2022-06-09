@@ -15,7 +15,18 @@ interface ExtendedIngredients {
   measures: Measures;
 }
 
+interface Steps {
+  number: number;
+  step: string;
+}
+
+interface StepObject {
+  name: string;
+  steps: Steps[];
+}
+
 interface RecipeInfo {
+  analyzedInstructions: StepObject[];
   vegetarian: boolean;
   vegan: boolean;
   id: number;
@@ -29,6 +40,13 @@ interface RecipeInfo {
 }
 
 const RecipeInfoDefault = {
+  analyzedInstructions: [{
+    name: "",
+    steps: [{
+      number: 0,
+      step: ""
+    }]
+  }],
   vegetarian: false,
   vegan: false,
   id: 0,
@@ -57,4 +75,4 @@ const RecipeInfoDefault = {
   }],
 }
 
-export {RecipeInfo, RecipeInfoDefault}
+export {RecipeInfo, RecipeInfoDefault, Steps}
