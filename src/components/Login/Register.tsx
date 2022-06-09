@@ -23,7 +23,7 @@ const Register =  () => {
   const errors = form.errors;
   const emailUse = form.emailUse;
 
-  const changeHandler = (event: any) => {
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const { name, value } = event.target;
 

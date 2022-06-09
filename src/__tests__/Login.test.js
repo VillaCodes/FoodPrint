@@ -9,13 +9,13 @@ afterEach(cleanup)
 
 describe("Login components", () => {
     test("<Login /> renders input fields", () => {
-        render(<Router><Login /></Router>);
+      render(<Router><Login /></Router>);
 
-        const userNameField = screen.getByPlaceholderText("Username");
-        const passwordField = screen.getByPlaceholderText("Password");
+      const emailField = screen.getByPlaceholderText("E-mail");
+      const passwordField = screen.getByPlaceholderText("Password");
 
-        expect(userNameField).toBeInTheDocument();
-        expect(passwordField).toBeInTheDocument();
+      expect(emailField).toBeInTheDocument();
+      expect(passwordField).toBeInTheDocument();
     });
 
     test("Login button", () => {
@@ -25,4 +25,4 @@ describe("Login components", () => {
 
         expect(loginButton).toBeInTheDocument();
     });
-}); 
+});

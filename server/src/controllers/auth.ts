@@ -7,23 +7,40 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const findExistingEmail = async (email: string) => {
-  const emailCheck = await User.findOne({email: `${email}`})
+  const emailCheck = await User.findOne({email: `${email}`});
   if (!emailCheck) return false;
   return true;
+}
+
+export const emailCheck = async (req: Request, res: Response, next: any) => {
+  try {
+    const email = req.body.email;
+    if (validations.email(email) && await findExistingEmail(email)) {
+      const id = await User.findOne({email: `${email}`});
+
+      res.locals.id = id?._id;
+
+      next();
+    } else {
+      res.send({emailCheck: 'Please enter a valid email'});
+    }
+  } catch (error) {
+    res.send(error);
+  }
 }
 
 export const validateUser = async (req: Request, res: Response, next: any) => {
   try {
     const { name, email, password } = req.body
     let responseStr = ''
-    if (validations.name(name)) {
+    if (!validations.name(name)) {
       responseStr += 'Your username cannot be under 5 characters. ';
     }
-    if (validations.email(email)) {
+    if (!validations.email(email)) {
       responseStr += 'Your email must be valid. ';
     }
-    if (validations.password(password)) {
-      responseStr += 'Your password cannot be under 8 characters.'
+    if (!validations.password(password)) {
+      responseStr += 'Your password cannot be under 8 characters.';
     }
     if (responseStr.length > 0) {
       res.send({errorMessage: `${responseStr}`});
@@ -31,7 +48,7 @@ export const validateUser = async (req: Request, res: Response, next: any) => {
       next();
     }
   } catch (error) {
-    res.send({ error })
+    res.send({ error });
   }
 }
 
@@ -40,29 +57,46 @@ const googleClient = new OAuth2Client({
   clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET
 });
 
-export const authenticateUser = async (req: Request, res: Response) => {
-  const {token} = req.body;
+export const authenticateGoogleUser = async (req: Request, res: Response, next: any) => {
 
-  const ticket = await googleClient.verifyIdToken({
-      idToken: token,
-      audience: process.env.VITE_GOOGLE_CLIENT_ID
-  });
+  if (req.body.token) {
+    const {token} = req.body;
 
-  const payload = ticket.getPayload();
-
-  let user = await User.findOne({ email: payload?.email });
-  if (!user) {
-    user = await new User({
-      email: payload?.email,
-      avatar: payload?.picture,
-      name: payload?.name,
+    const ticket = await googleClient.verifyIdToken({
+        idToken: token,
+        audience: process.env.VITE_GOOGLE_CLIENT_ID
     });
 
-    await user.save();
-    }
+    const payload = ticket.getPayload();
 
-  res.json({ user, token });
+    let user = await User.findOne({ email: payload?.email });
+    if (!user) {
+      user = await new User({
+        email: payload?.email,
+        avatar: payload?.picture,
+        name: payload?.name,
+      });
+      await user.save();
+    }
+    res.json({ user, token });
+  } else {
+    next();
+  }
 };
+
+export const authenticateCRUDUser = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(`${res.locals.id}`);
+
+    if (req.body.password === user?.password) {
+      res.send({passwordMatch: true});
+    } else {
+      res.send({passwordMatch: 'You entered an incorrect password'});
+    }
+  } catch (error) {
+    res.send({error});
+  }
+}
 
 export const registerNewUser = async (req: Request, res: Response) => {
   try {
