@@ -10,7 +10,7 @@
     "eslint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "server:dev": "ts-node server/src/app.ts"
+    "server:dev": "ts-node server/src/app.mts"
   },
   "dependencies": {
     "@types/cors": "^2.8.12",
@@ -20,6 +20,7 @@
     "express": "^4.18.0",
     "google-auth-library": "^8.0.1",
     "lint-staged": "^12.3.5",
+    "module-alias": "^2.2.2",
     "mongoose": "^6.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -36,8 +37,8 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@types/express": "^4.17.13",
-    "@types/node": "^17.0.35",
-    "@types/react": "^17.0.33",
+    "@types/node": "^17.0.41",
+    "@types/react": "^17.0.45",
     "@types/react-dom": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",

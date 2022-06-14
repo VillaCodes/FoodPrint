@@ -9,7 +9,7 @@ import {
   deleteUser,
   validateUser,
   emailCheck
-} from "../controllers/auth";
+} from "../controllers/auth.mjs";
 
 const router = express.Router();
 
