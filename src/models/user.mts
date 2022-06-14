@@ -5,6 +5,7 @@ interface UserDocument extends mongoose.Document {
   avatar: string;
   name: string;
   password: string;
+  ingredients: string[];
 }
 
 const UserSchema = new mongoose.Schema({
@@ -22,6 +23,9 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
+  },
+  ingredients: {
+    type: Array,
   }
 });
 

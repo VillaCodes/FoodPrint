@@ -8,7 +8,7 @@ const {items, removeIngredient} = useContext(FoodprintContext).ingredients;
 return (
   <>
     {items.map((ingredient) => (
-        <li className="Ingredient">
+        <li className="Ingredient" key={items.indexOf(ingredient)}>
            {ingredient.text}
            <span className="close" onClick={() => removeIngredient(ingredient.text)}>x</span>
         </li>

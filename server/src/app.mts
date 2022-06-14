@@ -1,10 +1,10 @@
 import express from "express";
-import routes from "./routes/auth";
+import routes from "./routes/auth.mjs";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
-const mongoURI: string = `${process.env.VITE_MONGO_URI}`;
+const mongoURI = `${process.env.VITE_MONGO_URI}`;
 
 dotenv.config();
 
