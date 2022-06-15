@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import GoogleLogin from "react-google-login";
+import { FoodprintContext } from '../../store/foodprint-context';
 
 interface User {
   _id: string;
@@ -10,6 +11,8 @@ interface User {
 
 const GoogleAuth = () => {
   const [user, setUser] = useState<User | null>(null);
+  const foodprintCtx = useContext(FoodprintContext);
+  const { onLogin } = foodprintCtx.login
   const onSuccess = async (res: any) => {
     try {
 
@@ -28,7 +31,7 @@ const GoogleAuth = () => {
       const result = await fetch('http://localhost:4000/Login', options)
 
       const json = await result.json();
-
+      onLogin(json.user.email, json.user.name);
       setUser(json.user);
     } catch (error) {
       return error

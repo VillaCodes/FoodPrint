@@ -1,68 +1,69 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useReducer, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { FoodprintContext } from '../../store/foodprint-context';
+import { initialState, reducer } from './LoginReducer';
 import { validations } from '../../utils/Validation';
 import './Register.css';
+import { constants } from '../../utils/Constants';
+
+const {
+  SET_USERNAME,
+  SET_EMAIL,
+  SET_PASSWORD,
+  LOGIN_FAILED,
+  SET_ERROR
+} = constants;
+
+
 
 const Register =  () => {
+  const [ state, dispatch ] = useReducer(reducer, initialState);
   const foodprintCtx = useContext(FoodprintContext);
-  const { onLogin } = foodprintCtx.login
+  const { onLogin } = foodprintCtx.login;
   const nav = useNavigate();
-  const [ form, setForm ] = useState({
-    username : '',
-    email : '',
-    password : '',
-      errors : {
-        username : '',
-        email : '',
-        password : '',
-        present: false,
-      },
-    emailUse: ''
-  })
-  const errors = form.errors;
-  const emailUse = form.emailUse;
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-
-    setForm({
-      ...form,
-      [name]: value
-    });
-
-    switch (name) {
-      case 'username':
-        errors.username = !validations.name(value) ? 'Username must be 5 characters long!': '';
-        if(errors.username.length > 0) {
-          errors.present = true;
-        }
-        break;
-      case 'email':
-        errors.email = validations.email(value) ? '': 'Email is not valid!';
-        if(errors.email.length > 0) {
-          errors.present = true;
-        }
-        break;
-      case 'password':
-        errors.password = !validations.name(value) ? 'Password must be eight characters long!': '';
-        if(errors.password.length > 0) {
-          errors.present = true;
-        }
-        break;
-      default:
-        break;
+  useEffect(() => {
+    if (!validations.name(state.username) || !validations.email(state.email) || !validations.password(state.password)) {
+      dispatch({
+        type: SET_ERROR,
+        payload: true
+      })
+    } else {
+      dispatch({
+        type: SET_ERROR,
+        payload: false
+      })
     }
-  }
+  }, [state.username, state.email, state.password]);
+
+  const usernameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    dispatch({
+      type: SET_USERNAME,
+      payload: event.target.value
+    });
+  };
+
+  const emailChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    dispatch({
+      type: SET_EMAIL,
+      payload: event.target.value
+    });
+  };
+
+  const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    dispatch({
+      type: SET_PASSWORD,
+      payload: event.target.value
+    });
+  };
 
   const submitHandler = async (event: any) => {
     event.preventDefault();
 
     const data = {
-      "name": form.username,
-      "email": form.email,
-      "password": form.password
+      "name": state.username,
+      "email": state.email,
+      "password": state.password
     }
 
     const options = {
@@ -77,13 +78,13 @@ const Register =  () => {
     const json = await response.json();
 
     if( !json.emailExists ) {
-      onLogin(form.email, form.password);
+      onLogin(state.email, state.password);
       nav('/');
     } else {
-      setForm({
-        ...form,
-        emailUse: 'That email is not available'
-      });
+      dispatch({
+        type: LOGIN_FAILED,
+        payload: 'That email is currently being used.'
+      })
     }
   }
 
@@ -94,23 +95,23 @@ const Register =  () => {
         <form onSubmit={submitHandler} noValidate>
 
           <div className="username">
-            <input type="text" name="username" placeholder="Username"  onChange={changeHandler} />
-            {errors.username.length > 0 && <span style={{color: "red"}}>{errors.username}</span>}
+            <input type="text" name="username" placeholder="Username"  onChange={usernameChangeHandler} />
+            {!validations.name(state.username) && <span style={{color: "red"}}>{'Username must be 5 characters long!'}</span>}
           </div>
 
           <div className="email">
-            <input type="email" name="email" placeholder="E-mail" onChange={changeHandler} />
-            {errors.email.length > 0 &&  <span style={{color: "red"}}>{errors.email}</span>}
+            <input type="email" name="email" placeholder="E-mail" onChange={emailChangeHandler} />
+            {!validations.name(state.email) &&  <span style={{color: "red"}}>{'Email is not valid!'}</span>}
           </div>
 
           <div className="password" >
-            <input type="password" name="password" placeholder="Password" onChange={changeHandler} />
-            {errors.password.length > 0 &&  <span style={{color: "red"}}>{errors.password}</span>}
+            <input type="password" name="password" placeholder="Password" onChange={passwordChangeHandler} />
+            {!validations.name(state.password) &&  <span style={{color: "red"}}>{'Password must be eight characters long!'}</span>}
           </div>
 
           <div className="submit inUse">
-            <button disabled={!errors.present}>Register Me</button>
-            <span style={{color: "red"}}>{emailUse}</span>
+            <button disabled={state.isError}>Register Me</button>
+            <span style={{color: "red"}}>{state.helperText}</span>
           </div>
         </form>
       </div>

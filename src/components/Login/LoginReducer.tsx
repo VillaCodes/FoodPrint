@@ -3,6 +3,7 @@ import { constants } from '../../utils/Constants';
 const {
   SET_USERNAME,
   SET_PASSWORD,
+  SET_EMAIL,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   SET_BUTTON_DISABLED,
@@ -12,6 +13,7 @@ const {
 type State = {
   username: string
   password: string
+  email: string
   isButtonDisabled: boolean
   helperText: string
   isError: boolean
@@ -20,6 +22,7 @@ type State = {
 export const initialState:State = {
   username: '',
   password: '',
+  email: '',
   isButtonDisabled: true,
   helperText: '',
   isError: false
@@ -27,6 +30,7 @@ export const initialState:State = {
 
 type Action = { type: SET_USERNAME, payload: string  }
   | { type: SET_PASSWORD, payload: string }
+  | { type: SET_EMAIL, payload: string }
   | { type: SET_BUTTON_DISABLED, payload: boolean }
   | { type: LOGIN_SUCCESS, payload: string }
   | { type: LOGIN_FAILED, payload: string }
@@ -44,6 +48,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         password: action.payload
+      };
+    case SET_EMAIL:
+      return {
+        ...state,
+        email: action.payload
       };
     case SET_BUTTON_DISABLED:
       return {
