@@ -1,24 +1,8 @@
 import { Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
-import User from "../../../src/models/user.mjs";
+import User from "../../../src/models/user";
+import { validations } from '../../../src/utils/Validation';
 import dotenv from "dotenv";
-
-const Regex = RegExp(/^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i)
-
-const validations = {
-  name(name: string) {
-    if (name.length >= 5) return true;
-    return false;
-  },
-  email(email: string) {
-    if (Regex.test(email)) return true;
-    return false;
-  },
-  password(password: string) {
-    if (password.length >= 8) return true;
-    return false;
-  }
-};
 
 dotenv.config();
 
@@ -137,6 +121,7 @@ export const findUsers = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
+    // Object.assign(user, req.body);
     user?.save();
     res.send({ data: user });
   } catch {

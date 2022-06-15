@@ -1,5 +1,6 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { FoodprintContext } from '../../store/foodprint-context';
 import { initialState, reducer } from './LoginReducer';
 import { validations } from '../../utils/Validation';
 import GoogleAuth from './GoogleAuth';
@@ -8,7 +9,7 @@ import './Login.css';
 import { constants } from '../../utils/Constants';
 
 const {
-  SET_USERNAME,
+  SET_EMAIL,
   SET_PASSWORD,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
@@ -18,10 +19,12 @@ const {
 
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const foodprintCtx = useContext(FoodprintContext);
+  const { onLogin } = foodprintCtx.login;
   const nav = useNavigate();
 
   useEffect(() => {
-    if (validations.email(state.username.trim()) && validations.password(state.password.trim())) {
+    if (validations.email(state.email.trim()) && validations.password(state.password.trim())) {
      dispatch({
        type: SET_BUTTON_DISABLED,
        payload: false
@@ -32,14 +35,13 @@ const Login = () => {
         payload: true
       });
     }
-  }, [state.username, state.password]);
+  }, [state.email, state.password]);
 
   const loginHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.type);
     event.preventDefault();
 
     const data = {
-      email: state.username,
+      email: state.email,
       password: state.password
     }
 
@@ -70,6 +72,7 @@ const Login = () => {
     }
 
     if (json.passwordMatch === true) {
+      onLogin(state.username, state.password);
       nav('/');
       return dispatch({
         type: LOGIN_SUCCESS,
@@ -83,29 +86,20 @@ const Login = () => {
     }
   };
 
-  const keyPressHandler = (event: React.KeyboardEvent) => {
-    if (event.keyCode === 13 || event.which === 13) {
-      state.isButtonDisabled || loginHandler();
-    }
+  const emailChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    dispatch({
+      type: SET_EMAIL,
+      payload: event.target.value
+    });
   };
 
-  const usernameChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
-    (event) => {
-      dispatch({
-        type: SET_USERNAME,
-        payload: event.target.value
-      });
-    };
 
-
-  const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
-    (event) => {
-        dispatch({
-          type: SET_PASSWORD,
-          payload: event.target.value
-        });
-      }
-
+  const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    dispatch({
+      type: SET_PASSWORD,
+      payload: event.target.value
+    });
+  };
 
   return (
     <form noValidate autoComplete="off">
@@ -118,8 +112,7 @@ const Login = () => {
                 name='email'
                 type='email'
                 placeholder='E-mail'
-                onChange={usernameChangeHandler}
-                onKeyPress={keyPressHandler}
+                onChange={emailChangeHandler}
               />
             </div>
 
@@ -129,7 +122,6 @@ const Login = () => {
                 type='password'
                 placeholder='Password'
                 onChange={passwordChangeHandler}
-                onKeyPress={keyPressHandler}
               />
             </div>
           </>
