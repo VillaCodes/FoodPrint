@@ -1,15 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import GoogleLogin from "react-google-login";
 import { FoodprintContext } from '../../store/foodprint-context';
+import { useScript } from "../../utils/hooks/useScript";
+import jwt_decode from "jwt-decode";
+import {googleUser} from "../../models/googleUser";
 
 interface User {
   _id: string;
   name: string;
   email: string;
-  avatar: string;
+  picture: string;
 }
 
 const GoogleAuth = () => {
+  const googleButtonRef = useRef(null);
   const [user, setUser] = useState<User | null>(null);
   const foodprintCtx = useContext(FoodprintContext);
   const { onLogin } = foodprintCtx.login
@@ -37,18 +41,34 @@ const GoogleAuth = () => {
       return error
     }
   };
+
+  const onGoogleSignin = async (user: any) => {
+    const userCred = user.credential;
+    const payload: googleUser = jwt_decode(userCred);
+    payload._id = payload.sub;
+    setUser(payload);
+  };
+
+  useScript("https://accounts.google.com/gsi/client", () => {
+    window.google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback: onGoogleSignin,
+      auto_select: false,
+    });
+
+    window.google.accounts.id.renderButton(googleButtonRef.current, {
+      size: "medium",
+    });
+  });
+
+
   return (
     <div>
-      {!user && (
-        <GoogleLogin
-          clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
-          onSuccess={onSuccess}
-        />
-      )}
+      {!user && <div ref={googleButtonRef}></div>}
 
       {user && (
         <>
-          <img src={user.avatar} className="rounded-full" />
+          <img src={user.picture} className="rounded-full" />
           <h1 className="text-xl font-semibold text-center my-5">
             {user.name}
           </h1>
