@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { OAuth2Client } from "google-auth-library";
 import User from "../../../src/models/user.mjs";
 import dotenv from "dotenv";
 
@@ -68,37 +67,25 @@ export const validateUser = async (req: Request, res: Response, next: any) => {
   }
 }
 
-const googleClient = new OAuth2Client({
-  clientId: process.env.VITE_GOOGLE_CLIENT_ID,
-  clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET
-});
+export const googleLogin = async (req: Request, res: Response, next: any) => {
+  if (req.body.googleUser) {
+    let {googleUser} = req.body;
+    let enrolled = await User.findOne({ email: googleUser?.email});
 
-export const authenticateGoogleUser = async (req: Request, res: Response, next: any) => {
-
-  if (req.body.token) {
-    const {token} = req.body;
-
-    const ticket = await googleClient.verifyIdToken({
-        idToken: token,
-        audience: process.env.VITE_GOOGLE_CLIENT_ID
-    });
-
-    const payload = ticket.getPayload();
-
-    let user = await User.findOne({ email: payload?.email });
-    if (!user) {
-      user = await new User({
-        email: payload?.email,
-        avatar: payload?.picture,
-        name: payload?.name,
+    if (!enrolled) {
+      enrolled = await new User({
+        email: googleUser.email,
+        avatar: googleUser.picture,
+        name: googleUser.name,
       });
-      await user.save();
+      await enrolled.save();
     }
-    res.json({ user, token });
+
+    res.status(200).json({enrolled, googleUser})
   } else {
     next();
   }
-};
+}
 
 export const authenticateCRUDUser = async (req: Request, res: Response) => {
   try {
