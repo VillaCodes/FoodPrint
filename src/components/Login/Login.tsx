@@ -39,7 +39,6 @@ const Login = () => {
 
   const loginHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    console.log("event handled")
 
     const data = {
       email: state.email,
