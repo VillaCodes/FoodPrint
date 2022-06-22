@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
 import GoogleLogin from "react-google-login";
 import { FoodprintContext } from '../../store/foodprint-context';
 import { useScript } from "../../utils/hooks/useScript";

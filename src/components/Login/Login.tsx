@@ -39,6 +39,7 @@ const Login = () => {
 
   const loginHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
+    console.log("event handled")
 
     const data = {
       email: state.email,
@@ -130,7 +131,7 @@ const Login = () => {
 
           {state.isError && <span style={{color: "red"}}>{state.helperText}</span>}
 
-          <button onClick={() => loginHandler} disabled={state.isButtonDisabled}>Login</button>
+          <button onClick={loginHandler} disabled={state.isButtonDisabled}>Login</button>
 
           <Link to="/register">
             <button>Register</button>
