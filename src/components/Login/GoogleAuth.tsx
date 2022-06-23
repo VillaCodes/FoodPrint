@@ -9,7 +9,7 @@ interface User {
   _id: string;
   name: string;
   email: string;
-  picture: string;
+  avatar: string;
 }
 
 const GoogleAuth = () => {
@@ -42,11 +42,29 @@ const GoogleAuth = () => {
     }
   };
 
+
   const onGoogleSignin = async (user: any) => {
     const userCred = user.credential;
     const payload: googleUser = jwt_decode(userCred);
     payload._id = payload.sub;
-    setUser(payload);
+
+    const data = {
+      "googleUser": payload
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    };
+
+    const result = await fetch('http://localhost:4000/Login', options);
+
+    const json = await result.json();
+    onLogin(json.enrolled.email, json.enrolled.name);
+    setUser(json.enrolled);
   };
 
   useScript("https://accounts.google.com/gsi/client", () => {
@@ -68,7 +86,7 @@ const GoogleAuth = () => {
 
       {user && (
         <>
-          <img src={user.picture} className="rounded-full" />
+          <img src={user.avatar} className="rounded-full" />
           <h1 className="text-xl font-semibold text-center my-5">
             {user.name}
           </h1>

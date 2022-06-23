@@ -100,6 +100,26 @@ export const authenticateGoogleUser = async (req: Request, res: Response, next: 
   }
 };
 
+export const googleLogin = async (req: Request, res: Response, next: any) => {
+  if (req.body.googleUser) {
+    let {googleUser} = req.body;
+    let enrolled = await User.findOne({ email: googleUser?.email});
+
+    if (!enrolled) {
+      enrolled = await new User({
+        email: googleUser.email,
+        avatar: googleUser.picture,
+        name: googleUser.name,
+      });
+      await enrolled.save();
+    }
+
+    res.status(201).json({enrolled, googleUser})
+  } else {
+    next();
+  }
+}
+
 export const authenticateCRUDUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(`${res.locals.id}`);
