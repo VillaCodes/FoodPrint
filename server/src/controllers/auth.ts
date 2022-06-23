@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
-import User from "../../../src/models/user";
+import User from "../../../src/models/user.mjs";
 import { validations } from '../../../src/utils/Validation';
 import dotenv from "dotenv";
 
