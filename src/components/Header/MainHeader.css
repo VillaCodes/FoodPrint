@@ -23,6 +23,7 @@
   margin-right: 3em;
 }
 
-.headerLink {
-  color: #CED8F7;
+.headerLink h4 {
+  color: white;
+  text-decoration: none;
 }
