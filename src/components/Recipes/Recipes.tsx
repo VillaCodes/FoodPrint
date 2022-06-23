@@ -33,6 +33,7 @@ const Recipes: React.FC = () => {
           {ingredientList.length !== 0 && foodprintCtx.recipes.items.map((item) => (
             <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} />
           ))}
+          {ingredientList.length === 0 && <h3>Start building your foodprint by adding in ingredients!</h3>}
         </ul>
       </Card>
     </>

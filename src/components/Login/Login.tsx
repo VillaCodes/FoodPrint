@@ -1,7 +1,7 @@
-import React, { useReducer, useEffect, useContext } from 'react'
+import React, { useReducer, useEffect, useContext, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { FoodprintContext } from '../../store/foodprint-context';
-import { initialState, reducer } from './LoginReducer';
+import { initialState, reducer } from '../../store/LoginReducer';
 import { validations } from '../../utils/Validation';
 import GoogleAuth from './GoogleAuth';
 import './Login.css';
@@ -11,19 +11,28 @@ import { constants } from '../../utils/Constants';
 const {
   SET_EMAIL,
   SET_PASSWORD,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
+  ATTEMPT_SUCCESS,
+  ATTEMPT_FAILED,
   SET_BUTTON_DISABLED
 } = constants;
 
 
 const Login = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [ state, dispatch ] = useReducer(reducer, initialState);
   const foodprintCtx = useContext(FoodprintContext);
-  const { onLogin } = foodprintCtx.login;
+  const isMounted = useRef(true);
   const nav = useNavigate();
+  const { onLogin } = foodprintCtx.login;
 
   useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    }
+  }, []);
+
+  useEffect(() => {
+
     if (validations.email(state.email.trim()) && validations.password(state.password.trim())) {
      dispatch({
        type: SET_BUTTON_DISABLED,
@@ -35,54 +44,57 @@ const Login = () => {
         payload: true
       });
     }
-  }, [state.email, state.password]);
+  }, [ state.email, state.password ]);
 
   const loginHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
 
-    const data = {
-      email: state.email,
-      password: state.password
-    }
+    if (isMounted.current) {
+      const data = {
+        email: state.email,
+        password: state.password
+      }
 
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    };
+      const options = {
+        method: "POST",
+        withCredentials: true,
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      };
 
-    const result = await fetch('http://localhost:4000/Login', options);
+      const result = await fetch('http://localhost:4000/Login', options);
+      const json = await result.json();
 
-    const json = await result.json();
+      if (json.error) {
+        return dispatch({
+          type: ATTEMPT_FAILED,
+          payload: 'Something went wrong, please refresh the page'
+        })
+      }
 
-    if (json.error) {
-      return dispatch({
-        type: LOGIN_FAILED,
-        payload: `Something went wrong, please refresh the page`
-      })
-    }
+      if (json.emailCheck) {
+        return dispatch({
+          type: ATTEMPT_FAILED,
+          payload: `${json.emailCheck}`
+        })
+      }
 
-    if (json.emailCheck) {
-      return dispatch({
-        type: LOGIN_FAILED,
-        payload: `${json.emailCheck}`
-      })
-    }
-
-    if (json.passwordMatch === true) {
-      onLogin(state.username, state.password);
-      nav('/');
-      return dispatch({
-        type: LOGIN_SUCCESS,
-        payload: 'Login Successful'
-      })
-    } else {
-      return dispatch({
-        type: LOGIN_FAILED,
-        payload: `${json.passwordMatch}`
-      })
+      if (json.passwordMatch === true) {
+        onLogin(state.username, state.password);
+        nav('/');
+        return dispatch({
+          type: ATTEMPT_SUCCESS,
+          payload: 'Login Successful'
+        })
+      } else {
+        return dispatch({
+          type: ATTEMPT_FAILED,
+          payload: `${json.passwordMatch}`
+        })
+      }
     }
   };
 
@@ -92,7 +104,6 @@ const Login = () => {
       payload: event.target.value
     });
   };
-
 
   const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     dispatch({
@@ -130,10 +141,12 @@ const Login = () => {
 
           {state.isError && <span style={{color: "red"}}>{state.helperText}</span>}
 
-          <button onClick={loginHandler} disabled={state.isButtonDisabled}>Login</button>
+          <button className="login-button" onClick={loginHandler} disabled={state.isButtonDisabled}>
+            Login
+          </button>
 
           <Link to="/register">
-            <button>Register</button>
+            <button className="login-button">Register</button>
           </Link>
         </div>
       </div>

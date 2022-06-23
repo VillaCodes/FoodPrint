@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import GoogleLogin from "react-google-login";
 import { FoodprintContext } from '../../store/foodprint-context';
+import { useNavigate } from "react-router-dom";
 
 interface User {
   _id: string;
@@ -13,6 +14,8 @@ const GoogleAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const foodprintCtx = useContext(FoodprintContext);
   const { onLogin } = foodprintCtx.login
+  const nav = useNavigate();
+
   const onSuccess = async (res: any) => {
     try {
 
@@ -33,10 +36,12 @@ const GoogleAuth = () => {
       const json = await result.json();
       onLogin(json.user.email, json.user.name);
       setUser(json.user);
+      nav('/');
     } catch (error) {
       return error
     }
   };
+
   return (
     <div>
       {!user && (
@@ -49,6 +54,7 @@ const GoogleAuth = () => {
       {user && (
         <>
           <img src={user.avatar} className="rounded-full" />
+          
           <h1 className="text-xl font-semibold text-center my-5">
             {user.name}
           </h1>

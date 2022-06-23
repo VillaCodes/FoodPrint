@@ -61,7 +61,7 @@ p, div {
     color: #bbb;
   }
 
-  button {
+  .login-button {
     min-width: 100%;
     cursor: pointer;
     margin-right: 0.25em;
@@ -72,7 +72,7 @@ p, div {
     background-color: rgb(22, 165, 58);
     color: #fefefe;
   }
-  button:hover {
+  .login-button:hover {
     background-color: rgb(6, 73, 11);
     color: #fefefe;
   }

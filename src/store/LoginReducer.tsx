@@ -1,11 +1,11 @@
-import { constants } from '../../utils/Constants';
+import { constants } from '../utils/Constants';
 
 const {
   SET_USERNAME,
   SET_PASSWORD,
   SET_EMAIL,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
+  ATTEMPT_SUCCESS,
+  ATTEMPT_FAILED,
   SET_BUTTON_DISABLED,
   SET_ERROR
 } = constants;
@@ -32,10 +32,9 @@ type Action = { type: SET_USERNAME, payload: string  }
   | { type: SET_PASSWORD, payload: string }
   | { type: SET_EMAIL, payload: string }
   | { type: SET_BUTTON_DISABLED, payload: boolean }
-  | { type: LOGIN_SUCCESS, payload: string }
-  | { type: LOGIN_FAILED, payload: string }
+  | { type: ATTEMPT_SUCCESS, payload: string }
+  | { type: ATTEMPT_FAILED, payload: string }
   | { type: SET_ERROR, payload: boolean };
-
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -59,13 +58,13 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         isButtonDisabled: action.payload
       };
-    case LOGIN_SUCCESS:
+    case ATTEMPT_SUCCESS:
       return {
         ...state,
         helperText: action.payload,
         isError: false
       };
-    case LOGIN_FAILED:
+    case ATTEMPT_FAILED:
       return {
         ...state,
         helperText: action.payload,
