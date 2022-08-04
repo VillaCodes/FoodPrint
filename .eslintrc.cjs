@@ -4,6 +4,9 @@ module.exports = {
     parserOptions: {
       ecma: 13,
       sourceType: 'module',
+      "ecmaFeatures": {
+            "jsx": true
+        }
     },
     plugins: [
       '@typescript-eslint',
@@ -16,4 +19,7 @@ module.exports = {
       node:true,
       es2021: true,
     },
+    "rules": {
+    "@typescript-eslint/ban-ts-ignore": "off"
+    }
   };

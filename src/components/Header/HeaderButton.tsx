@@ -4,7 +4,7 @@ const HeaderButton = (props: any) => {
 
   return (
     <div>
-      <h4>{props.children}</h4>
+      <h4 onClick={props.onClick}>{props.children}</h4>
     </div>
   )
 }

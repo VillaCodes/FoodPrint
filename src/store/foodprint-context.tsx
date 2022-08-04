@@ -1,7 +1,7 @@
 import React, { SetStateAction, useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
 import Recipe from '../models/recipe';
-import {RecipeInfo, RecipeInfoDefault} from '../models/recipeInfo';
+import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
 
 type FoodprintContextObj = {
   ingredients: {
@@ -95,9 +95,20 @@ const FoodprintContextProvider: React.FC = (props) => {
     return setRecipeInfo(RecipeInfoDefault);
   }
 
-  const logoutHandler = () => {
-    localStorage.removeItem('isLoggedIn');
-    setIsLoggedIn(false);
+  const logoutHandler = async () => {
+    try{
+      const result = await fetch('http://localhost:4000/logout');
+
+      const json = await result.json();
+
+      json
+
+      localStorage.removeItem('isLoggedIn');
+
+      setIsLoggedIn(false);
+    } catch (error){
+      console.log(error);
+    }
   }
 
   const loginHandler = () => {
