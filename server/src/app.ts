@@ -1,8 +1,8 @@
-import express from 'express';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-nocheck
 import routes from "./routes/auth.ts";
 import dotenv from "dotenv";
+import express from 'express';
 import cors from "cors"
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
-// @ts-ignore
 app.use(cookieParser());
 
 app.use("/auth", routes);

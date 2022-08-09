@@ -5,7 +5,8 @@ import { FoodprintContext } from "../../store/foodprint-context";
 
 export default function IngredientsContainer () {
    const [userIngredient, setUserIngredient] = useState<string>("");
-   const {addIngredient, items} = useContext(FoodprintContext).ingredients;
+   const { addIngredient, items } = useContext(FoodprintContext).ingredients;
+   const { isLoggedIn } = useContext(FoodprintContext).login;
 
    const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
        event.preventDefault();
@@ -14,11 +15,12 @@ export default function IngredientsContainer () {
        setUserIngredient("")
    }
 
-    return (
+   return (
         <ul className="Ingredients-Container">
-            <header>Current Ingredients</header>
+            {!isLoggedIn && <header>Current Ingredients</header>}
+            {isLoggedIn && <header>Pantry</header>}
             <Ingredients />
-            <form onSubmit={submitHandler} data-testid="form">
+            {!isLoggedIn && <form onSubmit={submitHandler} data-testid="form">
               <input
                 id="userIngredient"
                 placeholder="Add an ingredient"
@@ -26,7 +28,16 @@ export default function IngredientsContainer () {
                 onChange={(event) => setUserIngredient(event?.target.value)}
                 value={userIngredient}
               />
-            </form>
+            </form>}
+            {isLoggedIn && <form onSubmit={submitHandler} data-testid="form">
+              <input
+                id="userIngredient"
+                placeholder="Add an ingredient"
+                type ="text"
+                onChange={(event) => setUserIngredient(event?.target.value)}
+                value={userIngredient}
+              />
+            </form>}
         </ul>
     )
 }

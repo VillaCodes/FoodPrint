@@ -7,8 +7,6 @@ import './SpoonacularRequests.css';
 const headers = new Headers();
 headers.append("Content-Type", "application/json");
 
-
-
 export const fetchData = async(addRecipe: (title:string, id:number, image: string)=> void, ingredientList: any) => {
   const ingredientSearch = (ingredients: any) => {
 
