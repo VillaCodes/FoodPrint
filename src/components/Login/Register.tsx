@@ -1,7 +1,7 @@
 import React, { useContext, useReducer, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { FoodprintContext } from '../../store/foodprint-context';
-import { initialState, reducer } from './LoginReducer';
+import { initialState, reducer } from '../../store/LoginReducer';
 import { validations } from '../../utils/Validation';
 import './Register.css';
 import { constants } from '../../utils/Constants';
@@ -10,18 +10,15 @@ const {
   SET_USERNAME,
   SET_EMAIL,
   SET_PASSWORD,
-  LOGIN_FAILED,
+  ATTEMPT_FAILED,
   SET_ERROR
 } = constants;
-
-
 
 const Register =  () => {
   const [ state, dispatch ] = useReducer(reducer, initialState);
   const foodprintCtx = useContext(FoodprintContext);
   const { onLogin } = foodprintCtx.login;
   const nav = useNavigate();
-
   useEffect(() => {
     if (!validations.name(state.username) || !validations.email(state.email) || !validations.password(state.password)) {
       dispatch({
@@ -34,7 +31,7 @@ const Register =  () => {
         payload: false
       })
     }
-  }, [state.username, state.email, state.password]);
+  }, [ state.username, state.email, state.password ]);
 
   const usernameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     dispatch({
@@ -82,7 +79,7 @@ const Register =  () => {
       nav('/');
     } else {
       dispatch({
-        type: LOGIN_FAILED,
+        type: ATTEMPT_FAILED,
         payload: 'That email is currently being used.'
       })
     }
@@ -104,13 +101,16 @@ const Register =  () => {
             {!validations.name(state.email) &&  <span style={{color: "red"}}>{'Email is not valid!'}</span>}
           </div>
 
-          <div className="password" >
+          <div className="password">
             <input type="password" name="password" placeholder="Password" onChange={passwordChangeHandler} />
             {!validations.name(state.password) &&  <span style={{color: "red"}}>{'Password must be eight characters long!'}</span>}
           </div>
 
           <div className="submit inUse">
-            <button disabled={state.isError}>Register Me</button>
+            <button className="login-button" disabled={state.isError}>
+              Register Me
+            </button>
+
             <span style={{color: "red"}}>{state.helperText}</span>
           </div>
         </form>

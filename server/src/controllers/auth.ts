@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
-import { OAuth2Client } from "google-auth-library";
-import User from "../../../src/models/user.mjs";
-import { validations } from '../../../src/utils/Validation';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import User from "../../../src/models/user.ts";
 import dotenv from "dotenv";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { allowedMethods } from "../../../src/utils/Constants.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { validations } from "../../../src/utils/Validation.ts";
 
 dotenv.config();
 
@@ -12,8 +18,12 @@ const findExistingEmail = async (email: string) => {
   return true;
 }
 
-export const emailCheck = async (req: Request, res: Response, next: any) => {
+export const emailCheck = async (req: any, res: any, next: any) => {
   try {
+    if (!allowedMethods.includes(req.method)) {
+      res.status(405).send(`${req.method} not allowed.`);
+    }
+
     const email = req.body.email;
     if (validations.email(email) && await findExistingEmail(email)) {
       const id = await User.findOne({email: `${email}`});
@@ -31,17 +41,26 @@ export const emailCheck = async (req: Request, res: Response, next: any) => {
 
 export const validateUser = async (req: Request, res: Response, next: any) => {
   try {
+    if (!allowedMethods.includes(req.method)) {
+      res.status(405).send(`${req.method} not allowed.`);
+    }
+
     const { name, email, password } = req.body
+
     let responseStr = ''
+
     if (!validations.name(name)) {
       responseStr += 'Your username cannot be under 5 characters. ';
     }
+
     if (!validations.email(email)) {
       responseStr += 'Your email must be valid. ';
     }
+
     if (!validations.password(password)) {
       responseStr += 'Your password cannot be under 8 characters.';
     }
+
     if (responseStr.length > 0) {
       res.send({errorMessage: `${responseStr}`});
     } else {
@@ -52,43 +71,36 @@ export const validateUser = async (req: Request, res: Response, next: any) => {
   }
 }
 
-const googleClient = new OAuth2Client({
-  clientId: process.env.VITE_GOOGLE_CLIENT_ID,
-  clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET
-});
+export const googleLogin = async (req: Request, res: Response, next: any) => {
+  if (req.body.googleUser) {
+    const {googleUser} = req.body;
+    let enrolled = await User.findOne({ email: googleUser?.email});
 
-export const authenticateGoogleUser = async (req: Request, res: Response, next: any) => {
-
-  if (req.body.token) {
-    const {token} = req.body;
-
-    const ticket = await googleClient.verifyIdToken({
-        idToken: token,
-        audience: process.env.VITE_GOOGLE_CLIENT_ID
-    });
-
-    const payload = ticket.getPayload();
-
-    let user = await User.findOne({ email: payload?.email });
-    if (!user) {
-      user = await new User({
-        email: payload?.email,
-        avatar: payload?.picture,
-        name: payload?.name,
+    if (!enrolled) {
+      enrolled = await new User({
+        email: googleUser.email,
+        avatar: googleUser.picture,
+        name: googleUser.name,
       });
-      await user.save();
+      await enrolled.save();
     }
-    res.json({ user, token });
+
+    res.status(200).json({enrolled, googleUser})
   } else {
     next();
   }
-};
+}
 
 export const authenticateCRUDUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(`${res.locals.id}`);
 
     if (req.body.password === user?.password) {
+      res.cookie("hash", `${user?.email}`, {
+        maxAge: 1080000000,
+        httpOnly: true
+      })
+
       res.send({passwordMatch: true});
     } else {
       res.send({passwordMatch: 'You entered an incorrect password'});
@@ -103,7 +115,9 @@ export const registerNewUser = async (req: Request, res: Response) => {
     const emailCheck: any = await findExistingEmail(req.body.email)
     if(!emailCheck) {
       const user = new User(req.body);
+
       await user.save();
+
       res.send({ emailExists: false })
     } else {
       res.send({ emailExists: true })
@@ -113,26 +127,38 @@ export const registerNewUser = async (req: Request, res: Response) => {
   }
 };
 
+export const logoutUser = async (req: Request, res: Response) => {
+    res.cookie('token', 'none', {
+        expires: new Date(Date.now() + 5 * 1000)
+    });
+
+    res.send({ success: true, message: 'User logged out successfully' })
+};
+
 export const findUsers = async (req: Request, res: Response) => {
   const users = await User.find();
+
   res.send({data: users});
-}
+};
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
-    // Object.assign(user, req.body);
+
     user?.save();
+
     res.send({ data: user });
   } catch {
     res.status(404).send({ error: "User Not found" });
   }
-}
+};
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
+
     await user?.remove();
+
     res.send({ data: true });
   } catch {
     res.status(404).send({ error: "user not found" });

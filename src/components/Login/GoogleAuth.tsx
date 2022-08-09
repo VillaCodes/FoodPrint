@@ -4,6 +4,7 @@ import { FoodprintContext } from '../../store/foodprint-context';
 import { useScript } from "../../utils/hooks/useScript";
 import jwt_decode from "jwt-decode";
 import {googleUser} from "../../models/googleUser";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   _id: string;
@@ -17,7 +18,7 @@ const GoogleAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const foodprintCtx = useContext(FoodprintContext);
   const { onLogin } = foodprintCtx.login
-
+  const nav = useNavigate();
 
   const onGoogleSignin = async (user: any) => {
     const userCred = user.credential;
@@ -41,6 +42,7 @@ const GoogleAuth = () => {
     const json = await result.json();
     onLogin(json.enrolled.email, json.enrolled.name);
     setUser(json.enrolled);
+    nav('/')
   };
 
   useScript("https://accounts.google.com/gsi/client", () => {
@@ -63,6 +65,7 @@ const GoogleAuth = () => {
       {user && (
         <>
           <img src={user.avatar} className="rounded-full" />
+          
           <h1 className="text-xl font-semibold text-center my-5">
             {user.name}
           </h1>
