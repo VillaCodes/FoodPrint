@@ -97,13 +97,17 @@ const FoodprintContextProvider: React.FC = (props) => {
 
   const logoutHandler = async () => {
     try{
-      const result = await fetch('http://localhost:4000/logout');
-
+      const result = await fetch('http://localhost:4000/logout',
+      {
+        method: "POST",
+        withCredentials: true,
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json"
+        },
+      }
+    );
       const json = await result.json();
-
-      json
-
-      localStorage.removeItem('isLoggedIn');
 
       setIsLoggedIn(false);
     } catch (error){

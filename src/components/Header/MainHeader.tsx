@@ -23,7 +23,6 @@ const MainHeader = () => {
 
       {isLoggedIn && (
         <>
-          <HeaderButton>Pantry</HeaderButton>
           <HeaderButton onClick={onLogout}>Logout</HeaderButton>
         </>
       )}
