@@ -114,7 +114,7 @@ export const authenticateCRUDUser = async (req: Request, res: Response) => {
         maxAge: 1080000000,
         httpOnly: true
       })
-      res.send({passwordMatch: true});
+      res.send({ passwordMatch: true, loggedIn: true });
     } else {
       res.send({passwordMatch: 'You entered an incorrect password'});
     }
@@ -141,11 +141,18 @@ export const registerNewUser = async (req: Request, res: Response) => {
 };
 
 export const logoutUser = async (req: Request, res: Response) => {
+  let string = JSON.stringify(req.cookies["ID"])
     res.cookie('ID', 'none', {
         expires: new Date(Date.now() + 5 * 1000)
     });
     res.send({ success: true, message: 'User logged out successfully' })
 };
+
+export const cookieCheck = async (req: Request, res: Response) => {
+  if (req.cookies["ID"] && req.cookies["ID"] !== "none") {
+    res.send({ cookiePresent: true })
+  }
+}
 
 export const findUsers = async (req: Request, res: Response) => {
   const users = await User.find();
