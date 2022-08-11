@@ -1,14 +1,14 @@
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Request, Response } from "express";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import User from "../../../src/models/user.ts";
 import dotenv from "dotenv";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { allowedMethods } from "../../../src/utils/Constants.ts";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { validations } from "../../../src/utils/Validation.ts";
+import { encryptor } from '../../../src/utils/Encrypt.ts';
 
 dotenv.config();
 
@@ -96,11 +96,11 @@ export const authenticateCRUDUser = async (req: Request, res: Response) => {
     const user = await User.findById(`${res.locals.id}`);
 
     if (req.body.password === user?.password) {
-      res.cookie("hash", `${user?.email}`, {
+      let idKey = encryptor.encrypt(`${user?.id}`);
+      res.cookie("ID", idKey, {
         maxAge: 1080000000,
         httpOnly: true
       })
-
       res.send({passwordMatch: true});
     } else {
       res.send({passwordMatch: 'You entered an incorrect password'});
@@ -128,10 +128,9 @@ export const registerNewUser = async (req: Request, res: Response) => {
 };
 
 export const logoutUser = async (req: Request, res: Response) => {
-    res.cookie('token', 'none', {
+    res.cookie('ID', 'none', {
         expires: new Date(Date.now() + 5 * 1000)
     });
-
     res.send({ success: true, message: 'User logged out successfully' })
 };
 
@@ -163,4 +162,4 @@ export const deleteUser = async (req: Request, res: Response) => {
   } catch {
     res.status(404).send({ error: "user not found" });
   }
-}
+};

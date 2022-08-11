@@ -1,5 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import express  from "express";
-
 import {
   googleLogin,
   authenticateCRUDUser,
@@ -10,8 +11,6 @@ import {
   validateUser,
   emailCheck,
   logoutUser
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
 } from "../controllers/auth.ts";
 
 const router = express.Router();
