@@ -49,4 +49,4 @@ describe("<IngredientsContainer /> component", () => {
 
     expect(input).toHaveValue("");
   });
-}); 
+});

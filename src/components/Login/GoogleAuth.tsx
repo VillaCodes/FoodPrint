@@ -25,6 +25,7 @@ const GoogleAuth = () => {
 
       const options = {
         method: "POST",
+        credentials: "include",
         headers: {
           'Content-Type': 'application/json'
         },
@@ -54,7 +55,7 @@ const GoogleAuth = () => {
       {user && (
         <>
           <img src={user.avatar} className="rounded-full" />
-          
+
           <h1 className="text-xl font-semibold text-center my-5">
             {user.name}
           </h1>

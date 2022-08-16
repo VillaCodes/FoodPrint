@@ -1,22 +1,13 @@
 import React, { useContext } from "react";
 import { FoodprintContext } from "../../store/foodprint-context";
-import "./IngredientList.css"
+import "./IngredientList.css";
 
-export default function Ingredients () {
-const { ingredients, login } = useContext(FoodprintContext);
-const { items, removeIngredient } = ingredients;
-const { isLoggedIn } = login;
-
-return (
+const Ingredients = () => {
+  const { ingredients } = useContext(FoodprintContext);
+  const { items, removeIngredient } = ingredients;
+  return (
   <>
-      {isLoggedIn && items.map((ingredient) => (
-        <li className="Ingredient" key={items.indexOf(ingredient)}>
-          {ingredient.text}
-          <span className="close" onClick={() => removeIngredient(ingredient.text)}>x</span>
-        </li>
-      ))}
-
-      {!isLoggedIn && items.map((ingredient) => (
+      {items.map((ingredient) => (
         <li className="Ingredient" key={items.indexOf(ingredient)}>
            {ingredient.text}
            <span className="close" onClick={() => removeIngredient(ingredient.text)}>x</span>
@@ -25,3 +16,5 @@ return (
   </>
   )
 }
+
+export default Ingredients;

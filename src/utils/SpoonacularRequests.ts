@@ -25,7 +25,7 @@ export const fetchData = async(addRecipe: (title:string, id:number, image: strin
 
   const response = await call.json();
 
-  onCallHandler(response, addRecipe, 5);
+  onCallHandler(response, addRecipe, 10);
 }
 
 export const readRecipe = async(recipeId: string) => {
