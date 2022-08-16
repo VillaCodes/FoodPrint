@@ -164,10 +164,8 @@ export const ingredientList = async (req: Request, res: Response) => {
 };
 
 export const saveIngredient = async (req: Request, res: Response) => {
-  console.log(req.body);
   const user = await User.findById(req.body.id);
   user?.ingredients.push(req.body.ingredient);
-  console.log(user);
   res.send(user?.save());
 };
 
