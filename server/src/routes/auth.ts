@@ -2,7 +2,7 @@
 // @ts-nocheck
 import express  from "express";
 import {
-  authenticateGoogleUser,
+  googleLogin,
   authenticateCRUDUser,
   registerNewUser,
   findUsers,
@@ -18,9 +18,9 @@ import {
 
 const router = express.Router();
 
-router.post("/Login", authenticateGoogleUser, emailCheck, authenticateCRUDUser);
-router.post("/logout", logoutUser);
 router.post("/saveIngredient", saveIngredient);
+router.post("/Login", googleLogin, emailCheck, authenticateCRUDUser);
+router.get("/logout", logoutUser);
 router.get("/check", cookieCheck);
 router.post("/list", ingredientList);
 router.get("/register", findUsers);
