@@ -22,7 +22,7 @@ type FoodprintContextObj = {
   login: {
     isLoggedIn: boolean,
     onLogout: () => void;
-    onLogin: (email: string, password: string) => void
+    onLogin: (loggedIn: boolean) => void
   }
 }
 
@@ -45,22 +45,35 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   login: {
     isLoggedIn: false,
     onLogout: () => undefined,
-    onLogin: (email: string, password: string) => undefined
+    onLogin: (loggedIn: boolean) => undefined
   }
 });
 
 const FoodprintContextProvider: React.FC = (props) => {
-  const [ingredients, setIngredients] = useState<Ingredients[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [recipeInfo, setRecipeInfo] = useState<RecipeInfo>(RecipeInfoDefault);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [ ingredients, setIngredients ] = useState<Ingredients[]>([]);
+  const [ recipes, setRecipes ] = useState<Recipe[]>([]);
+  const [ recipeInfo, setRecipeInfo ] = useState<RecipeInfo>(RecipeInfoDefault);
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
 
   useEffect(() => {
-    const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
+    const cookieCheck = async () => {
+      const result = await fetch('http://localhost:4000/check',
+        {
+          method: "GET",
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      const json = await result.json();
 
-    if(storedUserLoggedInInformation === '1') {
-      setIsLoggedIn(true);
+      if (json.cookiePresent === true) {
+        setIsLoggedIn(true);
+      }
     }
+
+    cookieCheck();
   }, []);
 
   const addRecipeHandler = (recipeText: string, recipeID: number, recipeImage: string) => {
@@ -70,11 +83,9 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   }
 
-
   const itemsResetHandler = () => {
     return setRecipes([]);
   }
-
 
   const addIngredientHandler = (ingredientText: string) => {
     const newIngredient = new Ingredients(ingredientText);
@@ -83,7 +94,6 @@ const FoodprintContextProvider: React.FC = (props) => {
       return prevIngredients.concat(newIngredient);
     });
   };
-
 
   const removeIngredientHandler = (ingredient: string) => {
     setIngredients((prevIngredients) => {
@@ -100,7 +110,6 @@ const FoodprintContextProvider: React.FC = (props) => {
       const result = await fetch('http://localhost:4000/logout',
       {
         method: "POST",
-        withCredentials: true,
         credentials: 'include',
         headers: {
           "Content-Type": "application/json"
@@ -115,9 +124,10 @@ const FoodprintContextProvider: React.FC = (props) => {
     }
   }
 
-  const loginHandler = () => {
-    localStorage.setItem('isLoggedIn', '1')
-    setIsLoggedIn(true)
+  const loginHandler = async (loggedIn: boolean) => {
+    if (loggedIn) {
+      setIsLoggedIn(true)
+    }
   }
 
   const foodprintContextValue: FoodprintContextObj = {

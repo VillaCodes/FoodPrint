@@ -10,13 +10,15 @@ import {
   deleteUser,
   validateUser,
   emailCheck,
-  logoutUser
+  logoutUser,
+  cookieCheck
 } from "../controllers/auth.ts";
 
 const router = express.Router();
 
 router.post("/Login", googleLogin, emailCheck, authenticateCRUDUser);
 router.get("/logout", logoutUser);
+router.get("/check", cookieCheck);
 router.get("/register", findUsers);
 router.post("/register", validateUser, registerNewUser);
 router.patch("/register/:id", updateUser);

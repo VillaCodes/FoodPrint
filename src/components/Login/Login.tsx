@@ -57,7 +57,6 @@ const Login = () => {
 
       const options = {
         method: "POST",
-        withCredentials: true,
         credentials: 'include',
         headers: {
           "Content-Type": "application/json"
@@ -83,7 +82,7 @@ const Login = () => {
       }
 
       if (json.passwordMatch === true) {
-        onLogin(state.username, state.password);
+        onLogin(json.loggedIn);
         nav('/');
         return dispatch({
           type: ATTEMPT_SUCCESS,
