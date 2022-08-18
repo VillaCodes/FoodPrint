@@ -23,6 +23,7 @@ const Login = () => {
   const isMounted = useRef(true);
   const nav = useNavigate();
   const { onLogin } = foodprintCtx.login;
+  const { setItems } = foodprintCtx.ingredients;
 
   useEffect(() => {
     isMounted.current = true;
@@ -32,7 +33,6 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-
     if (validations.email(state.email.trim()) && validations.password(state.password.trim())) {
      dispatch({
        type: SET_BUTTON_DISABLED,
@@ -82,6 +82,7 @@ const Login = () => {
       }
 
       if (json.passwordMatch === true) {
+        setItems(json.ingredients);
         onLogin(json.loggedIn);
         nav('/');
         return dispatch({

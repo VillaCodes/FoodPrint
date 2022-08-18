@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-const key = `${process.env.VITE_ENCRYPT_KEY}`;
+const key = `GetInMyBelly`;
 
 export const encryptor = {
   encrypt(text: string) {

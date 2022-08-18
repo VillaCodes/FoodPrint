@@ -27,3 +27,7 @@
   color: white;
   text-decoration: none;
 }
+
+.float {
+  float: left;
+}

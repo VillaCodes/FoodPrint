@@ -11,14 +11,18 @@ import {
   validateUser,
   emailCheck,
   logoutUser,
-  cookieCheck
+  cookieCheck,
+  ingredientList,
+  saveIngredient
 } from "../controllers/auth.ts";
 
 const router = express.Router();
 
+router.post("/saveIngredient", saveIngredient);
 router.post("/Login", googleLogin, emailCheck, authenticateCRUDUser);
 router.get("/logout", logoutUser);
 router.get("/check", cookieCheck);
+router.post("/list", ingredientList);
 router.get("/register", findUsers);
 router.post("/register", validateUser, registerNewUser);
 router.patch("/register/:id", updateUser);

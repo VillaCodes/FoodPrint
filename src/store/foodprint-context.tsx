@@ -8,6 +8,7 @@ type FoodprintContextObj = {
     items: Ingredients[];
     addIngredient: (text: string) => void;
     removeIngredient: (text: string) => void;
+    setItems: ([]) => void;
   },
   recipes: {
     items: Recipe[];
@@ -30,7 +31,8 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   ingredients: {
     items: [],
     addIngredient: (text: string) => undefined,
-    removeIngredient: () => undefined
+    removeIngredient: () => undefined,
+    setItems: (array: any) => undefined
   },
   recipes: {
     items: [],
@@ -117,7 +119,7 @@ const FoodprintContextProvider: React.FC = (props) => {
       }
     );
       const json = await result.json();
-
+      
       setIsLoggedIn(false);
     } catch (error){
       console.log(error);
@@ -130,11 +132,16 @@ const FoodprintContextProvider: React.FC = (props) => {
     }
   }
 
+  const resetIngredientHandler = (array: any) => {
+    setIngredients(array);
+  }
+
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
       items: ingredients,
       addIngredient: addIngredientHandler,
-      removeIngredient: removeIngredientHandler
+      removeIngredient: removeIngredientHandler,
+      setItems: resetIngredientHandler
     },
     recipes: {
       items: recipes,

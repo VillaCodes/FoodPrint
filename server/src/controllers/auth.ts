@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { Request, Response } from "express";
@@ -16,9 +15,9 @@ const findExistingEmail = async (email: string) => {
   const emailCheck = await User.findOne({email: `${email}`});
   if (!emailCheck) return false;
   return true;
-}
+};
 
-export const emailCheck = async (req: any, res: any, next: any) => {
+export const emailCheck = async (req: Request, res: Response, next: any) => {
   try {
     if (!allowedMethods.includes(req.method)) {
       res.status(405).send(`${req.method} not allowed.`);
@@ -26,9 +25,10 @@ export const emailCheck = async (req: any, res: any, next: any) => {
 
     const email = req.body.email;
     if (validations.email(email) && await findExistingEmail(email)) {
-      const id = await User.findOne({email: `${email}`});
+      const user = await User.findOne({email: `${email}`});
 
-      res.locals.id = id?._id;
+      res.locals.id = user?._id;
+      res.locals.ingredients = user?.ingredients;
 
       next();
     } else {
@@ -37,7 +37,7 @@ export const emailCheck = async (req: any, res: any, next: any) => {
   } catch (error) {
     res.send(error);
   }
-}
+};
 
 export const validateUser = async (req: Request, res: Response, next: any) => {
   try {
@@ -101,14 +101,14 @@ export const authenticateCRUDUser = async (req: Request, res: Response) => {
         maxAge: 1080000000,
         httpOnly: true
       })
-      res.send({ passwordMatch: true, loggedIn: true });
+      res.send({ passwordMatch: true, loggedIn: true, ingredients: res.locals.ingredients });
     } else {
       res.send({passwordMatch: 'You entered an incorrect password'});
     }
   } catch (error) {
     res.send({error});
   }
-}
+};
 
 export const registerNewUser = async (req: Request, res: Response) => {
   try {
@@ -137,9 +137,24 @@ export const logoutUser = async (req: Request, res: Response) => {
 
 export const cookieCheck = async (req: Request, res: Response) => {
   if (req.cookies["ID"] && req.cookies["ID"] !== "none") {
-    res.send({ cookiePresent: true })
+    res.send({ cookiePresent: true, id: req.cookies["ID"] })
   }
-}
+};
+
+export const ingredientList = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(`${req.body.id}`);
+    res.send(user.ingredients);
+  } catch (error) {
+    res.send({error});
+  }
+};
+
+export const saveIngredient = async (req: Request, res: Response) => {
+  const user = await User.findById(req.body.id);
+  user?.ingredients.push(req.body.ingredient);
+  res.send(user?.save());
+};
 
 export const findUsers = async (req: Request, res: Response) => {
   const users = await User.find();
