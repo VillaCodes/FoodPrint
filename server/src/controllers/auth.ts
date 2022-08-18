@@ -2,7 +2,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { Request, Response } from "express";
-import { OAuth2Client } from "google-auth-library";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import User from "../../../src/models/user.ts";
 import dotenv from "dotenv";
 import { allowedMethods } from "../../../src/utils/Constants.ts";
@@ -70,39 +71,25 @@ export const validateUser = async (req: Request, res: Response, next: any) => {
   }
 }
 
-const googleClient = new OAuth2Client({
-  clientId: process.env.VITE_GOOGLE_CLIENT_ID,
+export const googleLogin = async (req: Request, res: Response, next: any) => {
+  if (req.body.googleUser) {
+    const {googleUser} = req.body;
+    let enrolled = await User.findOne({ email: googleUser?.email});
 
-  clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET
-});
-
-export const authenticateGoogleUser = async (req: Request, res: Response, next: any) => {
-
-  if (req.body.token) {
-    const {token} = req.body;
-
-    const ticket = await googleClient.verifyIdToken({
-        idToken: token,
-
-        audience: process.env.VITE_GOOGLE_CLIENT_ID
-    });
-
-    const payload = ticket.getPayload();
-
-    let user = await User.findOne({ email: payload?.email });
-    if (!user) {
-      user = await new User({
-        email: payload?.email,
-        avatar: payload?.picture,
-        name: payload?.name,
+    if (!enrolled) {
+      enrolled = await new User({
+        email: googleUser.email,
+        avatar: googleUser.picture,
+        name: googleUser.name,
       });
-      await user.save();
+      await enrolled.save();
     }
-    res.json({ user, token });
+
+    res.status(200).json({enrolled, googleUser})
   } else {
     next();
   }
-};
+}
 
 export const authenticateCRUDUser = async (req: Request, res: Response) => {
   try {
