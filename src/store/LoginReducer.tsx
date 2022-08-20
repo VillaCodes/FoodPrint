@@ -34,7 +34,7 @@ type Action = { type: SET_USERNAME, payload: string  }
   | { type: SET_BUTTON_DISABLED, payload: boolean }
   | { type: ATTEMPT_SUCCESS, payload: string }
   | { type: ATTEMPT_FAILED, payload: string }
-  | { type: SET_ERROR, payload: boolean };
+  | { type: SET_ERROR, payload: boolean }
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {

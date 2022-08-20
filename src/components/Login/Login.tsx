@@ -24,6 +24,7 @@ const Login = () => {
   const nav = useNavigate();
   const { onLogin } = foodprintCtx.login;
   const { setItems } = foodprintCtx.ingredients;
+  const { setFavorites } = foodprintCtx.favorites;
 
   useEffect(() => {
     isMounted.current = true;
@@ -83,6 +84,7 @@ const Login = () => {
 
       if (json.passwordMatch === true) {
         setItems(json.ingredients);
+        setFavorites(json.favorites);
         onLogin(json.loggedIn);
         nav('/');
         return dispatch({

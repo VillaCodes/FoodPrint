@@ -24,6 +24,12 @@ type FoodprintContextObj = {
     isLoggedIn: boolean,
     onLogout: () => void;
     onLogin: (loggedIn: boolean) => void
+  },
+  favorites: {
+    items: Recipe[];
+    addFavorite: (title: string, id: number, image: string) => void;
+    removeFavorite: (id: string) => void;
+    setFavorites: ([]) => void;
   }
 }
 
@@ -48,12 +54,19 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     isLoggedIn: false,
     onLogout: () => undefined,
     onLogin: (loggedIn: boolean) => undefined
+  },
+  favorites: {
+    items: [],
+    addFavorite: (id: string) => undefined,
+    removeFavorite: (id: string) => undefined,
+    setFavorites: (array: any) => undefined
   }
 });
 
 const FoodprintContextProvider: React.FC = (props) => {
   const [ ingredients, setIngredients ] = useState<Ingredients[]>([]);
   const [ recipes, setRecipes ] = useState<Recipe[]>([]);
+  const [ favorites, setFavorites ] = useState<Recipe[]>([]);
   const [ recipeInfo, setRecipeInfo ] = useState<RecipeInfo>(RecipeInfoDefault);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
 
@@ -119,7 +132,7 @@ const FoodprintContextProvider: React.FC = (props) => {
       }
     );
       const json = await result.json();
-      
+
       setIsLoggedIn(false);
     } catch (error){
       console.log(error);
@@ -135,6 +148,24 @@ const FoodprintContextProvider: React.FC = (props) => {
   const resetIngredientHandler = (array: any) => {
     setIngredients(array);
   }
+
+  const addFavoriteHandler = (title: string, id: number, image: string) => {
+    const newFavorite = new Recipe(title, id, image);
+
+    setFavorites((prevFavorites) => {
+      return prevFavorites.concat(newFavorite);
+    });
+  };
+
+  const removeFavoriteHandler = async (recipe: any) => {
+    setFavorites((prevFavorites) => {
+      return prevFavorites.filter(item => item.id !== recipe);
+    });
+  };
+
+  const setFavoriteHandler = (array: any) => {
+    setFavorites(array);
+  };
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -157,6 +188,12 @@ const FoodprintContextProvider: React.FC = (props) => {
       isLoggedIn: isLoggedIn,
       onLogout: logoutHandler,
       onLogin: loginHandler
+    },
+    favorites: {
+      items: favorites,
+      addFavorite: addFavoriteHandler,
+      removeFavorite: removeFavoriteHandler,
+      setFavorites: setFavoriteHandler
     }
   };
 
