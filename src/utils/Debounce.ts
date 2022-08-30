@@ -5,12 +5,13 @@ export const debounce = <T>(
   reset: T,
   x: any,
   y: any,
+  z: any,
   timeout: any
 ) => {
 
   clearTimeout(timeout.current);
   timeout.current = setTimeout(() => {
-    func(x, y)
+    func(x, y, z)
   }, time)
 
   reset;

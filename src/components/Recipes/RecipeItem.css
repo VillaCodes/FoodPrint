@@ -39,6 +39,16 @@ body {
   line-height: 1.8;
 }
 
+.missingIngredients > p {
+  font-size: 15px;
+  text-decoration-line: underline;
+}
+
+.usedIngredients > p {
+  font-size: 15px;
+  text-decoration-line: underline;
+}
+
 .button {
 box-shadow: inset 0px 1px 0px 0px #bee2f9;
 background: linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
