@@ -13,14 +13,16 @@ import {
   logoutUser,
   cookieCheck,
   ingredientList,
-  saveIngredient
+  alterIngredient,
+  alterFavorite
 } from "../controllers/auth.ts";
 
 const router = express.Router();
 
-router.post("/saveIngredient", saveIngredient);
-router.post("/Login", googleLogin, emailCheck, authenticateCRUDUser);
-router.get("/logout", logoutUser);
+router.post("/Login", authenticateGoogleUser, emailCheck, authenticateCRUDUser);
+router.post("/logout", logoutUser);
+router.post("/saveIngredient", alterIngredient);
+router.post("/alterFavorite", alterFavorite);
 router.get("/check", cookieCheck);
 router.post("/list", ingredientList);
 router.get("/register", findUsers);

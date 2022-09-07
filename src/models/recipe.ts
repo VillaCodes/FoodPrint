@@ -1,5 +1,3 @@
-//make sure to change how id is determined.
-
 class Recipe {
   id: number;
   title: string;

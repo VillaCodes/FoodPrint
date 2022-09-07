@@ -26,6 +26,9 @@ const UserSchema = new mongoose.Schema({
   },
   ingredients: {
     type: Array,
+  },
+  favorites: {
+    type: Array
   }
 });
 

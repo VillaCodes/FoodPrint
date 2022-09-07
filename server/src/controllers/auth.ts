@@ -29,6 +29,7 @@ export const emailCheck = async (req: Request, res: Response, next: any) => {
 
       res.locals.id = user?._id;
       res.locals.ingredients = user?.ingredients;
+      res.locals.favorites = user?.favorites;
 
       next();
     } else {
@@ -101,9 +102,9 @@ export const authenticateCRUDUser = async (req: Request, res: Response) => {
         maxAge: 1080000000,
         httpOnly: true
       })
-      res.send({ passwordMatch: true, loggedIn: true, ingredients: res.locals.ingredients });
+      res.send({ passwordMatch: true, loggedIn: true, ingredients: res.locals.ingredients, favorites: res.locals.favorites });
     } else {
-      res.send({passwordMatch: 'You entered an incorrect password'});
+      res.send({ passwordMatch: 'You entered an incorrect password' });
     }
   } catch (error) {
     res.send({error});
@@ -128,7 +129,6 @@ export const registerNewUser = async (req: Request, res: Response) => {
 };
 
 export const logoutUser = async (req: Request, res: Response) => {
-  let string = JSON.stringify(req.cookies["ID"])
     res.cookie('ID', 'none', {
         expires: new Date(Date.now() + 5 * 1000)
     });
@@ -150,11 +150,47 @@ export const ingredientList = async (req: Request, res: Response) => {
   }
 };
 
-export const saveIngredient = async (req: Request, res: Response) => {
+export const alterIngredient = async (req: Request, res: Response) => {
   const user = await User.findById(req.body.id);
-  user?.ingredients.push(req.body.ingredient);
-  res.send(user?.save());
+  let userIngredients = user?.ingredients;
+
+  if (req.body.action === 'add') {
+    userIngredients.push(req.body.ingredient);
+    res.send(user?.save());
+  }
+
+  if (req.body.action === 'remove') {
+    let result = userIngredients.filter(ingredient => ingredient.text !== req.body.ingredient.text);
+    while (userIngredients.length > 0) {
+      userIngredients.pop();
+    }
+    for (let i = 0; i < result.length; i++) {
+      userIngredients.push(result[i]);
+    }
+    res.send(user?.save());
+  }
 };
+
+export const alterFavorite = async (req: Request, res: Response) => {
+  const user = await User.findById(req.body.id);
+  let userFavorites = user?.favorites;
+
+  if (req.body.action === 'add') {
+    userFavorites.push(req.body.recipe);
+    res.send(user?.save());
+  }
+
+  if (req.body.action === 'remove') {
+    let result = userFavorites.filter(recipe => recipe.text !== req.body.favorite.text);
+    while (userFavorites.length > 0) {
+      userIngredients.pop();
+    }
+    for (let i = 0; i < result.length; i++) {
+      userFavorites.push(result[i]);
+    }
+    res.send(user?.save());
+  }
+}
 
 export const findUsers = async (req: Request, res: Response) => {
   const users = await User.find();
