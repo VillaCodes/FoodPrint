@@ -2,7 +2,7 @@
 // @ts-nocheck
 import express  from "express";
 import {
-  authenticateGoogleUser,
+  googleLogin,
   authenticateCRUDUser,
   registerNewUser,
   findUsers,
