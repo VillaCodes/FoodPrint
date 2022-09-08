@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { FoodprintContext } from "../../store/foodprint-context";
 import "./IngredientList.css";
 import { fetchID } from '../../utils/main';
-import { ingredientChange } from '../../utils/main';
+import { fetchFormat } from '../../utils/main';
 
 
 const Ingredients = () => {
@@ -11,8 +11,8 @@ const Ingredients = () => {
 
   const removeIngredientHandler = async (ingredient: {id: string, text: string}) => {
     removeIngredient(ingredient.text);
-    ingredientChange({id: await fetchID(), ingredient: { id: '0', text: ingredient.text }, action: 'remove'})
-  }
+    fetchFormat('http://localhost:4000/removeIngredient' ,'DELETE' ,{id: await fetchID(), ingredient: { id: '0', text: ingredient.text }});
+  };
 
   return (
   <>

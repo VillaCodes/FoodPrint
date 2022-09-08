@@ -2,6 +2,7 @@ import React, { SetStateAction, useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
 import Recipe from '../models/recipe';
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
+import { fetchFormat } from '../utils/main';
 
 type FoodprintContextObj = {
   ingredients: {

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FoodprintContext } from '../../store/foodprint-context';
 import { initialState, reducer } from '../../store/LoginReducer';
 import { validations } from '../../utils/Validation';
+import { fetchFormat } from '../../utils/main';
 import './Register.css';
 import { constants } from '../../utils/Constants';
 
@@ -61,17 +62,9 @@ const Register =  () => {
       "name": state.username,
       "email": state.email,
       "password": state.password
-    }
+    };
 
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }
-
-    const response = await fetch('http://localhost:4000/register', options);
+    const response = await fetchFormat('http://localhost:4000/register', 'POST', data);
     const json = await response.json();
 
     if( !json.emailExists ) {

@@ -8,7 +8,7 @@ const fetchID = async () => {
     headers: {
       "Content-Type": "application/json"
     }
-  })
+  });
   const json = await result.json();
   return encryptor.decrypt(json.id);
 

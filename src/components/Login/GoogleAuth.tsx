@@ -5,6 +5,7 @@ import { useScript } from "../../utils/hooks/useScript";
 import jwt_decode from "jwt-decode";
 import {googleUser} from "../../models/googleUser";
 import { useNavigate } from "react-router-dom";
+import { fetchFormat } from '../../utils/main';
 
 interface User {
   _id: string;
@@ -29,15 +30,7 @@ const GoogleAuth = () => {
       "googleUser": payload
     };
 
-    const options = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    };
-
-    const result = await fetch('http://localhost:4000/Login', options);
+    const result = await fetchFormat('http://localhost:4000/Login', "POST", data);
 
     const json = await result.json();
     onLogin(json.enrolled.email, json.enrolled.name);
