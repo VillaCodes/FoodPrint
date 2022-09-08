@@ -2,6 +2,7 @@ import React, { SetStateAction, useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
 import Recipe from '../models/recipe';
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
+import { fetchFormat } from '../utils/main';
 
 type FoodprintContextObj = {
   ingredients: {
@@ -72,15 +73,7 @@ const FoodprintContextProvider: React.FC = (props) => {
 
   useEffect(() => {
     const cookieCheck = async () => {
-      const result = await fetch('http://localhost:4000/check',
-        {
-          method: "GET",
-          credentials: 'include',
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
+      const result = await fetchFormat('http://localhost:4000/check', 'GET', '')
       const json = await result.json();
 
       if (json.cookiePresent === true) {

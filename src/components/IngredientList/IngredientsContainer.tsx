@@ -3,7 +3,7 @@ import Ingredients from "./Ingredients";
 import "./IngredientList.css"
 import { FoodprintContext } from "../../store/foodprint-context";
 import { fetchID } from '../../utils/main';
-import { ingredientChange } from '../../utils/main';
+import { ingredientAdd } from '../../utils/main';
 
 
 export default function IngredientsContainer () {
@@ -17,7 +17,7 @@ export default function IngredientsContainer () {
      event.preventDefault();
      const formattedIngredient = userIngredient.toLowerCase();
      if (isLoggedIn) {
-       ingredientChange({id: await fetchID(), ingredient: {id: `${items.length}`, text: formattedIngredient}, action: 'add'});
+       ingredientAdd({id: await fetchID(), ingredient: {id: `${items.length}`, text: formattedIngredient}});
      }
      items.map(e => e.text).includes(formattedIngredient) ? null : addIngredient(formattedIngredient);
      setUserIngredient("");

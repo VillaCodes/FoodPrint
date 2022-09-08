@@ -150,47 +150,50 @@ export const ingredientList = async (req: Request, res: Response) => {
   }
 };
 
-export const alterIngredient = async (req: Request, res: Response) => {
+export const addIngredient = async (req: Request, res: Response) => {
   const user = await User.findById(req.body.id);
   let userIngredients = user?.ingredients;
 
-  if (req.body.action === 'add') {
-    userIngredients.push(req.body.ingredient);
-    res.send(user?.save());
-  }
-
-  if (req.body.action === 'remove') {
-    let result = userIngredients.filter(ingredient => ingredient.text !== req.body.ingredient.text);
-    while (userIngredients.length > 0) {
-      userIngredients.pop();
-    }
-    for (let i = 0; i < result.length; i++) {
-      userIngredients.push(result[i]);
-    }
-    res.send(user?.save());
-  }
+  userIngredients.push(req.body.ingredient);
+  res.send(user?.save());
 };
 
-export const alterFavorite = async (req: Request, res: Response) => {
+export const removeIngredient = async (req: Request, res: Reponse) => {
+  const user = await User.findById(req.body.id);
+  let userIngredients = user?.ingredients;
+
+  let result = userIngredients.filter(ingredient => ingredient.text !== req.body.ingredient.text);
+  while (userIngredients.length > 0) {
+    userIngredients.pop();
+  }
+  for (let i = 0; i < result.length; i++) {
+    userIngredients.push(result[i]);
+  }
+  res.send(user?.save());
+}
+
+export const addFavorite = async (req: Request, res: Response) => {
   const user = await User.findById(req.body.id);
   let userFavorites = user?.favorites;
 
-  if (req.body.action === 'add') {
-    userFavorites.push(req.body.recipe);
-    res.send(user?.save());
-  }
 
-  if (req.body.action === 'remove') {
-    let result = userFavorites.filter(recipe => recipe.text !== req.body.favorite.text);
-    while (userFavorites.length > 0) {
-      userIngredients.pop();
-    }
-    for (let i = 0; i < result.length; i++) {
-      userFavorites.push(result[i]);
-    }
-    res.send(user?.save());
+  userFavorites.push(req.body.recipe);
+  res.send(user?.save());
+};
+
+export const removeFavorite = async (req: Request, res: Response) => {
+  const user = await User.findById(req.body.id);
+  let userFavorites = user?.favorites;
+
+  let result = userFavorites.filter(recipe => recipe.text !== req.body.favorite.text);
+  while (userFavorites.length > 0) {
+    userIngredients.pop();
   }
-}
+  for (let i = 0; i < result.length; i++) {
+    userFavorites.push(result[i]);
+  }
+  res.send(user?.save());
+};
 
 export const findUsers = async (req: Request, res: Response) => {
   const users = await User.find();

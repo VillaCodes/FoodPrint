@@ -1,14 +1,9 @@
 import { encryptor } from './Encrypt';
+import fetchFormat from './fetchFormat';
 
 const fetchID = async () => {
 
-  const result = await fetch("http://localhost:4000/check", {
-    method: "GET",
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
+  const result = await fetchFormat("http://localhost:4000/check", "GET", '')
   const json = await result.json();
   return encryptor.decrypt(json.id);
 
