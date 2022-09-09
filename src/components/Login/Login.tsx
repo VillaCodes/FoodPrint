@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FoodprintContext } from '../../store/foodprint-context';
 import { initialState, reducer } from '../../store/LoginReducer';
 import { validations } from '../../utils/Validation';
+import { fetchFormat } from '../../utils/main';
 import GoogleAuth from './GoogleAuth';
 import './Login.css';
 
@@ -56,16 +57,7 @@ const Login = () => {
         password: state.password
       }
 
-      const options = {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      };
-
-      const result = await fetch('http://localhost:4000/Login', options);
+      const result = await fetchFormat('http://localhost:4000/Login', 'POST', data);
       const json = await result.json();
 
       if (json.error) {

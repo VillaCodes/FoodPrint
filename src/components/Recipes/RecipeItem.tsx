@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { FoodprintContext } from "../../store/foodprint-context";
 import { readRecipe } from "../../utils/SpoonacularRequests";
-import { favoriteChange } from '../../utils/main';
+import { fetchFormat } from '../../utils/main';
 import { fetchID } from '../../utils/main';
 
 const RecipeItem: React.FC<{recipeID: number, text: string, image: string, }> = (props) => {
@@ -25,17 +25,17 @@ const RecipeItem: React.FC<{recipeID: number, text: string, image: string, }> = 
  };
 
   const favoriteClickHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault;
+    event.preventDefault();
     addFavorite(props.text, props.recipeID, props.image);
 
-    favoriteChange({
+    fetchFormat('http://localhost:4000/favoriteAdd', 'POST', {
       id: await fetchID(),
       recipe: {
         title: props.text,
         id: props.recipeID,
         image: props.image
-      },
-      action: 'add' });
+      }
+    });
   };
 
   return (
