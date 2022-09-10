@@ -2,7 +2,6 @@ import React, { SetStateAction, useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
 import {Recipe, IngredientSearch, IngredientSearchDefault} from '../models/recipe';
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
-import { fetchFormat } from '../utils/main';
 
 type FoodprintContextObj = {
   ingredients: {
@@ -33,7 +32,7 @@ type FoodprintContextObj = {
   favorites: {
     items: Recipe[];
     addFavorite: (title: string, id: number, image: string) => void;
-    removeFavorite: (id: string) => void;
+    removeFavorite: (id: number) => void;
     setFavorites: ([]) => void;
   }
 }
@@ -67,7 +66,7 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   favorites: {
     items: [],
     addFavorite: (id: string) => undefined,
-    removeFavorite: (id: string) => undefined,
+    removeFavorite: (id: number) => undefined,
     setFavorites: (array: any) => undefined
   }
 });

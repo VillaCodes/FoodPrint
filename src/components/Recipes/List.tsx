@@ -1,7 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useContext} from 'react';
 import Card from '../UI/Card';
 import RecipeItem from './RecipeItem';
 import { Recipe } from '../../models/recipe';
+import { FoodprintContext } from '../../store/foodprint-context';
 
 const List = ({ items }: any) => {
   const [lastElement, setLastElement] = useState<any>(null);
@@ -9,6 +10,18 @@ const List = ({ items }: any) => {
   const recipesPerPage = 10;
   const TOTAL_PAGES = Math.round(items.length/recipesPerPage);
   const renderedItems = items.slice(0, renderingPoint*recipesPerPage)
+
+  const foodprintCtx = useContext(FoodprintContext);
+  const favorites = foodprintCtx.favorites.items;
+
+  const loopCheck = (item: any) => {
+    for (let i = 0; i < favorites.length; i++) {
+      if (item.id === favorites[i].id) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /*
   Initializes intersection observer.
@@ -52,10 +65,10 @@ const List = ({ items }: any) => {
             key={item.id}
             ref={setLastElement}
             >
-              <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} />
+              <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} isFavorite={loopCheck(item)}/>
             </div>
           ) : (
-          <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} />
+          <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} isFavorite={loopCheck(item)}/>
           )
         ))}
       </ul>

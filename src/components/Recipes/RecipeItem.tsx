@@ -8,12 +8,12 @@ import { readRecipe } from "../../utils/SpoonacularRequests";
 import { fetchFormat } from '../../utils/main';
 import { fetchID } from '../../utils/main';
 
-const RecipeItem: React.FC<{recipeID: number, text: string, image: string, }> = (props) => {
+const RecipeItem: React.FC<{ recipeID: number, text: string, image: string, isFavorite: boolean }> = (props) => {
   const navigate = useNavigate();
   const recipeNavigator = () => navigate(`/RecipePage/${props.recipeID.toString()}`)
   const foodprintCtx = useContext(FoodprintContext);
   const setRecipeInfo = foodprintCtx.recipeInfo.setRecipeInfo;
-  const { addFavorite } = foodprintCtx.favorites;
+  const { addFavorite, removeFavorite } = foodprintCtx.favorites;
   const { isLoggedIn } = foodprintCtx.login;
   const searchResultInfo = foodprintCtx.recipeSearchResults.items;
 
@@ -27,16 +27,27 @@ const RecipeItem: React.FC<{recipeID: number, text: string, image: string, }> = 
 
   const favoriteClickHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addFavorite(props.text, props.recipeID, props.image);
-
-    fetchFormat('http://localhost:4000/favoriteAdd', 'POST', {
-      id: await fetchID(),
-      recipe: {
-        title: props.text,
-        id: props.recipeID,
-        image: props.image
-      }
-    });
+    if (!props.isFavorite) {
+      addFavorite(props.text, props.recipeID, props.image);
+      fetchFormat('http://localhost:4000/favoriteAdd', 'POST', {
+        id: await fetchID(),
+        recipe: {
+          title: props.text,
+          id: props.recipeID,
+          image: props.image
+        }
+      });
+    } else {
+      removeFavorite(props.recipeID);
+      fetchFormat('http://localhost:4000/favoriteRemove', 'DELETE', {
+        id: await fetchID(),
+        recipe: {
+          title: props.text,
+          id: props.recipeID,
+          image: props.image
+        }
+      })
+    }
   };
 
   const searchResult = searchResultInfo.filter((recipeItem) => props.recipeID === recipeItem.id)[0]
@@ -64,13 +75,15 @@ const RecipeItem: React.FC<{recipeID: number, text: string, image: string, }> = 
           <p>{searchResult.usedIngredientCount} {searchResult.usedIngredientCount > 1 ? `Current Ingredients:` : `Current Ingredient:`}</p>
           <ul>{usedIngredientList}</ul>
         </div>
-
-        <button className="button" onClick={fetchRecipeData}>
-          <i className="fa-fa-chevron-right" />Recipe
-        </button>
-        {isLoggedIn && <button className="favorite" onClick={favoriteClickHandler}>
-          Fav
-        </button>}
+        
+        <div className="flex-container">
+          <button className="button" onClick={fetchRecipeData}>
+            <i className="fa-fa-chevron-right" />Recipe
+          </button >
+          {isLoggedIn && <div className="favorite" onClick={favoriteClickHandler}>
+            {!props.isFavorite ? <div className="noheart"></div> : <div className="heart"></div>}
+          </div>}
+        </div>
       </Card>
     </li>
   );

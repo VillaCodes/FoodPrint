@@ -14,7 +14,6 @@ const Recipes: React.FC = () => {
   const setRecipeSearchResults: (response: IngredientSearch[]) => void = foodprintCtx.recipeSearchResults.setRecipeSearchResults;
   const { itemsReset, items } = foodprintCtx.recipes;
   const ingredientList = foodprintCtx.ingredients.items;
-  const isLoggedIn = foodprintCtx.login.isLoggedIn;
   const timeout = useRef();
 
   useEffect(() => {
@@ -29,10 +28,11 @@ const Recipes: React.FC = () => {
 
   return (
     <>
-      { items.length > 0 && <List items={ foodprintCtx.recipes.items } /> }
-      <Card class='card'>
-          { items.length === 0 && <h3>Start building your foodprint by adding ingredients to your pantry!</h3> }
-      </Card>
+      { items.length > 0 ? <List items={ foodprintCtx.recipes.items } /> : (
+        <Card class='card'>
+            <h3>Start building your foodprint by adding ingredients to your pantry!</h3>
+        </Card>
+      )}
     </>
   );
 };
