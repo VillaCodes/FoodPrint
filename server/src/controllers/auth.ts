@@ -184,9 +184,9 @@ export const removeFavorite = async (req: Request, res: Response) => {
   const user = await User.findById(req.body.id);
   let userFavorites = user?.favorites;
 
-  let result = userFavorites.filter(recipe => recipe.text !== req.body.favorite.text);
+  let result = userFavorites.filter(recipe => recipe.title !== req.body.recipe.title);
   while (userFavorites.length > 0) {
-    userIngredients.pop();
+    userFavorites.pop();
   }
   for (let i = 0; i < result.length; i++) {
     userFavorites.push(result[i]);
