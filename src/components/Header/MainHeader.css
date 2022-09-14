@@ -9,6 +9,7 @@
   background: #191F2B;
   padding: 0 2rem;
   align-items: center;
+  z-index: 1;
 }
 
 .main-header h1 {

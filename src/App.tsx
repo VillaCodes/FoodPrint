@@ -8,8 +8,8 @@ import MainHeader from './components/Header/MainHeader';
 function App() {
   return (
     <FoodprintContextProvider>
-    <MainHeader />
       <div className="App">
+        <MainHeader />
         <Routes>
           <Route path="*" element = {<Layout />}/>
         </Routes>
