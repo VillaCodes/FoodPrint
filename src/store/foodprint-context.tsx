@@ -1,6 +1,6 @@
 import React, { SetStateAction, useState, useEffect } from 'react';
 import Ingredients from '../models/ingredients';
-import Recipe from '../models/recipe';
+import {Recipe, IngredientSearch, IngredientSearchDefault} from '../models/recipe';
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
 import { fetchFormat } from '../utils/main';
 
@@ -15,6 +15,11 @@ type FoodprintContextObj = {
     items: Recipe[];
     addRecipe: (title: string, id: number, image: string) => void;
     itemsReset: () => void;
+  },
+  recipeSearchResults: {
+    items: IngredientSearch[];
+    searchResultReset: () => void;
+    setRecipeSearchResults: (response:IngredientSearch[]) => void;
   },
   recipeInfo: {
     items: RecipeInfo;
@@ -46,6 +51,11 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     addRecipe: (text: string) => undefined,
     itemsReset: () => undefined
   },
+  recipeSearchResults: {
+    items: [],
+    searchResultReset: () => undefined,
+    setRecipeSearchResults: (response: IngredientSearch[]) => undefined
+  },
   recipeInfo: {
     items: RecipeInfoDefault,
     recipeInfoReset: () => undefined,
@@ -70,6 +80,7 @@ const FoodprintContextProvider: React.FC = (props) => {
   const [ favorites, setFavorites ] = useState<Recipe[]>([]);
   const [ recipeInfo, setRecipeInfo ] = useState<RecipeInfo>(RecipeInfoDefault);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [recipeSearchResults, setRecipeSearchResults] = useState<IngredientSearch[]>([IngredientSearchDefault])
 
   useEffect(() => {
     const cookieCheck = async () => {
@@ -168,6 +179,15 @@ const FoodprintContextProvider: React.FC = (props) => {
     setFavorites(array);
   };
 
+  const searchResultResetHandler = () => {
+    return setRecipeSearchResults([IngredientSearchDefault]);
+  }
+
+  const addSearchResultsHandler = (response: IngredientSearch[]) => {
+    setRecipeSearchResults(response)
+  }
+
+
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
       items: ingredients,
@@ -179,6 +199,11 @@ const FoodprintContextProvider: React.FC = (props) => {
       items: recipes,
       addRecipe: addRecipeHandler,
       itemsReset: itemsResetHandler
+    },
+    recipeSearchResults: {
+      items: recipeSearchResults,
+      searchResultReset: searchResultResetHandler,
+      setRecipeSearchResults: addSearchResultsHandler,
     },
     recipeInfo: {
       items: recipeInfo,

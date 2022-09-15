@@ -65,3 +65,13 @@ background-color: #468ccf;
 position: relative;
 top: 1px;
 } 
+
+.missingIngredients > p {
+  font-size: 15px;
+  text-decoration-line: underline;
+}
+
+.usedIngredients > p {
+  font-size: 15px;
+  text-decoration-line: underline;
+}

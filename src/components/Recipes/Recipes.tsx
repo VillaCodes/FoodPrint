@@ -3,6 +3,7 @@ import Card from '../UI/Card';
 import { FoodprintContext } from '../../store/foodprint-context';
 import { fetchData } from '../../utils/SpoonacularRequests';
 import { debounce } from '../../utils/Debounce';
+import { IngredientSearch } from '../../models/recipe';
 import List from './List';
 
 import "./Recipes.css";
@@ -10,6 +11,7 @@ import "./Recipes.css";
 const Recipes: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const addRecipe: (title: string, id: number, image: string) => void = foodprintCtx.recipes.addRecipe;
+  const setRecipeSearchResults: (response: IngredientSearch[]) => void = foodprintCtx.recipeSearchResults.setRecipeSearchResults;
   const { itemsReset, items } = foodprintCtx.recipes;
   const ingredientList = foodprintCtx.ingredients.items;
   const isLoggedIn = foodprintCtx.login.isLoggedIn;
@@ -18,7 +20,7 @@ const Recipes: React.FC = () => {
   useEffect(() => {
     if(ingredientList.length !== 0) {
 
-      debounce(fetchData, 1400, itemsReset(), addRecipe, ingredientList, timeout)
+      debounce(fetchData, 1400, itemsReset(), addRecipe, setRecipeSearchResults, ingredientList, timeout)
 
     } else {
       return;
