@@ -18,7 +18,6 @@ type FoodprintContextObj = {
   },
   recipeSearchResults: {
     items: IngredientSearch[];
-    searchResultReset: () => void;
     setRecipeSearchResults: (response:IngredientSearch[]) => void;
   },
   recipeInfo: {
@@ -53,7 +52,6 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   },
   recipeSearchResults: {
     items: [],
-    searchResultReset: () => undefined,
     setRecipeSearchResults: (response: IngredientSearch[]) => undefined
   },
   recipeInfo: {
@@ -80,7 +78,7 @@ const FoodprintContextProvider: React.FC = (props) => {
   const [ favorites, setFavorites ] = useState<Recipe[]>([]);
   const [ recipeInfo, setRecipeInfo ] = useState<RecipeInfo>(RecipeInfoDefault);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
-  const [recipeSearchResults, setRecipeSearchResults] = useState<IngredientSearch[]>([IngredientSearchDefault])
+  const [ recipeSearchResults, setRecipeSearchResults ] = useState<IngredientSearch[]>([IngredientSearchDefault]);
 
   useEffect(() => {
     const cookieCheck = async () => {
@@ -179,14 +177,6 @@ const FoodprintContextProvider: React.FC = (props) => {
     setFavorites(array);
   };
 
-  const searchResultResetHandler = () => {
-    return setRecipeSearchResults([IngredientSearchDefault]);
-  }
-
-  const addSearchResultsHandler = (response: IngredientSearch[]) => {
-    setRecipeSearchResults(response)
-  }
-
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -202,8 +192,7 @@ const FoodprintContextProvider: React.FC = (props) => {
     },
     recipeSearchResults: {
       items: recipeSearchResults,
-      searchResultReset: searchResultResetHandler,
-      setRecipeSearchResults: addSearchResultsHandler,
+      setRecipeSearchResults: setRecipeSearchResults,
     },
     recipeInfo: {
       items: recipeInfo,

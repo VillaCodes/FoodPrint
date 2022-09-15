@@ -66,12 +66,7 @@ position: relative;
 top: 1px;
 } 
 
-.missingIngredients > p {
-  font-size: 15px;
-  text-decoration-line: underline;
-}
-
-.usedIngredients > p {
-  font-size: 15px;
+.ingredients-container > p {
+  font-size: 1rem;
   text-decoration-line: underline;
 }

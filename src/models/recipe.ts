@@ -62,4 +62,4 @@ const IngredientSearchDefault: IngredientSearch = {
   }],
 }
 
-export {Recipe, IngredientSearch, IngredientSearchDefault}
+export { Recipe, IngredientSearch, IngredientSearchDefault };
