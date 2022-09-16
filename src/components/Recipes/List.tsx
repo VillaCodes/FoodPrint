@@ -10,7 +10,6 @@ const List = ({ items }: any) => {
   const recipesPerPage = 10;
   const TOTAL_PAGES = Math.round(items.length/recipesPerPage);
   const renderedItems = items.slice(0, renderingPoint*recipesPerPage)
-
   const foodprintCtx = useContext(FoodprintContext);
   const favorites = foodprintCtx.favorites.items;
 

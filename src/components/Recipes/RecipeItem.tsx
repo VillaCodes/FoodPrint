@@ -65,7 +65,7 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string, isFa
       <Card class='recipeCard'>
         <img className="card-header" src={props.image} />
         <h2>{props.text}</h2>
-
+        
         <div className="ingredients-container">
           <p>{searchResult.missedIngredientCount} {searchResult.missedIngredientCount > 1 && searchResult.missedIngredientCount !== 0 ? `Missing Ingredients:` : `Missing Ingredient:`}</p>
           <ul>{missingIngredientList}</ul>
