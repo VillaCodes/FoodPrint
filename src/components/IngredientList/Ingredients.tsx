@@ -4,8 +4,8 @@ import "./IngredientList.css";
 import { fetchID } from '../../utils/main';
 import { fetchFormat } from '../../utils/main';
 
-
 const Ingredients = () => {
+
   const { ingredients } = useContext(FoodprintContext);
   const { items, removeIngredient } = ingredients;
 

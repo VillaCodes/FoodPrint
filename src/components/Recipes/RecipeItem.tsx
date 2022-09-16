@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { FoodprintContext } from "../../store/foodprint-context";
 import { readRecipe } from "../../utils/SpoonacularRequests";
-import { fetchFormat } from '../../utils/main';
-import { fetchID } from '../../utils/main';
+import { fetchFormat, fetchID } from '../../utils/main';
 
-const RecipeItem: React.FC<{ recipeID: number, text: string, image: string, isFavorite: boolean }> = (props) => {
+const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = (props) => {
   const navigate = useNavigate();
   const recipeNavigator = () => navigate(`/RecipePage/${props.recipeID.toString()}`)
   const foodprintCtx = useContext(FoodprintContext);
   const setRecipeInfo = foodprintCtx.recipeInfo.setRecipeInfo;
-  const { addFavorite, removeFavorite } = foodprintCtx.favorites;
+  const { addFavorite, removeFavorite, isFavorite, items } = foodprintCtx.favorites;
   const { isLoggedIn } = foodprintCtx.login;
+  let favCheck = isFavorite(props.recipeID, items);
 
   async function fetchRecipeData () {
    const data = await readRecipe(props.recipeID.toString());
@@ -26,26 +26,22 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string, isFa
 
   const favoriteClickHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!props.isFavorite) {
+
+    const recipeBody = {
+      id: await fetchID(),
+      recipe: {
+        title: props.text,
+        id: props.recipeID,
+        image: props.image
+      }
+    }
+
+    if (!favCheck) {
       addFavorite(props.text, props.recipeID, props.image);
-      fetchFormat('http://localhost:4000/favoriteAdd', 'POST', {
-        id: await fetchID(),
-        recipe: {
-          title: props.text,
-          id: props.recipeID,
-          image: props.image
-        }
-      });
+      fetchFormat('http://localhost:4000/favoriteAdd', 'POST', recipeBody);
     } else {
       removeFavorite(props.recipeID);
-      fetchFormat('http://localhost:4000/favoriteRemove', 'DELETE', {
-        id: await fetchID(),
-        recipe: {
-          title: props.text,
-          id: props.recipeID,
-          image: props.image
-        }
-      })
+      fetchFormat('http://localhost:4000/favoriteRemove', 'DELETE', recipeBody)
     }
   };
 
@@ -59,7 +55,7 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string, isFa
             <i className="fa-fa-chevron-right" />Recipe
           </button >
           {isLoggedIn && <div className="favorite" onClick={favoriteClickHandler}>
-            {!props.isFavorite ? <div className="noheart"></div> : <div className="heart"></div>}
+            {!favCheck ? <div className="noheart"></div> : <div className="heart"></div>}
           </div>}
         </div>
       </Card>
