@@ -7,5 +7,4 @@ export const onCallHandler = (response: [{'title': string, 'id': number, 'image'
     return a;
   }, []);
  setRecipes(recipes)
-
 };
