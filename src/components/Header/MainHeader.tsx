@@ -10,7 +10,7 @@ const MainHeader = () => {
   const { setItems } = foodprintCtx.ingredients;
   const { setFavorites } = foodprintCtx.favorites;
   const { itemsReset } = foodprintCtx.recipes;
-  let nav = useNavigate();
+  const nav = useNavigate();
 
   const loggingOut = () => {
     setItems([]);
@@ -18,7 +18,7 @@ const MainHeader = () => {
     itemsReset();
     onLogout();
     nav('/');
-  }
+  };
 
   return (
     <header className='main-header'>
@@ -47,7 +47,7 @@ const MainHeader = () => {
       )}
 
     </header>
-  )
-}
+  );
+};
 
 export default MainHeader;

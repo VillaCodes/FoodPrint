@@ -63,8 +63,13 @@ body {
 }
 
 .button:active {
-  position: relative;
-  top: 1px;
+position: relative;
+top: 1px;
+} 
+
+.ingredients-container > p {
+  font-size: 1rem;
+  text-decoration-line: underline;
 }
 
 .flex-container {
