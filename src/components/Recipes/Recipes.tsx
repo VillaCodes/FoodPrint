@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useCallback } from 'react';
 import Card from '../UI/Card';
 import { FoodprintContext } from '../../store/foodprint-context';
 import { fetchData } from '../../utils/SpoonacularRequests';
 import { debounce } from '../../utils/Debounce';
+import { IngredientSearch } from '../../models/recipe';
 import List from './List';
 
 import "./Recipes.css";
@@ -19,8 +20,9 @@ const Recipes: React.FC = () => {
 
       debounce(fetchData, 1400, setRecipes, ingredientList, timeout);
 
-    } else {
-      return;
+  useEffect(() => {
+      if (ingredientList.length) {
+      debouncer()
     }
   }, [ingredientList]);
 

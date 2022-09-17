@@ -10,12 +10,12 @@ const MainHeader = () => {
   const { setFavorites } = foodprintCtx.favorites;
   let nav = useNavigate();
 
+
   const loggingOut = () => {
-    //just reset the state you puta
     setFavorites([]);
     onLogout();
     nav('/');
-  }
+  };
 
   return (
     <header className='main-header'>
@@ -44,7 +44,7 @@ const MainHeader = () => {
       )}
 
     </header>
-  )
-}
+  );
+};
 
 export default MainHeader;

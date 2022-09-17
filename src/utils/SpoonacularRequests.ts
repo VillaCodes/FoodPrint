@@ -1,5 +1,6 @@
 import { onCallHandler } from './AddOnCall';
 import './SpoonacularRequests.css';
+import { IngredientSearch } from '../models/recipe';
 
 const headers = new Headers();
 headers.append("Content-Type", "application/json");
@@ -20,8 +21,9 @@ export const fetchData = async(setRecipes: (title:string, id:number, image: stri
   }
   const call = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=4ad2e55c89c34d01ba19dc4499c901ca&ingredients=${ingredientSearch(ingredientList)}`);
 
+  if (call.ok) {
   const response = await call.json();
-
+  
   onCallHandler(response, setRecipes, 10);
 }
 

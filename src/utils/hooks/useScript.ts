@@ -17,7 +17,5 @@ export const useScript = (url: string, onload: any) => {
         document.head.appendChild(script);
 
         () => document.head.removeChild(script);
-
-        return; 
     }, [url, onload]);
 };
