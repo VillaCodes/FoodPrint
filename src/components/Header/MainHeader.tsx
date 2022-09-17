@@ -7,15 +7,12 @@ import { FoodprintContext } from '../../store/foodprint-context';
 const MainHeader = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const { isLoggedIn, onLogout } = foodprintCtx.login;
-  const { setItems } = foodprintCtx.ingredients;
   const { setFavorites } = foodprintCtx.favorites;
-  const { itemsReset } = foodprintCtx.recipes;
   let nav = useNavigate();
 
   const loggingOut = () => {
-    setItems([]);
+    //just reset the state you puta
     setFavorites([]);
-    itemsReset();
     onLogout();
     nav('/');
   }

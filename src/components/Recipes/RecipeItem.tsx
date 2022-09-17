@@ -11,7 +11,7 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
   const navigate = useNavigate();
   const recipeNavigator = () => navigate(`/RecipePage/${props.recipeID.toString()}`)
   const foodprintCtx = useContext(FoodprintContext);
-  const setRecipeInfo = foodprintCtx.recipeInfo.setRecipeInfo;
+  const setRecipesInfo = foodprintCtx.recipeInfo.setRecipesInfo;
   const { addFavorite, removeFavorite, isFavorite, items } = foodprintCtx.favorites;
   const { isLoggedIn } = foodprintCtx.login;
   let favCheck = isFavorite(props.recipeID, items);
@@ -19,7 +19,7 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
   async function fetchRecipeData () {
    const data = await readRecipe(props.recipeID.toString());
 
-   setRecipeInfo(data);
+   setRecipesInfo(data);
 
    recipeNavigator();
  };

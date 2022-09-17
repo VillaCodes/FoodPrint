@@ -1,7 +1,10 @@
-export const onCallHandler = (response: [{'title': string, 'id': number, 'image': string}], addRecipe: (title:string, id:number, image:string) => void, limit: number) => {
+export const onCallHandler = (response: [{'title': string, 'id': number, 'image': string}], setRecipes: (arr: any) => void) => {
 
-  for(let i = 0; i < limit; i++) {
-    const { title, id, image } = response[i]
-    addRecipe(title, id, image)
-  }
+  const recipes: any[] = response.reduce((a: {}[], e: any) => {
+    const { title, id, image } = e;
+    a.push({ title, id, image });
+    return a;
+  }, []);
+ setRecipes(recipes)
+
 };

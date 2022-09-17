@@ -2,7 +2,6 @@
 export const debounce = <T>(
   func: any,
   time: number,
-  reset: T,
   x: any,
   y: any,
   timeout: any
@@ -13,5 +12,5 @@ export const debounce = <T>(
     func(x, y)
   }, time)
 
-  reset;
+  x([]);
 }
