@@ -5,7 +5,9 @@ export const constants = {
   ATTEMPT_SUCCESS: 'loginSuccess',
   ATTEMPT_FAILED: 'loginFailed',
   SET_BUTTON_DISABLED: 'setIsButtonDisabled',
-  SET_ERROR: 'setIsError'
+  SET_ERROR: 'setIsError',
+  SET_ID: 'setID',
+  RESET: 'reset'
 };
 export const allowedMethods = [
   "OPTIONS",
@@ -15,5 +17,5 @@ export const allowedMethods = [
   "POST",
   "PUT",
   "DELETE",
-  "PATCH",
+  "PATCH"
 ]

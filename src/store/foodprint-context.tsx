@@ -34,6 +34,7 @@ type FoodprintContextObj = {
     addFavorite: (title: string, id: number, image: string) => void;
     removeFavorite: (id: number) => void;
     setFavorites: ([]) => void;
+    isFavorite: (items: any, favorites: any) => boolean;
   }
 }
 
@@ -67,7 +68,8 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     items: [],
     addFavorite: (id: string) => undefined,
     removeFavorite: (id: number) => undefined,
-    setFavorites: (array: any) => undefined
+    setFavorites: (array: any) => undefined,
+    isFavorite: () => false
   }
 });
 
@@ -176,6 +178,14 @@ const FoodprintContextProvider: React.FC = (props) => {
     setFavorites(array);
   };
 
+  const isFavoriteHandler = (id: number, favorites: any) => {
+    for (let i = 0; i < favorites.length; i++) {
+      if (id === favorites[i].id) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -207,7 +217,8 @@ const FoodprintContextProvider: React.FC = (props) => {
       items: favorites,
       addFavorite: addFavoriteHandler,
       removeFavorite: removeFavoriteHandler,
-      setFavorites: setFavoriteHandler
+      setFavorites: setFavoriteHandler,
+      isFavorite: isFavoriteHandler
     }
   };
 
