@@ -1,11 +1,11 @@
 export const constants = {
-  SET_USERNAME: 'setUsername',
-  SET_PASSWORD:  'setPassword',
-  SET_EMAIL: 'setEmail',
-  ATTEMPT_SUCCESS: 'loginSuccess',
-  ATTEMPT_FAILED: 'loginFailed',
-  SET_BUTTON_DISABLED: 'setIsButtonDisabled',
-  SET_ERROR: 'setIsError'
+  SET_INGREDIENTS: 'setIngredients',
+  SET_RECIPES: 'setRecipess',
+  SET_RECIPE_INFO: 'setRecipesInfo',
+  SET_FAVORITES: 'setFavorites',
+  SET_IS_LOGGED_IN: 'setIsLoggedIn',
+  SET_ID: 'setID',
+  RESET: 'reset'
 };
 export const allowedMethods = [
   "OPTIONS",
@@ -15,5 +15,5 @@ export const allowedMethods = [
   "POST",
   "PUT",
   "DELETE",
-  "PATCH",
+  "PATCH"
 ]

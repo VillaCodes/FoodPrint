@@ -7,7 +7,6 @@ headers.append("Content-Type", "application/json");
 
 export const fetchData = async(addRecipe: (title:string, id:number, image: string)=> void, setRecipeSearchResults: (response: IngredientSearch[]) => void, searchString: string) => {
 
-
   const call = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=73a82c046a6043fd8fd23732ec9380c7&ingredients=${searchString}&number=50`);
 
   if (call.ok) {

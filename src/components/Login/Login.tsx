@@ -1,25 +1,22 @@
-import React, { useReducer, useEffect, useContext, useRef } from 'react'
+import React, { useEffect, useContext, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { FoodprintContext } from '../../store/foodprint-context';
-import { initialState, reducer } from '../../store/LoginReducer';
 import { validations } from '../../utils/Validation';
 import { fetchFormat } from '../../utils/main';
 import GoogleAuth from './GoogleAuth';
 import './Login.css';
 
-import { constants } from '../../utils/Constants';
-
-const {
-  SET_EMAIL,
-  SET_PASSWORD,
-  ATTEMPT_SUCCESS,
-  ATTEMPT_FAILED,
-  SET_BUTTON_DISABLED
-} = constants;
-
-
 const Login = () => {
-  const [ state, dispatch ] = useReducer(reducer, initialState);
+  const [ inputObj, setInputObj ] = useState({
+    name: '',
+    password: '',
+    email: '',
+    isButtonDisabled: true,
+    error: {
+      errorPresent: false,
+      helperText: ''
+    }
+  });
   const foodprintCtx = useContext(FoodprintContext);
   const isMounted = useRef(true);
   const nav = useNavigate();
@@ -35,75 +32,62 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if (validations.email(state.email.trim()) && validations.password(state.password.trim())) {
-     dispatch({
-       type: SET_BUTTON_DISABLED,
-       payload: false
-     });
+    if (!validations.email(inputObj.email.trim()) || !validations.password(inputObj.password.trim())) {
+     setInputObj((prevState) => ({
+       ...prevState,
+       isButtonDisabled: true
+     }));
     } else {
-      dispatch({
-        type: SET_BUTTON_DISABLED,
-        payload: true
-      });
+      setInputObj((prevState) => ({
+        ...prevState,
+        isButtonDisabled: false
+      }));
     }
-  }, [ state.email, state.password ]);
+  }, [ inputObj.email, inputObj.password, inputObj.error ]);
 
-  const loginHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const loginHandler: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault();
 
     if (isMounted.current) {
       const data = {
-        email: state.email,
-        password: state.password
+        email: inputObj.email,
+        password: inputObj.password
       }
 
       const result = await fetchFormat('http://localhost:4000/Login', 'POST', data);
       const json = await result.json();
 
       if (json.error) {
-        return dispatch({
-          type: ATTEMPT_FAILED,
-          payload: 'Something went wrong, please refresh the page'
-        })
-      }
-
-      if (json.emailCheck) {
-        return dispatch({
-          type: ATTEMPT_FAILED,
-          payload: `${json.emailCheck}`
-        })
-      }
-
-      if (json.passwordMatch === true) {
+        return setInputObj((prevState) => ({
+          ...prevState,
+          error: {
+            errorPresent: true,
+            helperText: json.error
+          }
+        }));
+      } else {
         setItems(json.ingredients);
         setFavorites(json.favorites);
         onLogin(json.loggedIn);
         nav('/');
-        return dispatch({
-          type: ATTEMPT_SUCCESS,
-          payload: 'Login Successful'
-        })
-      } else {
-        return dispatch({
-          type: ATTEMPT_FAILED,
-          payload: `${json.passwordMatch}`
-        })
+        // set userId to state before return
+        return;
       }
     }
-  };
+  }
 
   const emailChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    dispatch({
-      type: SET_EMAIL,
-      payload: event.target.value
-    });
+    setInputObj((prevState) => ({
+      ...prevState,
+      email: event.target.value
+    }));
   };
 
   const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    dispatch({
-      type: SET_PASSWORD,
-      payload: event.target.value
-    });
+    setInputObj((prevState) => ({
+      ...prevState,
+      password: event.target.value
+    }));
   };
 
   return (
@@ -130,12 +114,11 @@ const Login = () => {
               />
             </div>
           </>
-
           <GoogleAuth />
 
-          {state.isError && <span style={{color: "red"}}>{state.helperText}</span>}
+          {inputObj.error.errorPresent && <span style={{color: "red"}}>{inputObj.error.helperText}</span>}
 
-          <button className="login-button" onClick={loginHandler} disabled={state.isButtonDisabled}>
+          <button className="login-button" onClick={loginHandler} disabled={inputObj.isButtonDisabled}>
             Login
           </button>
 

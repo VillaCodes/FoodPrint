@@ -33,7 +33,7 @@ export const emailCheck = async (req: Request, res: Response, next: any) => {
 
       next();
     } else {
-      res.send({emailCheck: 'Please enter a valid email'});
+      res.send({ error: 'Please enter a valid email' });
     }
   } catch (error) {
     res.send(error);
@@ -63,7 +63,7 @@ export const validateUser = async (req: Request, res: Response, next: any) => {
     }
 
     if (responseStr.length > 0) {
-      res.send({errorMessage: `${responseStr}`});
+      res.send({error: `${responseStr}`});
     } else {
       next();
     }
@@ -104,7 +104,7 @@ export const authenticateCRUDUser = async (req: Request, res: Response) => {
       })
       res.send({ passwordMatch: true, loggedIn: true, ingredients: res.locals.ingredients, favorites: res.locals.favorites });
     } else {
-      res.send({ passwordMatch: 'You entered an incorrect password' });
+      res.send({ error: 'You entered an incorrect password' });
     }
   } catch (error) {
     res.send({error});
