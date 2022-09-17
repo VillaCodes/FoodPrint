@@ -5,18 +5,26 @@ import { IngredientSearch } from '../models/recipe';
 const headers = new Headers();
 headers.append("Content-Type", "application/json");
 
-export const fetchData = async(addRecipe: (title:string, id:number, image: string)=> void, setRecipeSearchResults: (response: IngredientSearch[]) => void, searchString: string) => {
+export const fetchData = async(setRecipes: (title:string, id:number, image: string)=> void, ingredientList: any) => {
+  const ingredientSearch = (ingredients: any) => {
 
-
-  const call = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=73a82c046a6043fd8fd23732ec9380c7&ingredients=${searchString}&number=50`);
+    let searchString = '';
+    for(let i = 0; i < ingredients.length; i++) {
+      if (i !== ingredients.length - 1) {
+        searchString += (ingredients[i].text +  ',+' );
+      } else {
+        searchString += ingredients[i].text;
+        break;
+      }
+    }
+    return searchString;
+  }
+  const call = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=4ad2e55c89c34d01ba19dc4499c901ca&ingredients=${ingredientSearch(ingredientList)}`);
 
   if (call.ok) {
   const response = await call.json();
-
-  setRecipeSearchResults(response);
-
-  onCallHandler(response, addRecipe);
-  }
+  
+  onCallHandler(response, setRecipes, 10);
 }
 
 export const readRecipe = async(recipeId: string) => {

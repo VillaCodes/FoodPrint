@@ -8,13 +8,13 @@ import { Steps } from "../../models/recipeInfo";
 const RecipePage: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const recipeInfo = foodprintCtx.recipeInfo.items;
-  const setRecipeInfo = foodprintCtx.recipeInfo.setRecipeInfo;
+  const setRecipesInfo = foodprintCtx.recipeInfo.setRecipesInfo;
 
   const {recipeID} = useParams();
 
   useEffect(() => {
     if (recipeID) {
-    readRecipe(recipeID).then((response) => setRecipeInfo(response))
+    readRecipe(recipeID).then((response) => setRecipesInfo(response))
     }
 }, [recipeID]);
 

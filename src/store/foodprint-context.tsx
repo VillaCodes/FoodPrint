@@ -1,7 +1,20 @@
-import React, { SetStateAction, useState, useEffect } from 'react';
+import React, { SetStateAction, useEffect, useReducer } from 'react';
 import Ingredients from '../models/ingredients';
 import {Recipe, IngredientSearch, IngredientSearchDefault} from '../models/recipe';
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
+import { initialState, reducer } from './foodprintReducer';
+import { constants } from '../utils/Constants';
+import { fetchID } from '../utils/main';
+
+const {
+  SET_ID,
+  RESET,
+  SET_RECIPES,
+  SET_FAVORITES,
+  SET_INGREDIENTS,
+  SET_RECIPE_INFO,
+  SET_IS_LOGGED_IN
+} = constants;
 
 type FoodprintContextObj = {
   ingredients: {
@@ -12,8 +25,7 @@ type FoodprintContextObj = {
   },
   recipes: {
     items: Recipe[];
-    addRecipe: (title: string, id: number, image: string) => void;
-    itemsReset: () => void;
+    setRecipes: ([]) => void;
   },
   recipeSearchResults: {
     items: IngredientSearch[];
@@ -21,13 +33,13 @@ type FoodprintContextObj = {
   },
   recipeInfo: {
     items: RecipeInfo;
-    recipeInfoReset: () => void;
     setRecipeInfo: React.Dispatch<SetStateAction<RecipeInfo>>
   },
   login: {
     isLoggedIn: boolean,
     onLogout: () => void;
-    onLogin: (loggedIn: boolean) => void
+    onLogin: (loggedIn: boolean) => void,
+    id: any
   },
   favorites: {
     items: Recipe[];
@@ -36,19 +48,17 @@ type FoodprintContextObj = {
     setFavorites: ([]) => void;
     isFavorite: (items: any, favorites: any) => boolean;
   }
-}
+};
 
 export const FoodprintContext = React.createContext<FoodprintContextObj>({
   ingredients: {
     items: [],
     addIngredient: (text: string) => undefined,
-    removeIngredient: () => undefined,
-    setItems: (array: any) => undefined
+    removeIngredient: () => undefined
   },
   recipes: {
     items: [],
-    addRecipe: (text: string) => undefined,
-    itemsReset: () => undefined
+    setRecipes: ([]) => undefined,
   },
   recipeSearchResults: {
     items: [],
@@ -56,13 +66,13 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   },
   recipeInfo: {
     items: RecipeInfoDefault,
-    recipeInfoReset: () => undefined,
     setRecipeInfo: () => undefined
   },
   login: {
     isLoggedIn: false,
     onLogout: () => undefined,
-    onLogin: (loggedIn: boolean) => undefined
+    onLogin: (loggedIn: boolean) => undefined,
+    id: ''
   },
   favorites: {
     items: [],
@@ -74,12 +84,7 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
 });
 
 const FoodprintContextProvider: React.FC = (props) => {
-  const [ ingredients, setIngredients ] = useState<Ingredients[]>([]);
-  const [ recipes, setRecipes ] = useState<Recipe[]>([]);
-  const [ favorites, setFavorites ] = useState<Recipe[]>([]);
-  const [ recipeInfo, setRecipeInfo ] = useState<RecipeInfo>(RecipeInfoDefault);
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
-  const [ recipeSearchResults, setRecipeSearchResults ] = useState<IngredientSearch[]>([IngredientSearchDefault]);
+  const [ state, dispatch ] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const cookieCheck = async () => {
@@ -95,41 +100,32 @@ const FoodprintContextProvider: React.FC = (props) => {
       const json = await result.json();
 
       if (json.cookiePresent === true) {
-        setIsLoggedIn(true);
+        dispatch({
+          type: SET_IS_LOGGED_IN,
+          payload: true
+        });
       }
     }
 
     cookieCheck();
   }, []);
 
-  const addRecipeHandler = (recipeText: string, recipeID: number, recipeImage: string) => {
-    const newRecipe = new Recipe(recipeText, recipeID, recipeImage);
-    setRecipes((prevRecipe) => {
-      return [...prevRecipe, newRecipe];
-    });
-  }
-
-  const itemsResetHandler = () => {
-    return setRecipes([]);
-  }
-
   const addIngredientHandler = (ingredientText: string) => {
     const newIngredient = new Ingredients(ingredientText);
-
-    setIngredients((prevIngredients) => {
-      return prevIngredients.concat(newIngredient);
+    const updatedIngredients = state.ingredients.concat(newIngredient);
+    dispatch({
+      type: SET_INGREDIENTS,
+      payload: updatedIngredients
     });
   };
 
   const removeIngredientHandler = (ingredient: string) => {
-    setIngredients((prevIngredients) => {
-      return prevIngredients.filter(item => item.text !== ingredient);
+    const updatedIngredients =  state.ingredients.filter((prevIngredient: Ingredients) => prevIngredient.text !== ingredient)
+    dispatch({
+      type: SET_INGREDIENTS,
+      payload: updatedIngredients
     });
   };
-
-  const recipeInfoResetHandler = () => {
-    return setRecipeInfo(RecipeInfoDefault);
-  }
 
   const logoutHandler = async () => {
     try{
@@ -144,77 +140,113 @@ const FoodprintContextProvider: React.FC = (props) => {
     );
       const json = await result.json();
 
-      setIsLoggedIn(false);
+      dispatch({
+        type: SET_IS_LOGGED_IN,
+        payload: false
+      })
+      dispatch({
+        type: RESET
+      })
     } catch (error){
       console.log(error);
     }
-  }
+  };
 
   const loginHandler = async (loggedIn: boolean) => {
     if (loggedIn) {
-      setIsLoggedIn(true)
-    }
-  }
-
-  const resetIngredientHandler = (array: any) => {
-    setIngredients(array);
-  }
+      dispatch({
+        type: SET_IS_LOGGED_IN,
+        payload: true
+      });
+      dispatch({
+        type: SET_ID,
+        payload: await fetchID()
+      })
+    };
+  };
 
   const addFavoriteHandler = (title: string, id: number, image: string) => {
     const newFavorite = new Recipe(title, id, image);
-
-    setFavorites((prevFavorites) => {
-      return prevFavorites.concat(newFavorite);
+    const updatedFavorites = state.favorites.concat(newFavorite);
+    dispatch ({
+      type: SET_FAVORITES,
+      payload: updatedFavorites
     });
   };
 
   const removeFavoriteHandler = async (recipe: any) => {
-    setFavorites((prevFavorites) => {
-      return prevFavorites.filter(item => item.id !== recipe);
+    const updatedFavorites = state.favorites.filter((prevFavorites: any) => prevFavorites.id !== recipe);
+    console.log(recipe, updatedFavorites);
+    dispatch({
+      type: SET_FAVORITES,
+      payload: updatedFavorites
     });
   };
 
   const setFavoriteHandler = (array: any) => {
-    setFavorites(array);
+    dispatch({
+      type: SET_FAVORITES,
+      payload: array
+    });
   };
 
-  const isFavoriteHandler = (id: number, favorites: any) => {
-    for (let i = 0; i < favorites.length; i++) {
-      if (id === favorites[i].id) {
+  const isFavoriteHandler = ( id: number ) => {
+    for (let i = 0; i < state.favorites.length; i++) {
+      if (id === state.favorites[i].id) {
         return true;
       }
     }
     return false;
   };
 
+  const resetIngredientHandler = (array: any) => {
+    dispatch({
+      type: SET_INGREDIENTS,
+      payload: array
+    });
+  };
+
+  const setRecipesHandler = (array: any) => {
+    dispatch({
+      type: SET_RECIPES,
+      payload: array
+    });
+  };
+
+  const setRecipeInfoHandler = (array: any) => {
+    dispatch({
+      type: SET_RECIPE_INFO,
+      payload: array
+    });
+  };
+
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
-      items: ingredients,
+      items: state.ingredients,
       addIngredient: addIngredientHandler,
       removeIngredient: removeIngredientHandler,
       setItems: resetIngredientHandler
     },
     recipes: {
-      items: recipes,
-      addRecipe: addRecipeHandler,
-      itemsReset: itemsResetHandler
+      items: state.recipes,
+      setRecipes: setRecipesHandler
     },
     recipeSearchResults: {
       items: recipeSearchResults,
       setRecipeSearchResults: setRecipeSearchResults,
     },
     recipeInfo: {
-      items: recipeInfo,
-      recipeInfoReset: recipeInfoResetHandler,
-      setRecipeInfo: setRecipeInfo
+      items: state.recipeInfo,
+      setRecipeInfo: setRecipeInfoHandler
     },
     login: {
-      isLoggedIn: isLoggedIn,
+      isLoggedIn: state.isLoggedIn,
       onLogout: logoutHandler,
-      onLogin: loginHandler
+      onLogin: loginHandler,
+      id: state.id
     },
     favorites: {
-      items: favorites,
+      items: state.favorites,
       addFavorite: addFavoriteHandler,
       removeFavorite: removeFavoriteHandler,
       setFavorites: setFavoriteHandler,
@@ -228,7 +260,6 @@ const FoodprintContextProvider: React.FC = (props) => {
       {props.children}
     </FoodprintContext.Provider>
   )
-}
-
+};
 
 export default FoodprintContextProvider;
