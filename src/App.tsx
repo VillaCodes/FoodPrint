@@ -1,7 +1,7 @@
-import './App.css'
+import './App.css';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom'
-import Layout from './Layout/Routes'
+import { Route, Routes } from 'react-router-dom';
+import Layout from './Layout/Routes';
 import FoodprintContextProvider from './store/foodprint-context';
 import MainHeader from './components/Header/MainHeader';
 
@@ -15,7 +15,7 @@ function App() {
         </Routes>
       </div>
     </FoodprintContextProvider>
-  )
+  );
 }
 
-export default App
+export default App;

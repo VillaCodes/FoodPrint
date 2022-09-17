@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useCallback } from 'react';
 import Card from '../UI/Card';
 import { FoodprintContext } from '../../store/foodprint-context';
 import { fetchData } from '../../utils/SpoonacularRequests';
 import { debounce } from '../../utils/Debounce';
+import { IngredientSearch } from '../../models/recipe';
 import List from './List';
 
 import "./Recipes.css";
@@ -10,17 +11,16 @@ import "./Recipes.css";
 const Recipes: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const addRecipe: (title: string, id: number, image: string) => void = foodprintCtx.recipes.addRecipe;
+  const setRecipeSearchResults: (response: IngredientSearch[]) => void = foodprintCtx.recipeSearchResults.setRecipeSearchResults;
   const { itemsReset, items } = foodprintCtx.recipes;
   const ingredientList = foodprintCtx.ingredients.items;
   const timeout = useRef();
 
+  const debouncer = useCallback<any>(() => {debounce(fetchData, 1400, itemsReset, addRecipe, setRecipeSearchResults, ingredientList, timeout)}, [ingredientList])
+
   useEffect(() => {
-    if(ingredientList.length !== 0) {
-
-      debounce(fetchData, 1400, itemsReset(), addRecipe, ingredientList, timeout)
-
-    } else {
-      return;
+      if (ingredientList.length) {
+      debouncer()
     }
   }, [ingredientList]);
 
