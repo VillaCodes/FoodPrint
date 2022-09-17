@@ -1,3 +1,4 @@
+
 export const onCallHandler = (response: [{'title': string, 'id': number, 'image': string}], setRecipes: (arr: any) => void) => {
 
   const recipes: any[] = response.reduce((a: {}[], e: any) => {
@@ -6,5 +7,4 @@ export const onCallHandler = (response: [{'title': string, 'id': number, 'image'
     return a;
   }, []);
  setRecipes(recipes)
-
 };

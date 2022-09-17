@@ -33,7 +33,7 @@ const GoogleAuth = () => {
     const result = await fetchFormat('http://localhost:4000/Login', "POST", data);
 
     const json = await result.json();
-    onLogin(json.enrolled.email, json.enrolled.name);
+    onLogin(true);
     setUser(json.enrolled);
     nav('/')
   };
@@ -46,7 +46,8 @@ const GoogleAuth = () => {
     });
 
     window.google.accounts.id.renderButton(googleButtonRef.current, {
-      size: "medium",
+      size: "large",
+      theme: "outline"
     });
   });
 

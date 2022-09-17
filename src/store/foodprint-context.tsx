@@ -1,6 +1,6 @@
 import React, { SetStateAction, useEffect, useReducer } from 'react';
 import Ingredients from '../models/ingredients';
-import Recipe from '../models/recipe';
+import {Recipe, IngredientSearch, IngredientSearchDefault} from '../models/recipe';
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
 import { initialState, reducer } from './foodprintReducer';
 import { constants } from '../utils/Constants';
@@ -26,6 +26,10 @@ type FoodprintContextObj = {
   recipes: {
     items: Recipe[];
     setRecipes: ([]) => void;
+  },
+  recipeSearchResults: {
+    items: IngredientSearch[];
+    setRecipeSearchResults: (response:IngredientSearch[]) => void;
   },
   recipeInfo: {
     items: RecipeInfo;
@@ -55,6 +59,10 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   recipes: {
     items: [],
     setRecipes: ([]) => undefined,
+  },
+  recipeSearchResults: {
+    items: [],
+    setRecipeSearchResults: (response: IngredientSearch[]) => undefined
   },
   recipeInfo: {
     items: RecipeInfoDefault,
@@ -212,6 +220,7 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
+
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
       items: state.ingredients,
@@ -222,6 +231,10 @@ const FoodprintContextProvider: React.FC = (props) => {
     recipes: {
       items: state.recipes,
       setRecipes: setRecipesHandler
+    },
+    recipeSearchResults: {
+      items: recipeSearchResults,
+      setRecipeSearchResults: setRecipeSearchResults,
     },
     recipeInfo: {
       items: state.recipeInfo,

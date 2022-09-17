@@ -6,13 +6,15 @@ module.exports = {
       sourceType: 'module',
       "ecmaFeatures": {
             "jsx": true
-        }
+        },
+      project: ['./tsconfig.json']
     },
     plugins: [
       '@typescript-eslint',
     ],
     extends: [
       'eslint:recommended',
+      'airbnb-typescript',
       'plugin:@typescript-eslint/recommended',
       "plugin:@typescript-eslint/eslint-recommended",
     ],
