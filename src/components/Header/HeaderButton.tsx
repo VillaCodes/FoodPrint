@@ -6,7 +6,7 @@ const HeaderButton = (props: any) => {
     <div>
       <h4 onClick={props.onClick}>{props.children}</h4>
     </div>
-  )
-}
+  );
+};
 
 export default HeaderButton;

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useContext} from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import Card from '../UI/Card';
 import RecipeItem from './RecipeItem';
 import { Recipe } from '../../models/recipe';
@@ -8,8 +8,8 @@ const List = ({ items }: any) => {
   const [lastElement, setLastElement] = useState<any>(null);
   const [renderingPoint, setRenderingPoint] = useState(1);
   const recipesPerPage = 10;
-  const TOTAL_PAGES = Math.round(items.length/recipesPerPage);
-  const renderedItems = items.slice(0, renderingPoint*recipesPerPage)
+  const TOTAL_PAGES = Math.round(items.length / recipesPerPage);
+  const renderedItems = items.slice(0, renderingPoint * recipesPerPage);
   const foodprintCtx = useContext(FoodprintContext);
   const favorites = foodprintCtx.favorites.items;
 
@@ -20,7 +20,7 @@ const List = ({ items }: any) => {
       }
     }
     return false;
-  }
+  };
 
   /*
   Initializes intersection observer.
@@ -33,23 +33,20 @@ const List = ({ items }: any) => {
       (entries) => {
         const first = entries[0];
         if (first.isIntersecting) {
-          setRenderingPoint((no) => no + 1)
+          setRenderingPoint((no) => no + 1);
         }
-      }
-    )
-  )
+      },
+    ),
+  );
 
   useEffect(() => {
     const currentElement = lastElement;
     const currentObserver = observer.current;
 
-    if (currentElement) {
-      currentObserver.observe(currentElement);
-  }
+    if (currentElement) currentObserver.observe(currentElement);
+
     return () => {
-      if (currentElement) {
-        currentObserver.unobserve(currentElement);
-      }
+      if (currentElement) currentObserver.unobserve(currentElement);
     };
   }, [lastElement]);
 
@@ -66,13 +63,13 @@ const List = ({ items }: any) => {
             >
               <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} isFavorite={loopCheck(item)}/>
             </div>
-          ) : (
+            ) : (
           <RecipeItem key={item.id} text={item.title} image={item.image} recipeID={item.id} isFavorite={loopCheck(item)}/>
-          )
+            )
         ))}
       </ul>
     </Card>
-  )
+  );
 };
 
 export default List;
