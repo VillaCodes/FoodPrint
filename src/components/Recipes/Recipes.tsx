@@ -18,7 +18,6 @@ const Recipes: React.FC = () => {
 
   const debouncer = useCallback<any>(() => {debounce(fetchData, 1400, setRecipes, setRecipeSearchResults, ingredientList, timeout)}, [ingredientList])
 
-
   useEffect(() => {
       if (ingredientList.length) {
       debouncer()

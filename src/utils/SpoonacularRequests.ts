@@ -11,11 +11,8 @@ export const fetchData = async(addRecipe: (title:string, id:number, image: strin
 
   if (call.ok) {
   const response = await call.json();
-
-  setRecipeSearchResults(response);
-
-  onCallHandler(response, addRecipe);
-  }
+  
+  onCallHandler(response, setRecipes, 10);
 }
 
 export const readRecipe = async(recipeId: string) => {

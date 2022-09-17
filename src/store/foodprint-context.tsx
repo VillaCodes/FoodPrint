@@ -220,6 +220,12 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
+  const setRecipeInfoHandler = (array: any) => {
+    dispatch({
+      type: SET_RECIPE_INFO,
+      payload: array
+    });
+  };
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
