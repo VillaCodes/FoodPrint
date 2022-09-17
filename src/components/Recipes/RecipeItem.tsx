@@ -52,11 +52,11 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string, isFa
 
   const searchResult = searchResultInfo.filter((recipeItem) => props.recipeID === recipeItem.id)[0]
 
-  const missingIngredientList = searchResult.missedIngredients.map((missedIngredient) => {
+  const missingIngredientList = searchResult?.missedIngredients?.map((missedIngredient) => {
     return <li key={missedIngredient.id}>{missedIngredient.amount} {missedIngredient.unitLong} {missedIngredient.name}</li>
-  });
+  })
 
-  const usedIngredientList = searchResult.usedIngredients.map((usedIngredient) => {
+  const usedIngredientList = searchResult?.usedIngredients?.map((usedIngredient) => {
     return <li key={usedIngredient.id}>{usedIngredient.amount} {usedIngredient.unitLong} {usedIngredient.name}</li>
   });
 
@@ -67,12 +67,12 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string, isFa
         <h2>{props.text}</h2>
         
         <div className="ingredients-container">
-          <p>{searchResult.missedIngredientCount} {searchResult.missedIngredientCount > 1 && searchResult.missedIngredientCount !== 0 ? `Missing Ingredients:` : `Missing Ingredient:`}</p>
+          <p>{searchResult?.missedIngredientCount} {searchResult?.missedIngredientCount > 1 && searchResult?.missedIngredientCount !== 0 ? `Missing Ingredients:` : `Missing Ingredient:`}</p>
           <ul>{missingIngredientList}</ul>
         </div>
         
         <div className="ingredients-container">
-          <p>{searchResult.usedIngredientCount} {searchResult.usedIngredientCount > 1 ? `Current Ingredients:` : `Current Ingredient:`}</p>
+          <p>{searchResult?.usedIngredientCount} {searchResult?.usedIngredientCount > 1 ? `Current Ingredients:` : `Current Ingredient:`}</p>
           <ul>{usedIngredientList}</ul>
         </div>
         

@@ -15,7 +15,7 @@ export default function IngredientsContainer () {
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
      event.preventDefault();
      const formattedIngredient = userIngredient.toLowerCase();
-     const id = await fetchID();
+     
      if (isLoggedIn) {
        await fetchFormat('http://localhost:4000/saveIngredient', 'POST', { id: id, ingredient: { id: `${items.length}`, text: formattedIngredient } });
      }
