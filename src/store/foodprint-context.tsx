@@ -1,6 +1,6 @@
 import React, { SetStateAction, useEffect, useReducer } from 'react';
 import Ingredients from '../models/ingredients';
-import {Recipe, IngredientSearch, IngredientSearchDefault} from '../models/recipe';
+import { Recipe, IngredientSearch, IngredientSearchDefault } from '../models/recipe';
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
 import { initialState, reducer } from './foodprintReducer';
 import { constants } from '../utils/Constants';
@@ -220,12 +220,12 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
-  const setRecipeInfoHandler = (array: any) => {
+  const setRecipeSearchResultsHandler = (search: any) => {
     dispatch({
-      type: SET_RECIPE_INFO,
-      payload: array
-    });
-  };
+      type: SET_RECIPE_RESULTS,
+      payload: search
+    })
+  }
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -239,8 +239,8 @@ const FoodprintContextProvider: React.FC = (props) => {
       setRecipes: setRecipesHandler
     },
     recipeSearchResults: {
-      items: recipeSearchResults,
-      setRecipeSearchResults: setRecipeSearchResults,
+      items: state.recipeResults,
+      setRecipeSearchResults: setRecipeSearchResultsHandler,
     },
     recipeInfo: {
       items: state.recipeInfo,

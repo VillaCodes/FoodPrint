@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { FoodprintContext } from "../../store/foodprint-context";
 import { readRecipe } from "../../utils/SpoonacularRequests";
-import { fetchFormat, fetchID } from '../../utils/main';
+import { fetchFormat } from '../../utils/main';
 
 const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = (props) => {
   const navigate = useNavigate();
   const recipeNavigator = () => navigate(`/RecipePage/${props.recipeID.toString()}`)
   const foodprintCtx = useContext(FoodprintContext);
-  const setRecipesInfo = foodprintCtx.recipeInfo.setRecipesInfo;
+  const setRecipesInfo = foodprintCtx.recipeInfo.setRecipeInfo;
   const { addFavorite, removeFavorite, isFavorite, items } = foodprintCtx.favorites;
-  const { isLoggedIn } = foodprintCtx.login;
+  const { isLoggedIn, id } = foodprintCtx.login;
   let favCheck = isFavorite(props.recipeID, items);
   const searchResultInfo = foodprintCtx.recipeSearchResults.items;
 
@@ -29,7 +29,7 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
     event.preventDefault();
 
     const recipeBody = {
-      id: await fetchID(),
+      id: id,
       recipe: {
         title: props.text,
         id: props.recipeID,
@@ -45,7 +45,6 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
       fetchFormat('http://localhost:4000/favoriteRemove', 'DELETE', recipeBody)
     }
   };
-
   const searchResult = searchResultInfo.filter((recipeItem) => props.recipeID === recipeItem.id)[0]
 
   const missingIngredientList = searchResult?.missedIngredients?.map((missedIngredient) => {
@@ -61,17 +60,17 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
       <Card class='recipeCard'>
         <img className="card-header" src={props.image} />
         <h2>{props.text}</h2>
-        
+
         <div className="ingredients-container">
           <p>{searchResult?.missedIngredientCount} {searchResult?.missedIngredientCount > 1 && searchResult?.missedIngredientCount !== 0 ? `Missing Ingredients:` : `Missing Ingredient:`}</p>
           <ul>{missingIngredientList}</ul>
         </div>
-        
+
         <div className="ingredients-container">
           <p>{searchResult?.usedIngredientCount} {searchResult?.usedIngredientCount > 1 ? `Current Ingredients:` : `Current Ingredient:`}</p>
           <ul>{usedIngredientList}</ul>
         </div>
-        
+
         <div className="flex-container">
           <button className="button" onClick={fetchRecipeData}>
             <i className="fa-fa-chevron-right" />Recipe

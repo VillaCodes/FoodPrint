@@ -12,7 +12,7 @@ const Recipes: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const setRecipes: (title: string, id: number, image: string) => void = foodprintCtx.recipes.setRecipes;
   const setRecipeSearchResults: (response: IngredientSearch[]) => void = foodprintCtx.recipeSearchResults.setRecipeSearchResults;
-  const { itemsReset, items } = foodprintCtx.recipes;
+  const { items } = foodprintCtx.recipes;
   const ingredientList = foodprintCtx.ingredients.items;
   const timeout = useRef();
 
