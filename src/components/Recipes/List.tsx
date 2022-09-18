@@ -53,7 +53,7 @@ const List = ({ items }: any) => {
 
   //Last mapped element is observed to trigger more renders when encountered through scrolling
   return (
-    <Card class='card'>
+    <>
       <ul>
         {renderedItems.map((item: Recipe, idx: number) => (
           idx === renderedItems.length - 1 &&
@@ -69,7 +69,7 @@ const List = ({ items }: any) => {
             )
         ))}
       </ul>
-    </Card>
+    </>
   );
 };
 
