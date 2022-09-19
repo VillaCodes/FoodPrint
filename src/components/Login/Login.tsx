@@ -66,7 +66,6 @@ const Login = () => {
           }
         }));
       } else {
-        // const id = await fetchID();
         setItems(json.ingredients);
         setFavorites(json.favorites);
         onLogin(json.loggedIn);

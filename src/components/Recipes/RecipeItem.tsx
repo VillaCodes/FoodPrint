@@ -1,26 +1,26 @@
 import './Recipes.css';
 import './RecipeItem.css';
 import Card from '../UI/Card';
-import { useNavigate } from 'react-router-dom';
-import React, { useContext } from 'react';
-import { FoodprintContext } from '../../store/foodprint-context';
-import { readRecipe } from '../../utils/SpoonacularRequests';
-import { fetchFormat, fetchID } from '../../utils/main';
+import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { FoodprintContext } from "../../store/foodprint-context";
+import { readRecipe } from "../../utils/SpoonacularRequests";
+import { fetchFormat } from '../../utils/main';
 
 const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = (props) => {
   const navigate = useNavigate();
   const recipeNavigator = () => navigate(`/RecipePage/${props.recipeID.toString()}`);
   const foodprintCtx = useContext(FoodprintContext);
-  const setRecipeInfo = foodprintCtx.recipeInfo.setRecipeInfo;
+  const setRecipesInfo = foodprintCtx.recipeInfo.setRecipeInfo;
   const { addFavorite, removeFavorite, isFavorite, items } = foodprintCtx.favorites;
-  const { isLoggedIn } = foodprintCtx.login;
-  const favCheck = isFavorite(props.recipeID, items);
+  const { isLoggedIn, id } = foodprintCtx.login;
+  let favCheck = isFavorite(props.recipeID, items);
   const searchResultInfo = foodprintCtx.recipeSearchResults.items;
 
   async function fetchRecipeData() {
     const data = await readRecipe(props.recipeID.toString());
 
-    setRecipeInfo(data);
+   setRecipesInfo(data);
 
     recipeNavigator();
   }
@@ -29,7 +29,7 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
     event.preventDefault();
 
     const recipeBody = {
-      id: await fetchID(),
+      id: id,
       recipe: {
         title: props.text,
         id: props.recipeID,

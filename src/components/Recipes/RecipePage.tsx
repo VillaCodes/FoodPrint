@@ -8,19 +8,20 @@ import { Steps } from "../../models/recipeInfo";
 const RecipePage: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const recipeInfo = foodprintCtx.recipeInfo.items;
-  const setRecipeInfo = foodprintCtx.recipeInfo.setRecipeInfo;
+  const setRecipesInfo = foodprintCtx.recipeInfo.setRecipeInfo;
 
   const {recipeID} = useParams();
 
   useEffect(() => {
     if (recipeID) {
-    readRecipe(recipeID).then((response) => setRecipeInfo(response))
+    readRecipe(recipeID).then((response) => setRecipesInfo(response))
     }
 }, [recipeID]);
 
-const analyzedInstructions = recipeInfo.analyzedInstructions[0];
-const individualInstructions = analyzedInstructions.steps.map((step: Steps) => {
-  return <li key={step.number}>{step.number}: {step.step}</li>
+const analyzedInstructions = recipeInfo.analyzedInstructions?.[0];
+console.log(analyzedInstructions, recipeInfo);
+const individualInstructions = analyzedInstructions?.steps?.map((step: Steps) => {
+  return <li key={step?.number}>{step?.number}: {step?.step}</li>
 });
 const ingredients = recipeInfo.extendedIngredients.map((ingredient) => {
   return <li key={ingredient.id}>{ingredient.name}: {ingredient.measures.metric.amount} {ingredient.measures.metric.unitLong}</li>

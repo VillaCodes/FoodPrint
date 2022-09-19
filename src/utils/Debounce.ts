@@ -3,7 +3,6 @@ import ingredientSearch from './queryStringBuilder';
 export const debounce = <T>(
   func: any,
   time: number,
-  reset: () => void,
   setIsLoading: (arg: boolean) => void,
   x: any,
   y: any,
@@ -21,5 +20,5 @@ export const debounce = <T>(
 
   }, time);
 
-  reset();
-};
+  x([]);
+}
