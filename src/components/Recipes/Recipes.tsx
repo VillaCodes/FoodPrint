@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useRef, useCallback } from 'react';
-import Card from '../UI/Card';
+import React, { useState, useContext, useEffect, useRef, useCallback } from 'react';
 import { FoodprintContext } from '../../store/foodprint-context';
 import { fetchData } from '../../utils/SpoonacularRequests';
 import { debounce } from '../../utils/Debounce';
 import { IngredientSearch } from '../../models/recipe';
+import SkeletonItem from './SkeletonComponents/SkeletonItem';
 import List from './List';
-
-import "./Recipes.css";
+import './Recipes.css';
 
 const Recipes: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
@@ -15,23 +14,24 @@ const Recipes: React.FC = () => {
   const { items } = foodprintCtx.recipes;
   const ingredientList = foodprintCtx.ingredients.items;
   const timeout = useRef();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const debouncer = useCallback<any>(() => {debounce(fetchData, 1400, setRecipes, setRecipeSearchResults, ingredientList, timeout)}, [ingredientList])
+  const debouncer = useCallback<any>(() => {debounce(fetchData, 1400, setIsLoading, setRecipes, setRecipeSearchResults, ingredientList, timeout);}, [ingredientList]);
 
   useEffect(() => {
-      if (ingredientList.length) {
-      debouncer()
+    if (ingredientList.length) {
+      debouncer();
     }
   }, [ingredientList]);
-
   return (
-    <>
-      { items?.length > 0 ? <List items={ items } /> : (
-        <Card class='card'>
+    <div className='list-container'>
+      { items?.length > 0 && !isLoading ? <List items={ items } /> : (
             <h3>Start building your foodprint by adding ingredients to your pantry!</h3>
-        </Card>
       )}
-    </>
+      {isLoading && [0, 1, 2, 3, 4].map(loading => (
+        <SkeletonItem idx={loading} />
+      ))}
+    </div>
   );
 };
 export default Recipes;
