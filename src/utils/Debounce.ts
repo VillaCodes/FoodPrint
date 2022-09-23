@@ -1,22 +1,21 @@
 import ingredientSearch from './queryStringBuilder';
 
 export const debounce = <T>(
-  func: any,
+  fetchData: any,
   time: number,
-  x: any,
-  y: any,
-  z: any,
+  setRecipes: any,
+  ingredientList: any,
   timeout: any,
 ) => {
 
   clearTimeout(timeout.current);
 
-  const searchString = ingredientSearch(z);
+  const searchString = ingredientSearch(ingredientList);
 
   timeout.current = setTimeout(() => {
-    func(x, y, searchString);
+    fetchData(setRecipes, searchString);
 
   }, time);
 
-  x([]);
+  setRecipes([]);
 }

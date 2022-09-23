@@ -16,7 +16,8 @@ import {
   addIngredient,
   removeIngredient,
   addFavorite,
-  removeFavorite
+  removeFavorite,
+  refreshContext
 } from "../controllers/auth.ts";
 
 const router = express.Router();
@@ -27,6 +28,7 @@ router.post("/saveIngredient", addIngredient);
 router.post("/favoriteAdd", addFavorite);
 router.post("/register", validateUser, registerNewUser);
 router.post("/list", ingredientList);
+router.post("/refresh", refreshContext);
 router.get("/check", cookieCheck);
 router.get("/register", findUsers);
 router.patch("/register/:id", updateUser);

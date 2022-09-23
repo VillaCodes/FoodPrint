@@ -11,16 +11,15 @@ import "./Recipes.css";
 const Recipes: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const setRecipes: (title: string, id: number, image: string) => void = foodprintCtx.recipes.setRecipes;
-  const setRecipeSearchResults: (response: IngredientSearch[]) => void = foodprintCtx.recipeSearchResults.setRecipeSearchResults;
   const { items } = foodprintCtx.recipes;
   const ingredientList = foodprintCtx.ingredients.items;
   const timeout = useRef();
 
-  const debouncer = useCallback<any>(() => {debounce(fetchData, 1400, setRecipes, setRecipeSearchResults, ingredientList, timeout)}, [ingredientList])
+  const debouncer = useCallback<any>(() => {debounce(fetchData, 1400, setRecipes, ingredientList, timeout)}, [ingredientList])
 
   useEffect(() => {
       if (ingredientList.length) {
-      debouncer()
+      debouncer();
     }
   }, [ingredientList]);
 

@@ -4,11 +4,10 @@ import "./Popup.css"
 
 const LandingPagePopup: React.FC<{toggle: () => void}> = ({toggle}) => {
 const [suggestedIngredients, setSuggestedIngredients] = useState<string[]>(["eggs", "butter", "milk"]);
-const { addIngredient, items } = useContext(FoodprintContext).ingredients
+const { addIngredient, items } = useContext(FoodprintContext).ingredients;
 
 function clickHandler (ingredient: string) {
     if (!items.map(e => e.text).includes(ingredient)) addIngredient(ingredient);
-
 
     setSuggestedIngredients(suggestedIngredients)
 }

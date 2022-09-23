@@ -4,7 +4,7 @@ import { Recipe, IngredientSearch, IngredientSearchDefault } from '../models/rec
 import { RecipeInfo, RecipeInfoDefault } from '../models/recipeInfo';
 import { initialState, reducer } from './foodprintReducer';
 import { constants } from '../utils/Constants';
-import { fetchID } from '../utils/main';
+import { fetchID, fetchFormat } from '../utils/main';
 
 const {
   SET_ID,
@@ -26,10 +26,6 @@ type FoodprintContextObj = {
   recipes: {
     items: Recipe[];
     setRecipes: ([]) => void;
-  },
-  recipeSearchResults: {
-    items: IngredientSearch[];
-    setRecipeSearchResults: (response:IngredientSearch[]) => void;
   },
   recipeInfo: {
     items: RecipeInfo;
@@ -59,10 +55,6 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   recipes: {
     items: [],
     setRecipes: ([]) => undefined,
-  },
-  recipeSearchResults: {
-    items: [],
-    setRecipeSearchResults: (response: IngredientSearch[]) => undefined
   },
   recipeInfo: {
     items: RecipeInfoDefault,
@@ -98,14 +90,31 @@ const FoodprintContextProvider: React.FC = (props) => {
         }
       );
       const json = await result.json();
+      const id = {id: await fetchID(json.id)};
 
       if (json.cookiePresent === true) {
+
+        const refresh = await fetchFormat('http://localhost:4000/refresh', 'POST', id);
+        const refreshJson = await refresh.json();
+
         dispatch({
           type: SET_IS_LOGGED_IN,
           payload: true
         });
-      }
-    }
+        dispatch({
+          type: SET_ID,
+          payload: id.id
+        });
+        dispatch({
+          type: SET_INGREDIENTS,
+          payload: refreshJson.ingredients
+        });
+        dispatch({
+          type: SET_FAVORITES,
+          payload: refreshJson.favorites
+        })
+      };
+    };
 
     cookieCheck();
   }, []);
@@ -135,7 +144,7 @@ const FoodprintContextProvider: React.FC = (props) => {
         credentials: 'include',
         headers: {
           "Content-Type": "application/json"
-        },
+        }
       }
     );
       const json = await result.json();
@@ -220,13 +229,6 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
-  const setRecipeSearchResultsHandler = (search: any) => {
-    dispatch({
-      type: SET_RECIPE_RESULTS,
-      payload: search
-    })
-  }
-
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
       items: state.ingredients,
@@ -237,10 +239,6 @@ const FoodprintContextProvider: React.FC = (props) => {
     recipes: {
       items: state.recipes,
       setRecipes: setRecipesHandler
-    },
-    recipeSearchResults: {
-      items: state.recipeResults,
-      setRecipeSearchResults: setRecipeSearchResultsHandler,
     },
     recipeInfo: {
       items: state.recipeInfo,

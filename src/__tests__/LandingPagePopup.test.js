@@ -19,12 +19,14 @@ describe("<LandingPagePopup />", () => {
     });
 
     test("suggested ingredient buttons render", async () => {
-        render(<Router>
+        render(
+          <Router>
             <LandingPagePopup />
-        </Router>)
+          </Router>
+        )
 
         const button = screen.getByRole("button", {name: "eggs"});
 
         expect(button).toBeInTheDocument();
     });
-}); 
+});
