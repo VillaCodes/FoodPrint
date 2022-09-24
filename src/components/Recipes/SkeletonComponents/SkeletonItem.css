@@ -1,0 +1,85 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.list {
+  list-style-type: none;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.skeleton-card {
+  width:280px;
+  background-color: white;
+  display: block;
+  margin: 60px auto;
+  box-shadow: 10px 5px 40px 20px darken(gray, 5%);
+  transition: .25s;
+}
+.skeleton-card:hover {
+  box-shadow: 10px 5px 40px 20px darken(#341cac, 10%);
+}
+
+.skeleton .thumbnail {
+  height: 150px;
+  width: 89%;
+  padding: 15px;
+  background-size:cover;
+  background: #94989b;
+  border-radius: 7px;
+}
+
+.card-body {
+  padding: 15px;
+  background-color:#fff;
+  width:100%;
+}
+
+.body-content {
+  padding-bottom: 40px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.skeleton .text-lg {
+   width: 100%;
+   margin-top: 10px;
+   background: #94989b;
+   border-radius: 7px;
+   min-height: 10px;
+}
+.skeleton .text-md {
+   width: 70%;
+   margin-top: 10px;
+   background: #D2DBE2;
+   border-radius: 7px;
+   min-height: 10px;
+}
+.skeleton .text-sm {
+   width: 40%;
+   margin-top: 10px;
+   background: #D2DBE2;
+   border-radius: 7px;
+   min-height: 10px;
+}
+
+
+.shimmer-wrapper {
+  position: relative;
+  left: 25%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.shimmer {
+  -webkit-mask:linear-gradient(-60deg,#000 30%,#0005,#000 70%) right/350% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {-webkit-mask-position:left}
+}
+
