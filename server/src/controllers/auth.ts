@@ -141,6 +141,11 @@ export const cookieCheck = async (req: Request, res: Response) => {
   }
 };
 
+export const refreshContext = async (req: Request, res: Response) => {
+  const user = await User.findById(req.body.id);
+  res.send({ id: user?.id, ingredients: user?.ingredients, recipes: user?.ingredients, favorites: user?.favorites });
+};
+
 export const ingredientList = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(`${req.body.id}`);
@@ -169,7 +174,7 @@ export const removeIngredient = async (req: Request, res: Reponse) => {
     userIngredients.push(result[i]);
   }
   res.send(user?.save());
-}
+};
 
 export const addFavorite = async (req: Request, res: Response) => {
   const user = await User.findById(req.body.id);

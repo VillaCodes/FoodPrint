@@ -12,7 +12,7 @@ import { FoodprintContext } from '../store/foodprint-context';
 
 
 function Layout() {
-  const [openPopup, setOpenPopup] = useState<boolean>(true);
+  const [ openPopup, setOpenPopup ] = useState<boolean>(true);
   const { isLoggedIn } = useContext(FoodprintContext).login;
 
   function handleClose() {
@@ -26,7 +26,7 @@ function Layout() {
             <>
               {!isLoggedIn && <IngredientsContainer />}
               <Recipes />
-              {openPopup && <LandingPagePopup toggle={handleClose}/>}
+              {openPopup && !isLoggedIn && <LandingPagePopup toggle={handleClose}/>}
             </>
             )}/>
           <Route path='/RecipePage/:recipeID' element={<RecipePage />} />

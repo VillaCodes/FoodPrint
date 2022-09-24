@@ -10,16 +10,15 @@ const RecipePage: React.FC = () => {
   const recipeInfo = foodprintCtx.recipeInfo.items;
   const setRecipesInfo = foodprintCtx.recipeInfo.setRecipeInfo;
 
-  const {recipeID} = useParams();
+  const { recipeID } = useParams();
 
   useEffect(() => {
     if (recipeID) {
-    readRecipe(recipeID).then((response) => setRecipesInfo(response))
+      readRecipe(recipeID).then((response) => setRecipesInfo(response));
     }
-}, [recipeID]);
+  }, [recipeID]);
 
 const analyzedInstructions = recipeInfo.analyzedInstructions?.[0];
-console.log(analyzedInstructions, recipeInfo);
 const individualInstructions = analyzedInstructions?.steps?.map((step: Steps) => {
   return <li key={step?.number}>{step?.number}: {step?.step}</li>
 });
