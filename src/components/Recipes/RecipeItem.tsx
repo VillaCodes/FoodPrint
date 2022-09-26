@@ -61,17 +61,17 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
       <Card cardContainer='recipeCard'>
         <img className='card-header' src={props.image} />
         <h2>{props.text}</h2>
-        
+
         <div className='ingredients-container'>
           <p>{searchResult?.missedIngredientCount} {searchResult?.missedIngredientCount > 1 && searchResult?.missedIngredientCount !== 0 ? 'Missing Ingredients:' : 'Missing Ingredient:'}</p>
           <ul>{missingIngredientList}</ul>
         </div>
-        
+
         <div className='ingredients-container'>
           <p>{searchResult?.usedIngredientCount} {searchResult?.usedIngredientCount > 1 ? 'Current Ingredients:' : 'Current Ingredient:'}</p>
           <ul>{usedIngredientList}</ul>
         </div>
-        
+
         <div className='flex-container'>
           <button className='button' onClick={fetchRecipeData}>
             <i className='fa-fa-chevron-right' />Recipe

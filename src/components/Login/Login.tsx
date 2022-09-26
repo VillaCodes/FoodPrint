@@ -12,10 +12,7 @@ const Login = () => {
     password: '',
     email: '',
     isButtonDisabled: true,
-    error: {
-      errorPresent: false,
-      helperText: ''
-    }
+    error: ''
   });
   const foodprintCtx = useContext(FoodprintContext);
   const isMounted = useRef(true);
@@ -60,17 +57,13 @@ const Login = () => {
       if (json.error) {
         return setInputObj((prevState) => ({
           ...prevState,
-          error: {
-            errorPresent: true,
-            helperText: json.error
-          }
+          error: json.error
         }));
       } else {
         setItems(json.ingredients);
         setFavorites(json.favorites);
         onLogin(json.loggedIn);
         nav('/');
-        // set userId to state before return
         return;
       }
     }
@@ -116,7 +109,7 @@ const Login = () => {
           </>
           <GoogleAuth />
 
-          {inputObj.error.errorPresent && <span style={{color: "red"}}>{inputObj.error.helperText}</span>}
+          {inputObj.error && <span style={{color: "red"}}>{inputObj.error}</span>}
 
           <button className="login-button" onClick={loginHandler} disabled={inputObj.isButtonDisabled}>
             Login
