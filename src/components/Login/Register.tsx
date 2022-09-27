@@ -6,10 +6,7 @@ import { fetchFormat } from '../../utils/main';
 import './Register.css';
 
 const Register =  () => {
-  const [ inputState, setInputState ] = useState({username: '', email: '', password: '', error: {
-    errorPresent: false,
-    helperText: ''
-  }})
+  const [ inputState, setInputState ] = useState({username: '', email: '', password: '', error: ''})
   const foodprintCtx = useContext(FoodprintContext);
   const { onLogin } = foodprintCtx.login;
   const nav = useNavigate();
@@ -17,18 +14,12 @@ const Register =  () => {
     if (!validations.name(inputState.username) || !validations.email(inputState.email) || !validations.password(inputState.password)) {
       setInputState((prevState) => ({
         ...prevState,
-        error: {
-          errorPresent: true,
-          helperText: ''
-        }
+        error: ''
       }));
     } else {
       setInputState((prevState) => ({
         ...prevState,
-        error: {
-          errorPresent: false,
-          helperText: ''
-        }
+        error: ''
       }));
     }
   }, [ inputState.username, inputState.email, inputState.password ]);
@@ -72,10 +63,7 @@ const Register =  () => {
     } else {
       setInputState((prevState) => ({
         ...prevState,
-        error: {
-          errorPresent: false,
-          helperText: 'That email is currently in use.'
-        }
+        error: 'That email is currently in use.'
       }));
     }
   }
@@ -102,11 +90,11 @@ const Register =  () => {
           </div>
 
           <div className="submit inUse">
-            <button className="login-button" disabled={inputState.error.errorPresent}>
+            <button className="login-button" disabled={inputState.error.length > 0}>
               Register Me
             </button>
 
-            <span style={{color: "red"}}>{inputState.error.helperText}</span>
+            <span style={{color: "red"}}>{inputState.error}</span>
           </div>
         </form>
       </div>
