@@ -5,7 +5,8 @@ export const constants = {
   SET_FAVORITES: 'setFavorites',
   SET_IS_LOGGED_IN: 'setIsLoggedIn',
   SET_ID: 'setID',
-  RESET: 'reset'
+  RESET: 'reset',
+  SET_QUERY: 'queryString'
 };
 export const allowedMethods = [
   "OPTIONS",
