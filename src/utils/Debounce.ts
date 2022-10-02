@@ -1,24 +1,19 @@
+import React, { useContext } from 'react';
 import ingredientSearch from './queryStringBuilder';
 
 export const debounce = <T>(
-  fetchData: any,
   time: number,
   setIsLoading: (arg: boolean) => void,
-  setRecipes: any,
+  setQueryString: ([]) => void,
   ingredientList: any,
-  timeout: any,
+  timeout: any
 ) => {
-
   clearTimeout(timeout.current);
 
   setIsLoading(true);
-  
-  const searchString = ingredientSearch(ingredientList);
 
   timeout.current = setTimeout(() => {
-    fetchData(setRecipes, searchString).then(setIsLoading(false));
-
+    setQueryString(ingredientList);
+    setIsLoading(false);
   }, time);
-
-  setRecipes([]);
 }

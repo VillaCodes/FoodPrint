@@ -10,21 +10,29 @@ import './Recipes.css';
 const Recipes: React.FC = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const setRecipes: (title: string, id: number, image: string) => void = foodprintCtx.recipes.setRecipes;
-  const { items } = foodprintCtx.recipes;
-  const ingredientList = foodprintCtx.ingredients.items;
+  const recipeList = foodprintCtx.recipes.items;
+  const { items, queryString, setQueryString } = foodprintCtx.ingredients;
+  const ingredientList = items;
   const timeout = useRef();
-  const [isLoading, setIsLoading] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(false);
 
-  const debouncer = useCallback<any>(() => {debounce(fetchData, 1400, setIsLoading, setRecipes, ingredientList, timeout);}, [ingredientList]);
+  const debouncer = useCallback<any>(() => {debounce( 1400, setIsLoading, setQueryString, ingredientList, timeout );}, [ingredientList]);
+
 
   useEffect(() => {
-    if (ingredientList.length) {
-      debouncer();
+    if (ingredientList.length > 0) {
+      debounce( 1400, setIsLoading, setQueryString, ingredientList, timeout )
     }
   }, [ingredientList]);
+  useEffect(() => {
+    if (queryString) {
+      fetchData(setRecipes, queryString);
+    }
+  }, [queryString]);
+
   return (
     <div className='list-container'>
-      { items?.length > 0 && !isLoading ? <List items={ items } /> : (
+      { recipeList?.length > 0 && !isLoading ? <List items={ recipeList } /> : (
             <h3>Start building your foodprint by adding ingredients to your pantry!</h3>
       )}
       {isLoading && [0, 1, 2, 3, 4].map(loading => (

@@ -13,15 +13,18 @@ const {
   SET_FAVORITES,
   SET_INGREDIENTS,
   SET_RECIPE_INFO,
-  SET_IS_LOGGED_IN
+  SET_IS_LOGGED_IN,
+  SET_QUERY
 } = constants;
 
 type FoodprintContextObj = {
   ingredients: {
     items: Ingredients[];
+    queryString: '';
     addIngredient: (text: string) => void;
     removeIngredient: (text: string) => void;
     setItems: ([]) => void;
+    setQueryString: ([]) => void;
   },
   recipes: {
     items: Recipe[];
@@ -49,8 +52,10 @@ type FoodprintContextObj = {
 export const FoodprintContext = React.createContext<FoodprintContextObj>({
   ingredients: {
     items: [],
+    queryString: '',
     addIngredient: (text: string) => undefined,
-    removeIngredient: () => undefined
+    removeIngredient: () => undefined,
+    setQueryString: ([]) => undefined
   },
   recipes: {
     items: [],
@@ -185,7 +190,6 @@ const FoodprintContextProvider: React.FC = (props) => {
 
   const removeFavoriteHandler = async (recipe: any) => {
     const updatedFavorites = state.favorites.filter((prevFavorites: any) => prevFavorites.id !== recipe);
-    console.log(recipe, updatedFavorites);
     dispatch({
       type: SET_FAVORITES,
       payload: updatedFavorites
@@ -229,12 +233,21 @@ const FoodprintContextProvider: React.FC = (props) => {
     });
   };
 
+  const setQueryStringHandler = (array: any) => {
+    dispatch({
+      type: SET_QUERY,
+      payload: array
+    })
+  }
+
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
       items: state.ingredients,
+      queryString: state.queryString,
       addIngredient: addIngredientHandler,
       removeIngredient: removeIngredientHandler,
-      setItems: resetIngredientHandler
+      setItems: resetIngredientHandler,
+      setQueryString: setQueryStringHandler
     },
     recipes: {
       items: state.recipes,

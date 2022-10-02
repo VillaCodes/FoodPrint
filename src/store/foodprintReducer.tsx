@@ -7,7 +7,8 @@ const {
   SET_FAVORITES,
   SET_INGREDIENTS,
   SET_RECIPE_INFO,
-  SET_IS_LOGGED_IN
+  SET_IS_LOGGED_IN,
+  SET_QUERY
 } = constants;
 
 type State = {
@@ -18,6 +19,7 @@ type State = {
   SET_INGREDIENTS: []
   SET_RECIPE_INFO: () => {}
   SET_IS_LOGGED_IN: boolean
+  SET_QUERY: string
 };
 
 export const initialState:State = {
@@ -26,7 +28,8 @@ export const initialState:State = {
   favorites: [],
   ingredients: [],
   recipeInfo: () => {},
-  isLoggedIn: false
+  isLoggedIn: false,
+  queryString: ''
 };
 
 type Action = { type: SET_ID, payload: string }
@@ -36,6 +39,7 @@ type Action = { type: SET_ID, payload: string }
   | { type: SET_INGREDIENTS, payload: [] }
   | { type: SET_RECIPE_INFO, payload: [] }
   | { type: SET_IS_LOGGED_IN, payload: boolean }
+  | { type: SET_QUERY, payload: [] }
 
   export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -70,6 +74,20 @@ type Action = { type: SET_ID, payload: string }
       return {
         ...state,
         isLoggedIn: action.payload
-    };
+      };
+    case SET_QUERY:
+      let searchString = ''
+      const array = action.payload;
+      for (let i = 0; i < array.length; i++){
+        if (i !== array.length - 1) {
+          searchString += (array[i].text + ',+');
+        } else {
+          searchString += array[i].text;
+        };
+      };
+    return {
+      ...state,
+      queryString: searchString
+    }
   }
 }
