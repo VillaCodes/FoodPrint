@@ -14,7 +14,7 @@ const {
   SET_INGREDIENTS,
   SET_RECIPE_INFO,
   SET_IS_LOGGED_IN,
-  SET_QUERY
+  SET_QUERY,
 } = constants;
 
 type FoodprintContextObj = {
@@ -55,7 +55,7 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
     queryString: '',
     addIngredient: (text: string) => undefined,
     removeIngredient: () => undefined,
-    setQueryString: ([]) => undefined
+    setQueryString: ([]) => undefined,
   },
   recipes: {
     items: [],
@@ -63,21 +63,21 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
   },
   recipeInfo: {
     items: RecipeInfoDefault,
-    setRecipeInfo: () => undefined
+    setRecipeInfo: () => undefined,
   },
   login: {
     isLoggedIn: false,
     onLogout: () => undefined,
     onLogin: (loggedIn: boolean) => undefined,
-    id: ''
+    id: '',
   },
   favorites: {
     items: [],
     addFavorite: (id: string) => undefined,
     removeFavorite: (id: number) => undefined,
     setFavorites: (array: any) => undefined,
-    isFavorite: () => false
-  }
+    isFavorite: () => false,
+  },
 });
 
 const FoodprintContextProvider: React.FC = (props) => {
@@ -87,15 +87,15 @@ const FoodprintContextProvider: React.FC = (props) => {
     const cookieCheck = async () => {
       const result = await fetch('http://localhost:4000/check',
         {
-          method: "GET",
+          method: 'GET',
           credentials: 'include',
           headers: {
-            "Content-Type": "application/json"
-          }
-        }
+            'Content-Type': 'application/json',
+          },
+        },
       );
       const json = await result.json();
-      const id = {id: await fetchID(json.id)};
+      const id = { id: await fetchID(json.id) };
 
       if (json.cookiePresent === true) {
 
@@ -104,21 +104,21 @@ const FoodprintContextProvider: React.FC = (props) => {
 
         dispatch({
           type: SET_IS_LOGGED_IN,
-          payload: true
+          payload: true,
         });
         dispatch({
           type: SET_ID,
-          payload: id.id
+          payload: id.id,
         });
         dispatch({
           type: SET_INGREDIENTS,
-          payload: refreshJson.ingredients
+          payload: refreshJson.ingredients,
         });
         dispatch({
           type: SET_FAVORITES,
-          payload: refreshJson.favorites
-        })
-      };
+          payload: refreshJson.favorites,
+        });
+      }
     };
 
     cookieCheck();
@@ -129,7 +129,7 @@ const FoodprintContextProvider: React.FC = (props) => {
     const updatedIngredients = state.ingredients.concat(newIngredient);
     dispatch({
       type: SET_INGREDIENTS,
-      payload: updatedIngredients
+      payload: updatedIngredients,
     });
   };
 
@@ -137,31 +137,31 @@ const FoodprintContextProvider: React.FC = (props) => {
     const updatedIngredients =  state.ingredients.filter((prevIngredient: Ingredients) => prevIngredient.text !== ingredient)
     dispatch({
       type: SET_INGREDIENTS,
-      payload: updatedIngredients
+      payload: updatedIngredients,
     });
   };
 
   const logoutHandler = async () => {
-    try{
+    try {
       const result = await fetch('http://localhost:4000/logout',
-      {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
       const json = await result.json();
 
       dispatch({
         type: SET_IS_LOGGED_IN,
-        payload: false
-      })
+        payload: false,
+      });
       dispatch({
-        type: RESET
-      })
-    } catch (error){
+        type: RESET,
+      });
+    } catch (error) {
       console.log(error);
     }
   };
@@ -170,21 +170,21 @@ const FoodprintContextProvider: React.FC = (props) => {
     if (loggedIn) {
       dispatch({
         type: SET_IS_LOGGED_IN,
-        payload: true
+        payload: true,
       });
       dispatch({
         type: SET_ID,
-        payload: await fetchID()
-      })
-    };
+        payload: await fetchID(),
+      });
+    }
   };
 
   const addFavoriteHandler = (title: string, id: number, image: string) => {
     const newFavorite = new Recipe(title, id, image);
     const updatedFavorites = state.favorites.concat(newFavorite);
-    dispatch ({
+    dispatch({
       type: SET_FAVORITES,
-      payload: updatedFavorites
+      payload: updatedFavorites,
     });
   };
 
@@ -215,30 +215,30 @@ const FoodprintContextProvider: React.FC = (props) => {
   const resetIngredientHandler = (array: any) => {
     dispatch({
       type: SET_INGREDIENTS,
-      payload: array
+      payload: array,
     });
   };
 
   const setRecipesHandler = (array: any) => {
     dispatch({
       type: SET_RECIPES,
-      payload: array
+      payload: array,
     });
   };
 
   const setRecipeInfoHandler = (array: any) => {
     dispatch({
       type: SET_RECIPE_INFO,
-      payload: array
+      payload: array,
     });
   };
 
   const setQueryStringHandler = (array: any) => {
     dispatch({
       type: SET_QUERY,
-      payload: array
-    })
-  }
+      payload: array,
+    });
+  };
 
   const foodprintContextValue: FoodprintContextObj = {
     ingredients: {
@@ -247,15 +247,15 @@ const FoodprintContextProvider: React.FC = (props) => {
       addIngredient: addIngredientHandler,
       removeIngredient: removeIngredientHandler,
       setItems: resetIngredientHandler,
-      setQueryString: setQueryStringHandler
+      setQueryString: setQueryStringHandler,
     },
     recipes: {
       items: state.recipes,
-      setRecipes: setRecipesHandler
+      setRecipes: setRecipesHandler,
     },
     recipeInfo: {
       items: state.recipeInfo,
-      setRecipeInfo: setRecipeInfoHandler
+      setRecipeInfo: setRecipeInfoHandler,
     },
     login: {
       isLoggedIn: state.isLoggedIn,
@@ -268,7 +268,7 @@ const FoodprintContextProvider: React.FC = (props) => {
       addFavorite: addFavoriteHandler,
       removeFavorite: removeFavoriteHandler,
       setFavorites: setFavoriteHandler,
-      isFavorite: isFavoriteHandler
+      isFavorite: isFavoriteHandler,
     }
   };
 
@@ -277,7 +277,7 @@ const FoodprintContextProvider: React.FC = (props) => {
     <FoodprintContext.Provider value={foodprintContextValue}>
       {props.children}
     </FoodprintContext.Provider>
-  )
+  );
 };
 
 export default FoodprintContextProvider;

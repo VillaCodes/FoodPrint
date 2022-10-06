@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef, useState } from 'react'
+import React, { useEffect, useContext, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FoodprintContext } from '../../store/foodprint-context';
 import { validations } from '../../utils/Validation';
@@ -12,7 +12,7 @@ const Login = () => {
     password: '',
     email: '',
     isButtonDisabled: true,
-    error: ''
+    error: '',
   });
   const foodprintCtx = useContext(FoodprintContext);
   const isMounted = useRef(true);
@@ -25,19 +25,19 @@ const Login = () => {
     isMounted.current = true;
     return () => {
       isMounted.current = false;
-    }
+    };
   }, []);
 
   useEffect(() => {
     if (!validations.email(inputObj.email.trim()) || !validations.password(inputObj.password.trim())) {
-     setInputObj((prevState) => ({
-       ...prevState,
-       isButtonDisabled: true
-     }));
+      setInputObj((prevState) => ({
+        ...prevState,
+        isButtonDisabled: true,
+      }));
     } else {
       setInputObj((prevState) => ({
         ...prevState,
-        isButtonDisabled: false
+        isButtonDisabled: false,
       }));
     }
   }, [ inputObj.email, inputObj.password, inputObj.error ]);
@@ -48,8 +48,8 @@ const Login = () => {
     if (isMounted.current) {
       const data = {
         email: inputObj.email,
-        password: inputObj.password
-      }
+        password: inputObj.password,
+      };
 
       const result = await fetchFormat('http://localhost:4000/Login', 'POST', data);
       const json = await result.json();
@@ -57,7 +57,7 @@ const Login = () => {
       if (json.error) {
         return setInputObj((prevState) => ({
           ...prevState,
-          error: json.error
+          error: json.error,
         }));
       } else {
         setItems(json.ingredients);
@@ -67,19 +67,19 @@ const Login = () => {
         return;
       }
     }
-  }
+  };
 
   const emailChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputObj((prevState) => ({
       ...prevState,
-      email: event.target.value
+      email: event.target.value,
     }));
   };
 
   const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputObj((prevState) => ({
       ...prevState,
-      password: event.target.value
+      password: event.target.value,
     }));
   };
 
@@ -109,7 +109,7 @@ const Login = () => {
           </>
           <GoogleAuth />
 
-          {inputObj.error && <span style={{color: "red"}}>{inputObj.error}</span>}
+          {inputObj.error && <span style={{ color: 'red' }}>{inputObj.error}</span>}
 
           <button className="login-button" onClick={loginHandler} disabled={inputObj.isButtonDisabled}>
             Login
@@ -122,6 +122,6 @@ const Login = () => {
       </div>
     </form>
   );
-}
+};
 
 export default Login;

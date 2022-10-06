@@ -1,11 +1,11 @@
 interface Units {
-amount: number;
-unitLong: string;
-unitShort: string;
+  amount: number;
+  unitLong: string;
+  unitShort: string;
 }
 interface Measures {
-metric: Units;
-us: Units;
+  metric: Units;
+  us: Units;
 }
 
 interface ExtendedIngredients {
@@ -41,38 +41,38 @@ interface RecipeInfo {
 
 const RecipeInfoDefault = {
   analyzedInstructions: [{
-    name: "",
+    name: '',
     steps: [{
       number: 0,
-      step: ""
-    }]
+      step: '',
+    }],
   }],
   vegetarian: false,
   vegan: false,
   id: 0,
-  title: "",
-  image: "",
+  title: '',
+  image: '',
   servings: 0,
   readyInMinutes: 0,
-  instructions: "",
-  summary: "",
+  instructions: '',
+  summary: '',
   extendedIngredients: [{
     id: 0,
-    image: "",
-    name: "",
+    image: '',
+    name: '',
     measures: {
       metric: {
         amount: 0,
-        unitLong: "",
-        unitShort: ""
+        unitLong: '',
+        unitShort: '',
       },
       us: {
         amount: 0,
-        unitLong: "",
-        unitShort: ""
-      }
-    }
+        unitLong: '',
+        unitShort: '',
+      },
+    },
   }],
-}
+};
 
-export {RecipeInfo, RecipeInfoDefault, Steps}
+export { RecipeInfo, RecipeInfoDefault, Steps };

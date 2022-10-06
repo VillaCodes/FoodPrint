@@ -21,7 +21,7 @@ const Recipes: React.FC = () => {
 
   useEffect(() => {
     if (ingredientList.length > 0) {
-      debounce( 1400, setIsLoading, setQueryString, ingredientList, timeout )
+      debounce( 1400, setIsLoading, setQueryString, ingredientList, timeout );
     }
   }, [ingredientList]);
   useEffect(() => {

@@ -1,11 +1,12 @@
 import './Recipes.css';
 import './RecipeItem.css';
 import Card from '../UI/Card';
-import { useNavigate } from "react-router-dom";
-import React, { useContext } from "react";
-import { FoodprintContext } from "../../store/foodprint-context";
-import { readRecipe } from "../../utils/SpoonacularRequests";
+import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { FoodprintContext } from '../../store/foodprint-context';
+import { readRecipe } from '../../utils/SpoonacularRequests';
 import { fetchFormat } from '../../utils/main';
+import { Recipe, IngredientSearch } from '../../models/recipe';
 
 const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = (props) => {
   const navigate = useNavigate();
@@ -15,12 +16,12 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
   const { addFavorite, removeFavorite, isFavorite, items } = foodprintCtx.favorites;
   const { isLoggedIn, id } = foodprintCtx.login;
   const recipeItems = foodprintCtx.recipes.items;
-  let favCheck = isFavorite(props.recipeID, items);
+  const favCheck = isFavorite(props.recipeID, items);
 
   async function fetchRecipeData() {
     const data = await readRecipe(props.recipeID.toString());
 
-   setRecipesInfo(data);
+    setRecipesInfo(data);
 
     recipeNavigator();
   }
@@ -48,7 +49,7 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
   const searchResult = recipeItems?.filter((recipeItem) => props.recipeID === recipeItem.id)[0];
 
   const missingIngredientList = searchResult?.missedIngredients?.map((missedIngredient) => {
-    return <li key={missedIngredient.id}>{missedIngredient.amount} {missedIngredient.unitLong} {missedIngredient.name}</li>
+    return <li key={missedIngredient.id}>{missedIngredient.amount} {missedIngredient.unitLong} {missedIngredient.name}</li>;
   });
 
   const usedIngredientList = searchResult?.usedIngredients?.map((usedIngredient) => {

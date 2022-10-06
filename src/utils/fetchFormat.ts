@@ -3,9 +3,9 @@ const fetchFormat = async (route: string, method: string, data: any) => {
     method: method,
     credentials: 'include',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   return result;
 };

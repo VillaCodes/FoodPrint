@@ -9,5 +9,5 @@ export const encryptor = {
     const bytes = CryptoJS.AES.decrypt(ciphertext, key);
     const originalText = bytes.toString(CryptoJS.enc.Utf8);
     return originalText;
-  }
+  },
 };
