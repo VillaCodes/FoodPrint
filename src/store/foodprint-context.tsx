@@ -82,9 +82,9 @@ export const FoodprintContext = React.createContext<FoodprintContextObj>({
 
 const FoodprintContextProvider: React.FC = (props) => {
   const [ state, dispatch ] = useReducer(reducer, initialState);
-
   useEffect(() => {
-    const cookieCheck = async () => {
+    if (state.isLoggedIn) {
+      const cookieCheck = async () => {
       const result = await fetch('http://localhost:4000/check',
         {
           method: "GET",
@@ -120,8 +120,10 @@ const FoodprintContextProvider: React.FC = (props) => {
         })
       };
     };
-
     cookieCheck();
+  }
+
+
   }, []);
 
   const addIngredientHandler = (ingredientText: string) => {
@@ -234,9 +236,17 @@ const FoodprintContextProvider: React.FC = (props) => {
   };
 
   const setQueryStringHandler = (array: any) => {
+    let searchString = ''
+    for (let i = 0; i < array.length; i++){
+      if (i !== array.length - 1) {
+        searchString += (array[i].text + ',+');
+      } else {
+        searchString += array[i].text;
+      };
+    };
     dispatch({
       type: SET_QUERY,
-      payload: array
+      payload: searchString
     })
   }
 

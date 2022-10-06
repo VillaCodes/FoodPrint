@@ -1,5 +1,3 @@
-import React, { useContext } from 'react';
-import ingredientSearch from './queryStringBuilder';
 
 export const debounce = <T>(
   time: number,
