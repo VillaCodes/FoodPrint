@@ -53,6 +53,7 @@
     "cors": "^2.8.5",
     "eslint": "^8.11.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-react": "^7.31.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "react-router-dom": "^6.2.2",

@@ -6,7 +6,7 @@ export const debounce = <T>(
   setIsLoading: (arg: boolean) => void,
   setQueryString: ([]) => void,
   ingredientList: any,
-  timeout: any
+  timeout: any,
 ) => {
   clearTimeout(timeout.current);
 
@@ -16,4 +16,4 @@ export const debounce = <T>(
     setQueryString(ingredientList);
     setIsLoading(false);
   }, time);
-}
+};

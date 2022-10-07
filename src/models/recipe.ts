@@ -1,6 +1,8 @@
 class Recipe {
   id: number;
+
   title: string;
+
   image: string;
 
 
@@ -40,26 +42,26 @@ interface IngredientSearch {
 
 const IngredientSearchDefault: IngredientSearch = {
   id: 0,
-  title: "",
-  image: "",
+  title: '',
+  image: '',
   missedIngredientCount: 0,
   missedIngredients: [{
     amount: 0,
-    name: "",
-    unit: "",
-    unitLong:"",
-    image: "",
+    name: '',
+    unit: '',
+    unitLong:'',
+    image: '',
     id: 0,
   }],
   usedIngredientCount: 0,
   usedIngredients: [{
     amount: 0,
-    name: "",
-    unit: "",
-    unitLong:"",
-    image: "",
+    name: '',
+    unit: '',
+    unitLong:'',
+    image: '',
     id: 0,
   }],
-}
+};
 
 export { Recipe, IngredientSearch, IngredientSearchDefault };

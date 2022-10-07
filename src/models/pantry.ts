@@ -5,9 +5,9 @@ interface PantryIngredient {
 }
 
 export const PantryDefault = [{
-    ingredient: "",
-    useCount: 0,
-    amountOnHand: ""
-}]
+  ingredient: '',
+  useCount: 0,
+  amountOnHand: '',
+}];
 
-export {PantryIngredient}
+export { PantryIngredient };
