@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import './MainHeader.css';
 import HeaderButton from './HeaderButton';
 import { FoodprintContext } from '../../store/foodprint-context';
@@ -8,7 +8,7 @@ const MainHeader = () => {
   const foodprintCtx = useContext(FoodprintContext);
   const { isLoggedIn, onLogout } = foodprintCtx.login;
   const { setFavorites } = foodprintCtx.favorites;
-  let nav = useNavigate();
+  const nav = useNavigate();
 
 
   const loggingOut = () => {

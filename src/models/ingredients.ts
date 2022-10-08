@@ -2,6 +2,7 @@
 
 class Ingredients {
   id: string;
+  
   text: string;
 
   constructor(ingredientText: string) {

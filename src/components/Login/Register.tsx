@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { FoodprintContext } from '../../store/foodprint-context';
 import { validations } from '../../utils/Validation';
 import { fetchFormat } from '../../utils/main';
@@ -21,12 +21,12 @@ const Register =  () => {
     if (!validations.name(inputState.username) || !validations.email(inputState.email) || !validations.password(inputState.password)) {
       setInputState((prevState) => ({
         ...prevState,
-        error: ''
+        error: '',
       }));
     } else {
       setInputState((prevState) => ({
         ...prevState,
-        error: ''
+        error: '',
       }));
     }
   }, [ inputState.username, inputState.email, inputState.password ]);
@@ -34,21 +34,21 @@ const Register =  () => {
   const usernameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputState((prevState) => ({
       ...prevState,
-      username: event.target.value
+      username: event.target.value,
     }));
   };
 
   const emailChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputState((prevState) => ({
       ...prevState,
-      email: event.target.value
+      email: event.target.value,
     }));
   };
 
   const passwordChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputState((prevState) => ({
       ...prevState,
-      password: event.target.value
+      password: event.target.value,
     }));
   };
 
@@ -56,24 +56,24 @@ const Register =  () => {
     event.preventDefault();
 
     const data = {
-      "name": inputState.username,
-      "email": inputState.email,
-      "password": inputState.password
+      'name': inputState.username,
+      'email': inputState.email,
+      'password': inputState.password,
     };
 
     const response = await fetchFormat('http://localhost:4000/register', 'POST', data);
     const json = await response.json();
 
-    if( !json.emailExists ) {
+    if ( !json.emailExists ) {
       onLogin(true);
       nav('/');
     } else {
       setInputState((prevState) => ({
         ...prevState,
-        error: 'That email is currently in use.'
+        error: 'That email is currently in use.',
       }));
     }
-  }
+  };
 
   return (
     <div className="wrapper">
@@ -101,12 +101,12 @@ const Register =  () => {
               Register Me
             </button>
 
-            <span style={{color: "red"}}>{inputState.error}</span>
+            <span style={{ color: 'red' }}>{inputState.error}</span>
           </div>
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default Register;

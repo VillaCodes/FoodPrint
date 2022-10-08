@@ -26,5 +26,6 @@ module.exports = {
     },
     "rules": {
     "@typescript-eslint/ban-ts-ignore": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
     }
   };

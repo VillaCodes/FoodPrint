@@ -6,15 +6,15 @@ export const constants = {
   SET_IS_LOGGED_IN: 'setIsLoggedIn',
   SET_ID: 'setID',
   RESET: 'reset',
-  SET_QUERY: 'queryString'
+  SET_QUERY: 'queryString',
 };
 export const allowedMethods = [
-  "OPTIONS",
-  "HEAD",
-  "CONNECT",
-  "GET",
-  "POST",
-  "PUT",
-  "DELETE",
-  "PATCH"
-]
+  'OPTIONS',
+  'HEAD',
+  'CONNECT',
+  'GET',
+  'POST',
+  'PUT',
+  'DELETE',
+  'PATCH',
+];
