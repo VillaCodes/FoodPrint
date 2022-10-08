@@ -35,6 +35,10 @@ p, div {
     color: #222;
   }
 
+  .error {
+    color: red;
+  }
+
   form {
     width: 100%;
     display: flex;

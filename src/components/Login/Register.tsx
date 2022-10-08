@@ -6,7 +6,14 @@ import { fetchFormat } from '../../utils/main';
 import './Register.css';
 
 const Register =  () => {
-  const [ inputState, setInputState ] = useState({ username: '', email: '', password: '', error: '' });
+  const [ inputState, setInputState ] = useState(
+    {
+      username: '',
+      email: '',
+      password: '',
+      error: ''
+    }
+  );
   const foodprintCtx = useContext(FoodprintContext);
   const { onLogin } = foodprintCtx.login;
   const nav = useNavigate();
@@ -76,21 +83,21 @@ const Register =  () => {
 
           <div className="username">
             <input type="text" name="username" placeholder="Username"  onChange={usernameChangeHandler} />
-            {!validations.name(inputState.username) && <span style={{ color: 'red' }}>{'Username must be 5 characters long!'}</span>}
+            {!validations.name(inputState.username) && <span className="error">{'Username must be 5 characters long!'}</span>}
           </div>
 
           <div className="email">
             <input type="email" name="email" placeholder="E-mail" onChange={emailChangeHandler} />
-            {!validations.name(inputState.email) &&  <span style={{ color: 'red' }}>{'Email is not valid!'}</span>}
+            {!validations.name(inputState.email) &&  <span className="error">{'Email is not valid!'}</span>}
           </div>
 
           <div className="password">
             <input type="password" name="password" placeholder="Password" onChange={passwordChangeHandler} />
-            {!validations.name(inputState.password) &&  <span style={{ color: 'red' }}>{'Password must be eight characters long!'}</span>}
+            {!validations.name(inputState.password) &&  <span className="error">{'Password must be eight characters long!'}</span>}
           </div>
 
           <div className="submit inUse">
-            <button className="login-button" disabled={inputState.error.length > 0}>
+            <button className="login-button" disabled={!inputState.error.length}>
               Register Me
             </button>
 

@@ -76,18 +76,9 @@ type Action = { type: SET_ID, payload: string }
         isLoggedIn: action.payload
       };
     case SET_QUERY:
-      let searchString = ''
-      const array = action.payload;
-      for (let i = 0; i < array.length; i++){
-        if (i !== array.length - 1) {
-          searchString += (array[i].text + ',+');
-        } else {
-          searchString += array[i].text;
-        };
-      };
     return {
       ...state,
-      queryString: searchString
+      queryString: action.payload
     }
   }
 }

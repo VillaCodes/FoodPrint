@@ -7,11 +7,13 @@ const Ingredients = () => {
 
   const { ingredients, login } = useContext(FoodprintContext);
   const { items, removeIngredient } = ingredients;
-  const { id } = login;
+  const { id, isLoggedIn } = login;
 
   const removeIngredientHandler = async (ingredient: { id: string, text: string }) => {
     removeIngredient(ingredient.text);
-    fetchFormat('http://localhost:4000/removeIngredient', 'DELETE', { id: id, ingredient: { id: '0', text: ingredient.text } });
+    if (isLoggedIn) {
+      fetchFormat('http://localhost:4000/removeIngredient', 'DELETE', { id: id, ingredient: { id: '0', text: ingredient.text } });
+    }
   };
 
   return (
