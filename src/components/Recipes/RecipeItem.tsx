@@ -60,25 +60,30 @@ const RecipeItem: React.FC<{ recipeID: number, text: string, image: string }> = 
     <li key={props.recipeID}>
       <Card cardContainer='recipeCard'>
         <img className='card-header' src={props.image} />
-        <h2>{props.text}</h2>
+        <h2 className="purple-font">{props.text}</h2>
 
-        <div className='ingredients-container'>
+        <div className='ingredients-container orange-font'>
           <p>{searchResult?.missedIngredientCount} {searchResult?.missedIngredientCount > 1 && searchResult?.missedIngredientCount !== 0 ? 'Missing Ingredients:' : 'Missing Ingredient:'}</p>
           <ul>{missingIngredientList}</ul>
         </div>
 
-        <div className='ingredients-container'>
+        <div className='ingredients-container orange-font'>
           <p>{searchResult?.usedIngredientCount} {searchResult?.usedIngredientCount > 1 ? 'Current Ingredients:' : 'Current Ingredient:'}</p>
           <ul>{usedIngredientList}</ul>
         </div>
 
         <div className='flex-container'>
-          <button className='button' onClick={fetchRecipeData}>
+          <button className={`login-button ${isLoggedIn && 'recipe-button-container'}`} onClick={fetchRecipeData}>
             <i className='fa-fa-chevron-right' />Recipe
           </button >
-          {isLoggedIn && <div className='favorite' onClick={favoriteClickHandler}>
-            {!favCheck ? <div className='noheart'></div> : <div className='heart'></div>}
-          </div>}
+          {isLoggedIn && (
+          <div className="favorite-container">
+              <div className='favorite' onClick={favoriteClickHandler}>
+                {!favCheck ? <div className='noheart'></div> : <div className='heart'></div>}
+              </div>
+          </div>
+          )}
+
         </div>
       </Card>
     </li>

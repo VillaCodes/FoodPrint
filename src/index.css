@@ -5,6 +5,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+}
+
+.main-header h1 {
+  color: #DC3535;
+  font-size: 3.2em;
+}
+
+.main-header a {  
+  text-decoration: none;
+}
+
+.background {
+  background-color: #ffffff;
+  opacity: 1;
+  background: linear-gradient(135deg, #FFE15D55 25%, transparent 25%) -27px 0/ 54px 54px, linear-gradient(225deg, #FFE15D 25%, transparent 25%) -27px 0/ 54px 54px, linear-gradient(315deg, #FFE15D55 25%, transparent 25%) 0px 0/ 54px 54px, linear-gradient(45deg, #FFE15D 25%, #ffffff 25%) 0px 0/ 54px 54px;
 }
 
 code {

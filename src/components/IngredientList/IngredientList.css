@@ -1,38 +1,47 @@
-.Ingredients-Container {
+.ingredients-Container {
     position:fixed;
-    border: 1px solid #999;
     overflow: auto;
-    background: white;
+    background: #ffffffeb;
     border-radius: 10px;
     height: auto;
     padding: 10px;
-    width: 15%;
     justify-content: left;
+    max-width: 19%;
     list-style-type: none;
+    margin-left: 10px;
 }
 
-.Ingredient {
+.orange-font {
+    font-family: "Fredoka One";
+    color: #f1970f;
+}
+
+.ingredient-item {
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-top: 5px; /* Prevent double borders */
-    background-color: #f6f6f6;
+    margin-bottom: 5px;
+    background-color: hsl(0, 0%, 100%);
     padding: 12px;
     text-decoration: none;
-    font-size: 18px;
-    color: black;
+    overflow: hidden;
+    white-space: nowrap;
     display: block;
     position: relative;
 }
 
-.close {
-cursor: pointer;
-position: absolute;
-top: 50%;
-right: 0%;
-padding: 12px 16px;
-transform: translate(0%, -50%);
+.ingredient-item-text {
+    overflow: hidden;
+    max-width: 90%;
+    text-overflow: ellipsis;
 }
 
-.close:hover {
-    background-color: darkgray;
+.ingredient-item-close {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    padding: 5px 15px;
+    transform: translate(0%, -50%);
+    width: 5%;
 }

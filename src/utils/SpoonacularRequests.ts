@@ -5,8 +5,8 @@ import { IngredientSearch } from '../models/recipe';
 const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 
-export const fetchData = async (setRecipes: (title:string, id:number, image: string) => void, searchString: string) => {
-  const call = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=ec8da5b51af4425698dd91381535afff&ingredients=${searchString}&number=50`);
+export const fetchData = async(setRecipes: (title:string, id:number, image: string)=> void, searchString: string, options: any) => {
+  const call = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=ec8da5b51af4425698dd91381535afff&ingredients=${searchString}&number=50`, options);
 
   if (call.ok) {
     const response = await call.json();

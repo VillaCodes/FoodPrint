@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import IngredientsContainer from "./IngredientsContainer";
 import { FoodprintContext } from '../../store/foodprint-context';
 import List from '../Recipes/List';
 import './IngredientList.css';
@@ -9,7 +8,6 @@ const Pantry = () => {
 
   return (
     <div>
-      <IngredientsContainer />
       <List items={foodprintCtx.favorites.items}/>
     </div>
   );

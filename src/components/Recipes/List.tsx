@@ -54,7 +54,7 @@ const List = ({ items }: any) => {
   //Last mapped element is observed to trigger more renders when encountered through scrolling
   return (
     <>
-      <ul>
+      <ul style={{paddingLeft: "0"}}>
         {renderedItems.map((item: Recipe, idx: number) => (
           idx === renderedItems.length - 1 &&
           renderingPoint <= TOTAL_PAGES ? (

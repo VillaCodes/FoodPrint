@@ -24,7 +24,7 @@ function Layout() {
       <Routes>
           <Route path='/' element = {(
             <>
-              {!isLoggedIn && <IngredientsContainer />}
+              <IngredientsContainer />
               <Recipes />
               {openPopup && !isLoggedIn && <LandingPagePopup toggle={handleClose}/>}
             </>
