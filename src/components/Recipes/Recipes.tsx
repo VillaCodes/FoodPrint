@@ -17,18 +17,25 @@ const Recipes: React.FC = () => {
 
   useEffect(() => {
     if (ingredientList.length) {
-      debounce( 1400, setIsLoading, setQueryString, ingredientList, timeout );
+      debounce( 200, setIsLoading, setQueryString, ingredientList, timeout );
+    } else {
+      foodprintCtx.recipes.setRecipes([]);
     }
   }, [ingredientList]);
 
   useEffect(() => {
+    const abortCtrl = new AbortController();
+    const options = { signal: abortCtrl.signal };
+
     if (queryString) {
-      fetchData(setRecipes, queryString)
+      fetchData(setRecipes, queryString, options)
     }
+
+    return () => abortCtrl.abort();
   }, [queryString]);
 
   return (
-    <div className='list-container'>
+    <div className='list-container purple-font'>
       { recipeList?.length && !isLoading ? <List items={ recipeList } /> : (
             <h3>Start building your foodprint by adding ingredients to your pantry!</h3>
       )}

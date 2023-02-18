@@ -31,16 +31,16 @@ const MainHeader = () => {
       )}
 
       {isLoggedIn && (
-        <div>
-          <div className='float'>
-            <Link className='link' to='/Pantry'>
-              <HeaderButton>Pantry</HeaderButton>
+        <span>
+          <span className='float' style={{marginRight: "1rem"}}>
+            <Link className='link' to='/Pantry' >
+              <HeaderButton >Pantry</HeaderButton>
             </Link>
-          </div>
-          <div className='float'>
+          </span>
+          <span className='float'>
             <HeaderButton onClick={loggingOut}>Logout</HeaderButton>
-          </div>
-        </div>
+          </span>
+        </span>
       )}
 
     </header>

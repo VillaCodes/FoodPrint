@@ -22,19 +22,20 @@ export default function IngredientsContainer() {
     setUserIngredient('');
   };
 
-  return (
-    <ul className='Ingredients-Container'>
-        <header>Current Ingredients</header>
-          <Ingredients />
-        <form onSubmit={submitHandler} data-testid='form'>
-          <input
-            id='userIngredient'
-            placeholder='Add an ingredient'
-            type='text'
-            onChange={(event) => setUserIngredient(event?.target.value)}
-            value={userIngredient}
-          />
-        </form>
-    </ul>
-  );
+   return (
+        <ul className="ingredients-Container">
+            <header className="purple-font">Current Ingredients</header>
+            <Ingredients />
+            <form onSubmit={submitHandler} data-testid="form">
+              <input
+                id="userIngredient"
+                placeholder="Add ingredient"
+                type="text"
+                className="ingredient-item"
+                onChange={(event) => setUserIngredient(event?.target.value)}
+                value={userIngredient}
+              />
+            </form>
+        </ul>
+    )
 }

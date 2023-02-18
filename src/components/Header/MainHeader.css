@@ -7,23 +7,24 @@
   width: 100%;
   height: 5rem;
   display: flex;
-  justify-content: space-between;
-  background: #191F2B;
-  padding: 0 2rem;
+  justify-content: space-around;
+  background: #ffffff4a;
   align-items: center;
   z-index: 1;
 }
 
 .main-header h1 {
-  color: white;
   cursor: pointer;
+  font-family: 'Bungee Shade';
+  font-size: "30px";
   text-decoration: none;
 }
 
 .main-header h4 {
-  color: white;
+  color: #B01E68;
   cursor: pointer;
-  margin-right: 3em;
+  font-family: 'Bungee Shade';
+  font-size: 25px;
 }
 
 .headerLink h4 {

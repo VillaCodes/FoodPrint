@@ -85,9 +85,9 @@ const Login = () => {
 
   return (
     <form noValidate autoComplete="off">
-      <div className="wrapper">
-        <div className='form-wrapper'>
-          <h2>Log In</h2>
+      <div className="wrapper background">
+        <div className='ingredients-Container form-wrapper'>
+          <h2 className="purple-font">Log In</h2>
           <>
             <div className='email'>
               <input
@@ -111,12 +111,12 @@ const Login = () => {
 
           {inputObj.error && <span style={{ color: 'red' }}>{inputObj.error}</span>}
 
-          <button className="login-button" onClick={loginHandler} disabled={inputObj.isButtonDisabled}>
+          <button className="login-button ingredient-item orange-font" onClick={loginHandler} disabled={inputObj.isButtonDisabled}>
             Login
           </button>
 
-          <Link to="/register">
-            <button className="login-button">Register</button>
+          <Link style={{textDecoration: 'none'}} to="/register">
+            <button className="login-button ingredient-item orange-font">Register</button>
           </Link>
         </div>
       </div>

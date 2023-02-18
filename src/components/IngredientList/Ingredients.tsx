@@ -19,9 +19,9 @@ const Ingredients = () => {
   return (
   <>
       {items.map((ingredient) => (
-        <li className='Ingredient' key={items.indexOf(ingredient)}>
-           {ingredient.text}
-           <span className='close' onClick={() => removeIngredientHandler(ingredient)}>x</span>
+        <li className='ingredient-item' key={items.indexOf(ingredient)}>
+           <div className='ingredient-item-text orange-font'> {ingredient.text} </div>
+           <div className='ingredient-item-close orange-font' onClick={() => removeIngredientHandler(ingredient)}>x</div>
         </li>
       ))}
   </>

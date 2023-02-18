@@ -23,16 +23,15 @@ p, div {
     border-radius: 6px;
     box-shadow: 0px 8px 15px #222;
     background-color: #fefefe;
+    text-decoration: none;
   }
 
   .form-wrapper > h2 {
     display: flex;
     justify-content: center;
-    font-family: "Segoe UI", "Ubuntu", "Roboto", "Open Sans", "Helvetica Neue", sans-serif;
     font-size: 2em;
     font-weight: lighter;
     margin-top: 0.25em;
-    color: #222;
   }
 
   .error {
@@ -55,6 +54,7 @@ p, div {
     display: flex;
     padding: 10px 10px;
     border-radius: 5px;
+    max-width: 80%;
     outline: none;
     border: 1px solid #d6d1d5;
   }
@@ -73,11 +73,11 @@ p, div {
     padding:  0.938em;
     border: none;
     border-radius: 4px;
-    background-color: rgb(22, 165, 58);
+    background-color: #F49D1A;
     color: #fefefe;
   }
   .login-button:hover {
-    background-color: rgb(6, 73, 11);
+    background-color: #B01E68;
     color: #fefefe;
   }
 

@@ -14,9 +14,6 @@ body {
 }
 
 .card-header {
-  height: 150px;
-  width: 100%;
-  padding: 15px;
   width:100%;
   background-size:cover;
   color:#fff;
@@ -74,6 +71,18 @@ top: 1px;
 
 .flex-container {
   display: flex;
+}
+
+.favorite-container {
+  position: relative;
+  margin-top: 11%; 
+  left: 20px;
+}
+
+.recipe-button-container {
+  border-radius: 15px !important;
+  min-width: 75% !important; 
+  margin-top: 15px;
 }
 
 .noheart {
